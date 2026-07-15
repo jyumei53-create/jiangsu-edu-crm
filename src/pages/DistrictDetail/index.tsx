@@ -34,7 +34,7 @@ import {
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import type { School, SchoolStatus, AppData, EducationLeader } from '../../types';
-import { ALL_STATUSES } from '../../types';
+import { ALL_STATUSES, ALL_PRODUCTS } from '../../types';
 import { useAppContext } from '../../store/AppContext';
 import { updateDistrict } from '../../store';
 
@@ -577,9 +577,8 @@ function SchoolPanel({
       status: '待开发',
       stage: '',
       product: '',
-      address: '',
-      keyPerson: '',
-      contactPhone: '',
+      street: '',
+      remark: '',
       order: district.schools.length + 1,
     });
     setEditModalOpen(true);
@@ -680,7 +679,7 @@ function SchoolPanel({
 
     const newSchools: School[] = lines.map((line, i) => {
       const parts = line.split(/[\t,，\s]+/).filter(Boolean);
-      const [name, stage, status, product, address] = parts;
+      const [name, stage, status, product, street, remark] = parts;
 
       return {
         id: Math.random().toString(36).substring(2, 10),
@@ -688,9 +687,8 @@ function SchoolPanel({
         status: (ALL_STATUSES.includes(status as SchoolStatus) ? status : '待开发') as SchoolStatus,
         stage: stage || '',
         product: product || '',
-        address: address || '',
-        keyPerson: '',
-        contactPhone: '',
+        street: street || '',
+        remark: remark || '',
         order: district.schools.length + i + 1,
       };
     });
@@ -720,10 +718,10 @@ function SchoolPanel({
 
   const columns: ColumnsType<School> = [
     {
-      title: '顺序',
+      title: '序号',
       dataIndex: 'order',
       key: 'order',
-      width: 90,
+      width: 75,
       render: (_: unknown, record: School) => (
         <InputNumber
           size="small"
@@ -733,7 +731,7 @@ function SchoolPanel({
           onChange={(v) => handleOrderChange(record.id, v)}
           onPressEnter={() => handleOrderSubmit(record.id, record.order)}
           onBlur={() => handleOrderSubmit(record.id, record.order)}
-          style={{ width: 60 }}
+          style={{ width: 56 }}
         />
       ),
     },
@@ -741,6 +739,7 @@ function SchoolPanel({
       title: '学校名称',
       dataIndex: 'name',
       key: 'name',
+      width: 200,
       render: (text: string) => <Text strong>{text}</Text>,
     },
     {
@@ -754,34 +753,36 @@ function SchoolPanel({
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      width: 100,
+      width: 90,
       render: (status: SchoolStatus) => <Tag color={statusColor[status]}>{status}</Tag>,
     },
     {
       title: '产品',
       dataIndex: 'product',
       key: 'product',
-      width: 120,
+      width: 110,
       render: (text: string) => text || '-',
     },
     {
-      title: '关键人',
-      dataIndex: 'keyPerson',
-      key: 'keyPerson',
-      width: 100,
-      render: (text: string) => text || '-',
-    },
-    {
-      title: '联系电话',
-      dataIndex: 'contactPhone',
-      key: 'contactPhone',
+      title: '所属街道',
+      dataIndex: 'street',
+      key: 'street',
       width: 130,
+      render: (text: string) => text || '-',
+    },
+    {
+      title: '备注',
+      dataIndex: 'remark',
+      key: 'remark',
+      width: 180,
+      ellipsis: true,
       render: (text: string) => text || '-',
     },
     {
       title: '操作',
       key: 'action',
-      width: 120,
+      width: 100,
+      fixed: 'right',
       render: (_: unknown, record: School) => (
         <Space size="small">
           <Button
@@ -880,7 +881,7 @@ function SchoolPanel({
           showTotal: (t) => `共 ${t} 所学校`,
         }}
         size="middle"
-        scroll={{ x: 900 }}
+        scroll={{ x: 1000 }}
       />
 
       <Modal
@@ -946,56 +947,48 @@ function SchoolPanel({
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item label="产品">
-            <Input
-              value={editingSchool?.product || ''}
-              onChange={(e) =>
-                setEditingSchool((prev) =>
-                  prev ? { ...prev, product: e.target.value } : null
-                )
-              }
-              placeholder="请输入产品名称"
-            />
-          </Form.Item>
-          <Form.Item label="地址">
-            <Input
-              value={editingSchool?.address || ''}
-              onChange={(e) =>
-                setEditingSchool((prev) =>
-                  prev ? { ...prev, address: e.target.value } : null
-                )
-              }
-              placeholder="请输入地址"
-            />
-          </Form.Item>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label="关键人">
-                <Input
-                  value={editingSchool?.keyPerson || ''}
-                  onChange={(e) =>
+              <Form.Item label="产品">
+                <Select
+                  value={editingSchool?.product || undefined}
+                  onChange={(v) =>
                     setEditingSchool((prev) =>
-                      prev ? { ...prev, keyPerson: e.target.value } : null
+                      prev ? { ...prev, product: v } : null
                     )
                   }
-                  placeholder="关键人姓名"
+                  allowClear
+                  placeholder="选择产品"
+                  options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="联系电话">
+              <Form.Item label="所属街道">
                 <Input
-                  value={editingSchool?.contactPhone || ''}
+                  value={editingSchool?.street || ''}
                   onChange={(e) =>
                     setEditingSchool((prev) =>
-                      prev ? { ...prev, contactPhone: e.target.value } : null
+                      prev ? { ...prev, street: e.target.value } : null
                     )
                   }
-                  placeholder="联系电话"
+                  placeholder="如：新街口街道"
                 />
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item label="备注">
+            <TextArea
+              rows={3}
+              value={editingSchool?.remark || ''}
+              onChange={(e) =>
+                setEditingSchool((prev) =>
+                  prev ? { ...prev, remark: e.target.value } : null
+                )
+              }
+              placeholder="备注信息"
+            />
+          </Form.Item>
         </Form>
       </Modal>
 
@@ -1012,14 +1005,14 @@ function SchoolPanel({
         <div style={{ marginBottom: 8 }}>
           <Text type="secondary">
             每行一所学校，用 Tab/逗号/空格 分隔：<br />
-            格式：学校名称 学段 状态 产品 地址
+            格式：学校名称 学段 状态 产品 街道 备注
           </Text>
         </div>
         <TextArea
           rows={8}
           value={importText}
           onChange={(e) => setImportText(e.target.value)}
-          placeholder={`示例：\n${district.name}第一小学 小学 已合作 AI通识课\n${district.name}第二中学 初中 试用中 心理通识`}
+          placeholder={`示例：\n${district.name}第一小学 小学 已合作 通识课 新街口街道\n${district.name}第二中学 初中 试用中 作文 湖南路街道`}
         />
       </Modal>
     </div>

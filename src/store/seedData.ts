@@ -217,10 +217,9 @@ function buildSeedSchools(districtName: string): School[] {
     name: t.name,
     status: '待开发' as const,
     stage: t.stage,
-    address: districtName,
     product: '',
-    keyPerson: '',
-    contactPhone: '',
+    street: '',
+    remark: '',
     order: i + 1,
   }));
 }

@@ -10,9 +10,8 @@ export interface School {
   status: SchoolStatus;
   stage?: string;
   product?: string;
-  address?: string;
-  keyPerson?: string;
-  contactPhone?: string;
+  street?: string;
+  remark?: string;
   order: number;
 }
 
@@ -64,6 +63,15 @@ export interface AppData {
 // ==================== 常量 ====================
 
 export const ALL_STATUSES: SchoolStatus[] = ['已合作', '试用中', '已汇报', '待开发'];
+
+export const ALL_PRODUCTS = [
+  '作文',
+  '作业',
+  '通识课',
+  '飞象老师',
+  '学习空间',
+  '墨水屏',
+] as const;
 
 export const PROJECT_CATEGORIES: DistrictProject['category'][] = [
   '市场现状',
