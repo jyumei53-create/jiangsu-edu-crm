@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -41,7 +41,9 @@ import type { ColumnsType } from 'antd/es/table';
 import type { School, SchoolStatus, AppData, EducationLeader } from '../../types';
 import { ALL_STATUSES, ALL_PRODUCTS } from '../../types';
 import { useAppContext } from '../../store/AppContext';
+import { useAuth } from '../../store/AuthContext';
 import { updateDistrict } from '../../store';
+import { canAccessDistrict } from '../../store/permissions';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -114,9 +116,15 @@ export default function DistrictDetail() {
   const { cityId, districtId } = useParams<{ cityId: string; districtId: string }>();
   const navigate = useNavigate();
   const { data, setData } = useAppContext();
+  const { user } = useAuth();
 
   const city = data.cities.find((c) => c.id === cityId);
   const district = city?.districts.find((d) => d.id === districtId);
+
+  // 区县权限硬校验：区域经理无权访问该区县时，重定向回所属城市
+  if (user && user.role === 'manager' && !canAccessDistrict(user, cityId || '', districtId || '')) {
+    return <Navigate to={`/city/${cityId}`} replace />;
+  }
 
   if (!city || !district) {
     return (

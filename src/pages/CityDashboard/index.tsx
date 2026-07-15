@@ -23,8 +23,10 @@ import {
   BankOutlined,
 } from '@ant-design/icons';
 import { useAppContext } from '../../store/AppContext';
+import { useAuth } from '../../store/AuthContext';
 import SchoolAnalytics from '../../components/SchoolAnalytics';
 import { computeCityStats, computeDistrictStats } from '../../store';
+import { getScopedCity } from '../../store/permissions';
 
 const { Title, Text } = Typography;
 
@@ -32,8 +34,10 @@ export default function CityDashboard() {
   const { cityId } = useParams<{ cityId: string }>();
   const navigate = useNavigate();
   const { data } = useAppContext();
+  const { user } = useAuth();
 
-  const city = data.cities.find((c) => c.id === cityId);
+  // 按区县权限过滤后的城市（区域经理仅见被分配的区县）
+  const city = getScopedCity(user, cityId || '', data);
 
   if (!city) {
     return (

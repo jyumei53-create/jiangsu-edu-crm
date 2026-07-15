@@ -20,6 +20,7 @@ import * as echarts from 'echarts';
 import { useAppContext } from '../../store/AppContext';
 import { useAuth } from '../../store/AuthContext';
 import { computeStats, computeCityStats } from '../../store';
+import { getVisibleCities } from '../../store/permissions';
 import { JIANGSU_GEOJSON } from '../../utils/jiangsuGeoJson';
 
 const { Title, Text } = Typography;
@@ -142,12 +143,15 @@ export default function ProvinceMap() {
   const { data, loading } = useAppContext();
   const { user } = useAuth();
 
-  // 区域经理：直接跳转到第一个负责的城市
+  // 区域经理：直接跳转到第一个负责的城市（按权限过滤后的可见城市）
   useEffect(() => {
-    if (!loading && user?.role === 'manager' && data.cities.length > 0) {
-      navigate(`/city/${data.cities[0].id}`, { replace: true });
+    if (!loading && user?.role === 'manager') {
+      const visibleCities = getVisibleCities(user, data);
+      if (visibleCities.length > 0) {
+        navigate(`/city/${visibleCities[0].id}`, { replace: true });
+      }
     }
-  }, [loading, user, data.cities, navigate]);
+  }, [loading, user, data, navigate]);
 
   // 全省统计
   const stats = useMemo(() => computeStats(data), [data]);

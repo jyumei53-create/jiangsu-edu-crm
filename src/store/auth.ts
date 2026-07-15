@@ -23,6 +23,7 @@ const DEFAULT_USERS: Omit<User, 'id'>[] = [
     role: 'admin',
     displayName: '系统管理员',
     allowedCityIds: [],
+    allowedDistrictIds: [],
   },
   {
     username: 'sunan',
@@ -30,6 +31,7 @@ const DEFAULT_USERS: Omit<User, 'id'>[] = [
     role: 'manager',
     displayName: '苏南区域经理',
     allowedCityIds: ['nanjing', 'suzhou', 'wuxi', 'changzhou', 'zhenjiang'],
+    allowedDistrictIds: [],
   },
   {
     username: 'suzhong',
@@ -37,6 +39,7 @@ const DEFAULT_USERS: Omit<User, 'id'>[] = [
     role: 'manager',
     displayName: '苏中区域经理',
     allowedCityIds: ['nantong', 'yangzhou', 'taizhou', 'yancheng'],
+    allowedDistrictIds: [],
   },
   {
     username: 'subei',
@@ -44,6 +47,7 @@ const DEFAULT_USERS: Omit<User, 'id'>[] = [
     role: 'manager',
     displayName: '苏北区域经理',
     allowedCityIds: ['xuzhou', 'lianyungang', 'huaian', 'suqian'],
+    allowedDistrictIds: [],
   },
 ];
 
@@ -78,7 +82,9 @@ export function loadUsers(): User[] {
   try {
     const raw = localStorage.getItem(USERS_KEY);
     if (!raw) return [];
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw) as User[];
+    // 兼容旧账号：缺失 allowedDistrictIds 时补空数组（含义为「城市内全部区县」）
+    return parsed.map((u) => ({ ...u, allowedDistrictIds: u.allowedDistrictIds ?? [] }));
   } catch {
     return [];
   }
@@ -160,13 +166,14 @@ export async function createUser(user: Omit<User, 'id' | 'passwordHash'> & { pas
     role: user.role,
     displayName: user.displayName,
     allowedCityIds: user.allowedCityIds,
+    allowedDistrictIds: user.allowedDistrictIds || [],
   };
   users.push(newUser);
   saveUsersRaw(users);
   return newUser;
 }
 
-export async function updateUser(userId: string, updates: Partial<Omit<User, 'id' | 'passwordHash'>> & { password?: string }): Promise<User | null> {
+export async function updateUser(userId: string, updates: Partial<Omit<User, 'id' | 'passwordHash'>> & { password?: string; allowedDistrictIds?: string[] }): Promise<User | null> {
   const users = loadUsers();
   const idx = users.findIndex((u) => u.id === userId);
   if (idx === -1) return null;
@@ -175,6 +182,8 @@ export async function updateUser(userId: string, updates: Partial<Omit<User, 'id
   if (updates.password) {
     updated.passwordHash = await sha256(updates.password);
   }
+  // 确保 allowedDistrictIds 始终为数组（旧数据可能为 undefined）
+  updated.allowedDistrictIds = updates.allowedDistrictIds ?? users[idx].allowedDistrictIds ?? [];
 
   users[idx] = updated;
   saveUsersRaw(users);

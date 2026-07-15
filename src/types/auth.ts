@@ -11,6 +11,8 @@ export interface User {
   role: UserRole;
   displayName: string;
   allowedCityIds: string[];
+  /** 区县级权限：为空表示「所负责城市的全部区县」；非空则仅限列表内的具体区县 */
+  allowedDistrictIds: string[];
 }
 
 /** 会话 token */

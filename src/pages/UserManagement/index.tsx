@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Card,
@@ -45,6 +45,7 @@ export default function UserManagement() {
       role: 'manager',
       displayName: '',
       allowedCityIds: [],
+      allowedDistrictIds: [],
     });
     setModalOpen(true);
   };
@@ -53,6 +54,7 @@ export default function UserManagement() {
     setEditingUser({
       ...user,
       password: '',
+      allowedDistrictIds: user.allowedDistrictIds || [],
     });
     setModalOpen(true);
   };
@@ -76,6 +78,7 @@ export default function UserManagement() {
         role: editingUser.role as UserRole,
         displayName: editingUser.displayName!,
         allowedCityIds: editingUser.allowedCityIds || [],
+        allowedDistrictIds: editingUser.allowedDistrictIds || [],
       };
       if (editingUser.password) {
         updates.password = editingUser.password;
@@ -101,6 +104,7 @@ export default function UserManagement() {
           role: editingUser.role as UserRole,
           displayName: editingUser.displayName!,
           allowedCityIds: editingUser.allowedCityIds || [],
+          allowedDistrictIds: editingUser.allowedDistrictIds || [],
         });
         message.success('用户已创建');
         refreshUsers();
@@ -120,6 +124,17 @@ export default function UserManagement() {
       message.error('删除失败');
     }
   };
+
+  // 已选城市下的区县选项（按城市分组），用于「负责区县」多选
+  const districtOptions = useMemo(() => {
+    const cityIds = editingUser.allowedCityIds || [];
+    return data.cities
+      .filter((c) => cityIds.includes(c.id))
+      .map((c) => ({
+        label: c.name,
+        options: c.districts.map((d) => ({ value: d.id, label: d.name })),
+      }));
+  }, [editingUser.allowedCityIds, data.cities]);
 
   const columns: ColumnsType<User> = [
     {
@@ -145,21 +160,41 @@ export default function UserManagement() {
       ),
     },
     {
-      title: '负责城市',
+      title: '负责城市 / 区县',
       dataIndex: 'allowedCityIds',
       key: 'allowedCityIds',
       render: (ids: string[], record: User) => {
         if (record.role === 'admin') return <Tag color="blue">全部</Tag>;
         if (!ids || ids.length === 0) return <Text type="secondary">无</Text>;
-        const names = ids
+        const cityNames = ids
           .map((id) => data.cities.find((c) => c.id === id)?.name)
           .filter(Boolean);
+        const districtIds = record.allowedDistrictIds || [];
         return (
-          <Space size={4} wrap>
-            {names.map((n) => (
-              <Tag key={n} style={{ margin: 0 }}>{n?.replace('市', '')}</Tag>
-            ))}
-          </Space>
+          <div>
+            <Space size={4} wrap>
+              {cityNames.map((n) => (
+                <Tag key={n} color="green" style={{ margin: 0 }}>{n?.replace('市', '')}</Tag>
+              ))}
+            </Space>
+            {districtIds.length === 0 ? (
+              <div style={{ marginTop: 4 }}>
+                <Tag style={{ margin: 0, fontSize: 11 }} color="default">全部区县</Tag>
+              </div>
+            ) : (
+              <div style={{ marginTop: 4 }}>
+                <Space size={2} wrap>
+                  {districtIds.map((did) => {
+                    const city = data.cities.find((c) => c.districts.some((d) => d.id === did));
+                    const dName = city?.districts.find((d) => d.id === did)?.name;
+                    return dName ? (
+                      <Tag key={did} style={{ margin: 0, fontSize: 11 }}>{dName.replace(/区$|县$/, '')}</Tag>
+                    ) : null;
+                  })}
+                </Space>
+              </div>
+            )}
+          </div>
         );
       },
     },
@@ -296,7 +331,16 @@ export default function UserManagement() {
                   mode="multiple"
                   value={editingUser.allowedCityIds || []}
                   onChange={(v) =>
-                    setEditingUser((prev) => ({ ...prev, allowedCityIds: v }))
+                    setEditingUser((prev) => {
+                      // 切换城市时，剔除已不属于所选城市的区县，避免脏数据
+                      const citySet = new Set(v);
+                      const pruned = (prev.allowedDistrictIds || []).filter((did) =>
+                        data.cities.some(
+                          (c) => citySet.has(c.id) && c.districts.some((d) => d.id === did)
+                        )
+                      );
+                      return { ...prev, allowedCityIds: v, allowedDistrictIds: pruned };
+                    })
                   }
                   placeholder="选择该用户可管理的城市"
                   options={data.cities.map((c) => ({
@@ -306,6 +350,24 @@ export default function UserManagement() {
                 />
               </Form.Item>
             )}
+
+            {(editingUser.role === 'manager' || editingUser.role === undefined) &&
+              (editingUser.allowedCityIds || []).length > 0 && (
+                <Form.Item
+                  label="负责区县"
+                  extra="不选择具体区县 = 可管理所选城市的全部区县；选择后仅限指定区县。"
+                >
+                  <Select
+                    mode="multiple"
+                    value={editingUser.allowedDistrictIds || []}
+                    onChange={(v) =>
+                      setEditingUser((prev) => ({ ...prev, allowedDistrictIds: v }))
+                    }
+                    placeholder="选择具体区县（可留空表示全部）"
+                    options={districtOptions}
+                  />
+                </Form.Item>
+              )}
           </Form>
         </Modal>
       </Card>

@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { useAppContext } from '../store/AppContext';
 import { useAuth } from '../store/AuthContext';
+import { getScopedDistricts } from '../store/permissions';
 import type { MenuProps } from 'antd';
 
 const { Header, Sider, Content } = Layout;
@@ -64,7 +65,7 @@ export default function MainLayout() {
           icon: <EnvironmentOutlined />,
           label: `${city.name}概览`,
         },
-        ...city.districts.map((d) => ({
+        ...getScopedDistricts(user, city).map((d) => ({
           key: `/city/${city.id}/${d.id}`,
           icon: <EnvironmentOutlined />,
           label: d.name,

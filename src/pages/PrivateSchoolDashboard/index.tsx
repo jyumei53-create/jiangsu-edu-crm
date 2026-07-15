@@ -6,7 +6,9 @@ import {
   FileTextOutlined, ClockCircleOutlined, BankOutlined,
 } from '@ant-design/icons';
 import { useAppContext } from '../../store/AppContext';
+import { useAuth } from '../../store/AuthContext';
 import SchoolAnalytics from '../../components/SchoolAnalytics';
+import { getScopedCity } from '../../store/permissions';
 import type { School, SchoolStatus } from '../../types';
 
 const { Title, Text } = Typography;
@@ -15,7 +17,10 @@ export default function PrivateSchoolDashboard() {
   const { cityId } = useParams<{ cityId: string }>();
   const navigate = useNavigate();
   const { data } = useAppContext();
-  const city = data.cities.find((c) => c.id === cityId);
+  const { user } = useAuth();
+
+  // 按区县权限过滤后的城市（区域经理仅见被分配的区县）
+  const city = getScopedCity(user, cityId || '', data);
 
   const privateData = useMemo(() => {
     if (!city) return { schools: [], total: 0, cooperating: 0, trialing: 0, reported: 0, pending: 0 };

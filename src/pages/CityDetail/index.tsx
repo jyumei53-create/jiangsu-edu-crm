@@ -10,7 +10,9 @@ import {
   ArrowLeftOutlined,
 } from '@ant-design/icons';
 import { useAppContext } from '../../store/AppContext';
+import { useAuth } from '../../store/AuthContext';
 import { computeCityStats } from '../../store';
+import { getScopedCity } from '../../store/permissions';
 import DistrictCard from '../../components/DistrictCard';
 import CityMap from '../../components/CityMap';
 import { hasGeoJson } from '../../utils/geo';
@@ -21,8 +23,10 @@ export default function CityDetail() {
   const { cityId } = useParams<{ cityId: string }>();
   const navigate = useNavigate();
   const { data, loading } = useAppContext();
+  const { user } = useAuth();
 
-  const city = data.cities.find((c) => c.id === cityId);
+  // 按区县权限过滤后的城市（admin 全量；manager 仅可见被分配的区县）
+  const city = getScopedCity(user, cityId || '', data);
 
   if (loading) {
     return (
