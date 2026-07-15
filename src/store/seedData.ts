@@ -1,4 +1,5 @@
 import type { AppData, City, District, School } from '../types';
+import { WUXI_CITY_LEADERS, WUXI_DISTRICT_LEADERS } from './wuxiLeaders';
 
 const createId = () => Math.random().toString(36).substring(2, 10);
 
@@ -236,23 +237,29 @@ function buildDistrict(def: DistrictDef): District {
       }))
     : buildDefaultProjects();
 
+  // 无锡市各区县预填充领导
+  const districtLeaders = WUXI_DISTRICT_LEADERS[def.id] || [];
+
   return {
     id: def.id,
     name: def.name,
     isKey: def.isKey ?? false,
     projects,
     schools: buildSeedSchools(def.name),
-    leaders: [],
+    leaders: districtLeaders,
   };
 }
 
 /** 构建一个地级市 */
 function buildCity(def: CityDef): City {
+  // 无锡市预填充市级领导
+  const cityLeaders = def.id === 'wuxi' ? WUXI_CITY_LEADERS : [];
+
   return {
     id: def.id,
     name: def.name,
     districts: def.districts.map(buildDistrict),
-    cityLeaders: [],
+    cityLeaders,
   };
 }
 

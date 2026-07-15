@@ -66,8 +66,11 @@ export function loadAppData(): AppData {
       }
 
       // 确保各区县存在
-      // 确保 cityLeaders 存在
-      if (!existing.cityLeaders) {
+      // 确保 cityLeaders 存在，且为空时从种子数据填充
+      if (!existing.cityLeaders || existing.cityLeaders.length === 0) {
+        existing.cityLeaders = sc.cityLeaders || [];
+        if (existing.cityLeaders.length > 0) modified = true;
+      } else if (!existing.cityLeaders) {
         existing.cityLeaders = [];
         modified = true;
       }
@@ -94,6 +97,16 @@ export function loadAppData(): AppData {
                 modified = true;
               }
             });
+          }
+          // 确保 leaders 存在，且为空时从种子数据填充
+          if (!ed.leaders || ed.leaders.length === 0) {
+            if (sd.leaders && sd.leaders.length > 0) {
+              ed.leaders = sd.leaders;
+              modified = true;
+            } else if (!ed.leaders) {
+              ed.leaders = [];
+              modified = true;
+            }
           }
         }
       }
