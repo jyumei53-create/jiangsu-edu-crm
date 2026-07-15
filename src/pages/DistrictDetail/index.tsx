@@ -26,11 +26,15 @@ import {
   EditOutlined,
   UserOutlined,
   TeamOutlined,
+  CheckCircleOutlined,
+  ExperimentOutlined,
+  FileTextOutlined,
+  ClockCircleOutlined,
+  EnvironmentOutlined,
   PhoneOutlined,
   WechatOutlined,
   MailOutlined,
   CalendarOutlined,
-  FileTextOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import type { School, SchoolStatus, AppData, EducationLeader } from '../../types';
@@ -66,11 +70,11 @@ export default function DistrictDetail() {
   const pending = district.schools.filter((s) => s.status === '待开发').length;
 
   const statCards = [
-    { title: '学校总数', value: totalSchools, color: '#1677ff' },
-    { title: '已合作', value: cooperating, color: '#52c41a' },
-    { title: '试用中', value: trialing, color: '#faad14' },
-    { title: '已汇报', value: reported, color: '#722ed1' },
-    { title: '待开发', value: pending, color: '#bfbfbf' },
+    { title: '学校总数', value: totalSchools, color: '#1677ff', icon: <TeamOutlined /> },
+    { title: '已合作', value: cooperating, color: '#10b981', icon: <CheckCircleOutlined /> },
+    { title: '试用中', value: trialing, color: '#f59e0b', icon: <ExperimentOutlined /> },
+    { title: '已汇报', value: reported, color: '#8b5cf6', icon: <FileTextOutlined /> },
+    { title: '待开发', value: pending, color: '#94a3b8', icon: <ClockCircleOutlined /> },
   ];
 
   return (
@@ -92,6 +96,16 @@ export default function DistrictDetail() {
             重点区域
           </Tag>
         )}
+        <div style={{ flex: 1 }} />
+        <div
+          style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 20, background: '#f8fafc', border: '1px solid #e2e8f0',
+          }}
+        >
+          <EnvironmentOutlined style={{ color: '#1677ff', fontSize: 14 }} />
+          <Text style={{ fontSize: 13, color: '#475569' }}>{city.name} · {district.name}</Text>
+        </div>
       </div>
 
       {/* 第一块：区域学校统计 */}
@@ -99,46 +113,48 @@ export default function DistrictDetail() {
         size="small"
         style={{
           marginBottom: 20,
-          borderRadius: 12,
+          borderRadius: 14,
           border: '1px solid #f1f5f9',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
         }}
-        styles={{ body: { padding: '18px 24px' } }}
+        styles={{ body: { padding: '20px 24px' } }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
           <div
             style={{
-              width: 32,
-              height: 32,
-              borderRadius: 8,
+              width: 36, height: 36, borderRadius: 10,
               background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 2px 8px rgba(22,119,255,0.12)',
             }}
           >
-            <TeamOutlined style={{ color: '#1677ff', fontSize: 16 }} />
+            <TeamOutlined style={{ color: '#1677ff', fontSize: 18 }} />
           </div>
-          <Text strong style={{ fontSize: 14, color: '#1e293b' }}>区域学校统计</Text>
+          <Text strong style={{ fontSize: 15, color: '#1e293b' }}>区域学校统计</Text>
         </div>
-        <Row gutter={[16, 16]}>
+        <Row gutter={[14, 14]}>
           {statCards.map((card) => (
-            <Col xs={12} sm={8} md={4} key={card.title}>
+            <Col xs={12} sm={8} md={Math.floor(24 / 5)} key={card.title}>
               <div
                 style={{
-                  textAlign: 'center',
-                  padding: '14px 12px',
-                  borderRadius: 10,
-                  background: `${card.color}08`,
-                  border: `1px solid ${card.color}20`,
+                  textAlign: 'center', padding: '16px 12px', borderRadius: 12,
+                  background: card.color + '08', border: `1px solid ${card.color}25`,
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = `0 4px 16px ${card.color}20`;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
                 }}
               >
-                <div style={{ fontSize: 12, color: '#94a3b8', marginBottom: 6, fontWeight: 500 }}>
-                  {card.title}
-                </div>
-                <div style={{ fontSize: 30, fontWeight: 700, color: card.color, lineHeight: 1 }}>
+                <div style={{ marginBottom: 8, color: card.color, fontSize: 22 }}>{card.icon}</div>
+                <div style={{ fontSize: 28, fontWeight: 700, color: card.color, lineHeight: 1, marginBottom: 4 }}>
                   {card.value}
                 </div>
+                <div style={{ fontSize: 12, color: '#94a3b8', fontWeight: 500 }}>{card.title}</div>
               </div>
             </Col>
           ))}
@@ -576,8 +592,9 @@ function SchoolPanel({
       name: '',
       status: '待开发',
       stage: '',
-      product: '',
+      products: [],
       street: '',
+      keyPerson: '',
       remark: '',
       order: district.schools.length + 1,
     });
@@ -679,15 +696,17 @@ function SchoolPanel({
 
     const newSchools: School[] = lines.map((line, i) => {
       const parts = line.split(/[\t,，\s]+/).filter(Boolean);
-      const [name, stage, status, product, street, remark] = parts;
+      const [name, stage, status, productStr, street, keyPerson, remark] = parts;
+      const products = productStr ? productStr.split(/[、/]/).filter(Boolean) : [];
 
       return {
         id: Math.random().toString(36).substring(2, 10),
         name: name || `未命名学校 ${i + 1}`,
         status: (ALL_STATUSES.includes(status as SchoolStatus) ? status : '待开发') as SchoolStatus,
         stage: stage || '',
-        product: product || '',
+        products,
         street: street || '',
+        keyPerson: keyPerson || '',
         remark: remark || '',
         order: district.schools.length + i + 1,
       };
@@ -721,7 +740,7 @@ function SchoolPanel({
       title: '序号',
       dataIndex: 'order',
       key: 'order',
-      width: 75,
+      width: 70,
       render: (_: unknown, record: School) => (
         <InputNumber
           size="small"
@@ -731,7 +750,7 @@ function SchoolPanel({
           onChange={(v) => handleOrderChange(record.id, v)}
           onPressEnter={() => handleOrderSubmit(record.id, record.order)}
           onBlur={() => handleOrderSubmit(record.id, record.order)}
-          style={{ width: 56 }}
+          style={{ width: 52 }}
         />
       ),
     },
@@ -739,42 +758,66 @@ function SchoolPanel({
       title: '学校名称',
       dataIndex: 'name',
       key: 'name',
-      width: 200,
+      width: 190,
+      ellipsis: true,
       render: (text: string) => <Text strong>{text}</Text>,
     },
     {
       title: '学段',
       dataIndex: 'stage',
       key: 'stage',
-      width: 100,
+      width: 90,
       render: (text: string) => text || '-',
     },
     {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      width: 90,
+      width: 85,
       render: (status: SchoolStatus) => <Tag color={statusColor[status]}>{status}</Tag>,
     },
     {
       title: '产品',
-      dataIndex: 'product',
-      key: 'product',
-      width: 110,
+      dataIndex: 'products',
+      key: 'products',
+      width: 150,
+      render: (products: string[] | undefined) => {
+        if (!products || products.length === 0) return <Text type="secondary">-</Text>;
+        const colorMap: Record<string, string> = {
+          '作文': '#1677ff', '作业': '#52c41a', '通识课': '#722ed1',
+          '飞象老师': '#fa8c16', '学习空间': '#13c2c2', '墨水屏': '#eb2f96',
+        };
+        return (
+          <Space size={2} wrap>
+            {products.map((p) => (
+              <Tag key={p} color={colorMap[p] || 'default'} style={{ margin: 0, fontSize: 11 }}>
+                {p}
+              </Tag>
+            ))}
+          </Space>
+        );
+      },
+    },
+    {
+      title: '关键人',
+      dataIndex: 'keyPerson',
+      key: 'keyPerson',
+      width: 90,
       render: (text: string) => text || '-',
     },
     {
       title: '所属街道',
       dataIndex: 'street',
       key: 'street',
-      width: 130,
+      width: 120,
+      ellipsis: true,
       render: (text: string) => text || '-',
     },
     {
       title: '备注',
       dataIndex: 'remark',
       key: 'remark',
-      width: 180,
+      width: 160,
       ellipsis: true,
       render: (text: string) => text || '-',
     },
@@ -881,7 +924,7 @@ function SchoolPanel({
           showTotal: (t) => `共 ${t} 所学校`,
         }}
         size="middle"
-        scroll={{ x: 1000 }}
+        scroll={{ x: 1100 }}
       />
 
       <Modal
@@ -911,7 +954,7 @@ function SchoolPanel({
             />
           </Form.Item>
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item label="学段">
                 <Select
                   value={editingSchool?.stage || undefined}
@@ -933,7 +976,7 @@ function SchoolPanel({
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item label="状态">
                 <Select
                   value={editingSchool?.status || '待开发'}
@@ -946,23 +989,35 @@ function SchoolPanel({
                 />
               </Form.Item>
             </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item label="产品">
-                <Select
-                  value={editingSchool?.product || undefined}
-                  onChange={(v) =>
+            <Col span={8}>
+              <Form.Item label="关键人">
+                <Input
+                  value={editingSchool?.keyPerson || ''}
+                  onChange={(e) =>
                     setEditingSchool((prev) =>
-                      prev ? { ...prev, product: v } : null
+                      prev ? { ...prev, keyPerson: e.target.value } : null
                     )
                   }
-                  allowClear
-                  placeholder="选择产品"
-                  options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
+                  placeholder="关键人姓名"
                 />
               </Form.Item>
             </Col>
+          </Row>
+          <Form.Item label="产品">
+            <Select
+              mode="multiple"
+              value={editingSchool?.products || []}
+              onChange={(v) =>
+                setEditingSchool((prev) =>
+                  prev ? { ...prev, products: v } : null
+                )
+              }
+              allowClear
+              placeholder="可选择多个产品"
+              options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
+            />
+          </Form.Item>
+          <Row gutter={16}>
             <Col span={12}>
               <Form.Item label="所属街道">
                 <Input
@@ -976,19 +1031,20 @@ function SchoolPanel({
                 />
               </Form.Item>
             </Col>
+            <Col span={12}>
+              <Form.Item label="备注">
+                <Input
+                  value={editingSchool?.remark || ''}
+                  onChange={(e) =>
+                    setEditingSchool((prev) =>
+                      prev ? { ...prev, remark: e.target.value } : null
+                    )
+                  }
+                  placeholder="备注信息"
+                />
+              </Form.Item>
+            </Col>
           </Row>
-          <Form.Item label="备注">
-            <TextArea
-              rows={3}
-              value={editingSchool?.remark || ''}
-              onChange={(e) =>
-                setEditingSchool((prev) =>
-                  prev ? { ...prev, remark: e.target.value } : null
-                )
-              }
-              placeholder="备注信息"
-            />
-          </Form.Item>
         </Form>
       </Modal>
 
@@ -1005,14 +1061,14 @@ function SchoolPanel({
         <div style={{ marginBottom: 8 }}>
           <Text type="secondary">
             每行一所学校，用 Tab/逗号/空格 分隔：<br />
-            格式：学校名称 学段 状态 产品 街道 备注
+            格式：学校名称 学段 状态 产品(多个用/分隔) 街道 关键人 备注
           </Text>
         </div>
         <TextArea
           rows={8}
           value={importText}
           onChange={(e) => setImportText(e.target.value)}
-          placeholder={`示例：\n${district.name}第一小学 小学 已合作 通识课 新街口街道\n${district.name}第二中学 初中 试用中 作文 湖南路街道`}
+          placeholder={`示例：\n${district.name}第一小学 小学 已合作 通识课/作文 新街口街道 张主任\n${district.name}第二中学 初中 试用中 作业 湖南路街道`}
         />
       </Modal>
     </div>

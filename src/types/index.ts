@@ -9,8 +9,9 @@ export interface School {
   name: string;
   status: SchoolStatus;
   stage?: string;
-  product?: string;
+  products?: string[];
   street?: string;
+  keyPerson?: string;
   remark?: string;
   order: number;
 }

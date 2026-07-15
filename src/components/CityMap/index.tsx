@@ -26,6 +26,7 @@ import {
   ClockCircleOutlined,
   ProjectOutlined,
   BarChartOutlined,
+  BankOutlined,
   UserOutlined,
   PhoneOutlined,
   WechatOutlined,
@@ -347,21 +348,41 @@ export default function CityMap({ city }: CityMapProps) {
             );
           })}
           <div style={{ flex: 1, minWidth: 12 }} />
-          <Button
-            type="primary"
-            size="middle"
-            icon={<BarChartOutlined />}
-            onClick={() => navigate(`/city/${city.id}/dashboard`)}
-            style={{
-              borderRadius: 8,
-              fontWeight: 600,
-              background: 'linear-gradient(135deg, #1677ff 0%, #7c3aed 100%)',
-              border: 'none',
-              boxShadow: '0 4px 14px rgba(22,119,255,0.35)',
-            }}
-          >
-            全市数据看板
-          </Button>
+          <Space size={8}>
+            <Button
+              onClick={() => navigate(`/city/${city.id}/private-schools`)}
+              size="middle"
+              icon={<BankOutlined />}
+              style={{
+                borderRadius: 8, fontWeight: 600, borderColor: '#e2e8f0', color: '#475569',
+              }}
+            >
+              私立校数据看板
+            </Button>
+            <Button
+              onClick={() => navigate(`/city/${city.id}/essay-project`)}
+              size="middle"
+              icon={<EditOutlined />}
+              style={{
+                borderRadius: 8, fontWeight: 600, borderColor: '#e2e8f0', color: '#475569',
+              }}
+            >
+              作文项目数据看板
+            </Button>
+            <Button
+              type="primary"
+              size="middle"
+              icon={<BarChartOutlined />}
+              onClick={() => navigate(`/city/${city.id}/dashboard`)}
+              style={{
+                borderRadius: 8, fontWeight: 600,
+                background: 'linear-gradient(135deg, #1677ff 0%, #7c3aed 100%)',
+                border: 'none', boxShadow: '0 4px 14px rgba(22,119,255,0.35)',
+              }}
+            >
+              全市数据看板
+            </Button>
+          </Space>
         </div>
       </Card>
 
