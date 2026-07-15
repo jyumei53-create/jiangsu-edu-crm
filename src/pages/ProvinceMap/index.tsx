@@ -121,12 +121,14 @@ export default function ProvinceMap() {
           map: 'jiangsu',
           roam: true,
           scaleLimit: { min: 0.8, max: 4 },
-          zoom: 1.1,
+          zoom: 1.25,
           label: {
             show: true,
-            color: '#333',
+            color: '#1f2937',
             fontSize: 13,
             fontWeight: 'bold',
+            textBorderColor: '#fff',
+            textBorderWidth: 2,
           },
           emphasis: {
             label: {

@@ -65,6 +65,20 @@ export default function CityMap({ city }: CityMapProps) {
     return new Map(city.districts.map((d) => [d.name, d]));
   }, [city.districts]);
 
+  // 根据城市密度设置初始缩放：区县密集的城市默认放大
+  const initialZoom = useMemo(() => {
+    const denseCities: Record<string, number> = {
+      nanjing: 1.55,
+      suzhou: 1.55,
+      changzhou: 1.45,
+      wuxi: 1.35,
+      xuzhou: 1.35,
+      nantong: 1.35,
+      yangzhou: 1.35,
+    };
+    return denseCities[city.id] || 1.25;
+  }, [city.id]);
+
   const mapOption = useMemo(() => {
     const mapData = city.districts.map((d) => {
       const color = districtColors[d.name] || '#E8E8E8';
@@ -108,8 +122,16 @@ export default function CityMap({ city }: CityMapProps) {
           map: city.id,
           roam: true,
           scaleLimit: { min: 0.8, max: 5 },
-          zoom: 1.1,
-          label: { show: true, color: '#333', fontSize: 13, fontWeight: 'bold' },
+          zoom: initialZoom,
+          label: {
+            show: true,
+            color: '#1f2937',
+            fontSize: 13,
+            fontWeight: 'bold',
+            textBorderColor: '#fff',
+            textBorderWidth: 2,
+            formatter: (params: { name: string }) => params.name.replace(/市$|区$|县$/, ''),
+          },
           emphasis: {
             label: { show: true, fontSize: 15, fontWeight: 'bold', color: '#000' },
             itemStyle: { borderColor: '#fa8c16', borderWidth: 2.5 },
