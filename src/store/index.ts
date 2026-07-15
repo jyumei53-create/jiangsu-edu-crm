@@ -66,6 +66,12 @@ export function loadAppData(): AppData {
       }
 
       // 确保各区县存在
+      // 确保 cityLeaders 存在
+      if (!existing.cityLeaders) {
+        existing.cityLeaders = [];
+        modified = true;
+      }
+
       for (const sd of sc.districts) {
         let ed = existing.districts.find((d) => d.id === sd.id);
         if (!ed) {

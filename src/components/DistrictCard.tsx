@@ -67,9 +67,21 @@ export default function DistrictCard({ district, onClick, cityId }: Props) {
       hoverable
       title={
         <Space>
-          <EnvironmentOutlined />
-          <span>{district.name}</span>
-          {district.isKey && <Tag color="blue">重点</Tag>}
+          <div
+            style={{
+              width: 28,
+              height: 28,
+              borderRadius: 7,
+              background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <EnvironmentOutlined style={{ color: '#1677ff', fontSize: 14 }} />
+          </div>
+          <span style={{ fontWeight: 600, color: '#1e293b' }}>{district.name}</span>
+          {district.isKey && <Tag color="blue" style={{ borderRadius: 6 }}>重点</Tag>}
         </Space>
       }
       extra={
@@ -79,20 +91,26 @@ export default function DistrictCard({ district, onClick, cityId }: Props) {
             size="small"
             icon={<EditOutlined />}
             onClick={handleStartEdit}
+            style={{ color: '#94a3b8' }}
           />
         )
       }
       onClick={editing ? undefined : onClick}
-      style={{ cursor: editing ? 'default' : 'pointer' }}
-      styles={{ body: { padding: '12px 16px' } }}
+      style={{
+        cursor: editing ? 'default' : 'pointer',
+        borderRadius: 12,
+        border: '1px solid #f1f5f9',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+      }}
+      styles={{ body: { padding: '14px 18px' } }}
     >
       {editing ? (
         <div onClick={(e) => e.stopPropagation()}>
           {PROJECT_CATEGORIES.map((cat) => {
             const p = editProjects.find((p) => p.category === cat);
             return (
-              <div key={cat} style={{ marginBottom: 8 }}>
-                <Text type="secondary" style={{ fontSize: 12 }}>
+              <div key={cat} style={{ marginBottom: 10 }}>
+                <Text style={{ fontSize: 11, color: '#94a3b8', fontWeight: 500 }}>
                   {cat}
                 </Text>
                 <Input
@@ -100,16 +118,16 @@ export default function DistrictCard({ district, onClick, cityId }: Props) {
                   value={p?.content || ''}
                   onChange={(e) => handleProjectChange(cat, e.target.value)}
                   placeholder={`请输入${cat}`}
-                  style={{ marginTop: 2 }}
+                  style={{ marginTop: 4, borderRadius: 6 }}
                 />
               </div>
             );
           })}
-          <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-            <Button size="small" type="primary" onClick={handleSave}>
+          <div style={{ marginTop: 14, display: 'flex', gap: 8 }}>
+            <Button size="small" type="primary" onClick={handleSave} style={{ borderRadius: 6 }}>
               保存
             </Button>
-            <Button size="small" onClick={handleCancel}>
+            <Button size="small" onClick={handleCancel} style={{ borderRadius: 6 }}>
               取消
             </Button>
           </div>
@@ -120,20 +138,20 @@ export default function DistrictCard({ district, onClick, cityId }: Props) {
             const content = getProjectContent(cat);
             if (!content) return null;
             return (
-              <div key={cat} style={{ marginBottom: 4 }}>
-                <Text type="secondary" style={{ fontSize: 12 }}>
+              <div key={cat} style={{ marginBottom: 5 }}>
+                <Text style={{ fontSize: 11, color: '#94a3b8', fontWeight: 500 }}>
                   {cat}：
                 </Text>
-                <Text style={{ fontSize: 13 }}>{content}</Text>
+                <Text style={{ fontSize: 13, color: '#475569' }}>{content}</Text>
               </div>
             );
           })}
-          <div style={{ marginTop: 8, display: 'flex', gap: 12 }}>
-            <Text type="secondary" style={{ fontSize: 12 }}>
-              学校：{schoolCount}所
+          <div style={{ marginTop: 10, display: 'flex', gap: 14 }}>
+            <Text style={{ fontSize: 12, color: '#94a3b8' }}>
+              学校：<b style={{ color: '#475569' }}>{schoolCount}</b>所
             </Text>
-            <Text type="secondary" style={{ fontSize: 12 }}>
-              已合作：{cooperatingCount}所
+            <Text style={{ fontSize: 12, color: '#94a3b8' }}>
+              已合作：<b style={{ color: '#475569' }}>{cooperatingCount}</b>所
             </Text>
           </div>
         </div>

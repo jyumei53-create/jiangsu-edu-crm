@@ -188,18 +188,33 @@ export default function UserManagement() {
 
   return (
     <div>
-      <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
-        <Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/')}>
+      <div className="page-header" style={{ marginBottom: 20 }}>
+        <Button
+          icon={<ArrowLeftOutlined />}
+          onClick={() => navigate('/')}
+          style={{ borderRadius: 8, fontWeight: 500 }}
+        >
           返回
         </Button>
-        <Title level={4} style={{ margin: 0 }}>
+        <Title level={4} style={{ margin: 0, fontWeight: 600, color: '#1e293b' }}>
           用户管理
         </Title>
       </div>
 
-      <Card>
+      <Card
+        style={{
+          borderRadius: 14,
+          border: '1px solid #f1f5f9',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+        }}
+      >
         <div style={{ marginBottom: 16 }}>
-          <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={handleAdd}
+            style={{ borderRadius: 8, fontWeight: 500 }}
+          >
             添加用户
           </Button>
         </div>
@@ -210,6 +225,7 @@ export default function UserManagement() {
           dataSource={users}
           pagination={false}
           size="middle"
+          style={{ borderRadius: 10 }}
         />
 
         {/* 编辑/添加弹窗 */}

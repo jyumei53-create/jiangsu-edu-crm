@@ -12,6 +12,8 @@ import {
 import { useAppContext } from '../../store/AppContext';
 import { computeCityStats } from '../../store';
 import DistrictCard from '../../components/DistrictCard';
+import CityMap from '../../components/CityMap';
+import { hasGeoJson } from '../../utils/geo';
 
 const { Title } = Typography;
 
@@ -39,6 +41,12 @@ export default function CityDetail() {
     );
   }
 
+  // 有 GeoJSON 的城市使用行政地图模式
+  if (hasGeoJson(cityId || '')) {
+    return <CityMap city={city} />;
+  }
+
+  // 无 GeoJSON 的城市回退到卡片列表模式
   const stats = computeCityStats(city);
   const keyDistricts = city.districts.filter((d) => d.isKey);
   const otherDistricts = city.districts.filter((d) => !d.isKey);
@@ -54,7 +62,6 @@ export default function CityDetail() {
 
   return (
     <div>
-      {/* 返回按钮 + 标题 */}
       <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
         <Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/')}>
           返回
@@ -64,7 +71,6 @@ export default function CityDetail() {
         </Title>
       </div>
 
-      {/* 统计卡片 */}
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         {statCards.map((card) => (
           <Col xs={12} sm={8} md={4} key={card.title}>
@@ -72,23 +78,16 @@ export default function CityDetail() {
               <Statistic
                 title={card.title}
                 value={card.value}
-                prefix={
-                  <span style={{ color: card.color, fontSize: 20 }}>
-                    {card.icon}
-                  </span>
-                }
+                prefix={<span style={{ color: card.color, fontSize: 20 }}>{card.icon}</span>}
               />
             </Card>
           </Col>
         ))}
       </Row>
 
-      {/* 重点区域 */}
       {keyDistricts.length > 0 && (
         <div style={{ marginBottom: 16 }}>
-          <h3 style={{ margin: '0 0 12px 0', fontSize: 16, fontWeight: 600 }}>
-            重点区域
-          </h3>
+          <h3 style={{ margin: '0 0 12px 0', fontSize: 16, fontWeight: 600 }}>重点区域</h3>
           <Row gutter={[16, 16]}>
             {keyDistricts.map((district) => (
               <Col xs={24} sm={12} lg={6} key={district.id}>
@@ -103,12 +102,9 @@ export default function CityDetail() {
         </div>
       )}
 
-      {/* 其他区域 */}
       {otherDistricts.length > 0 && (
         <div>
-          <h3 style={{ margin: '0 0 12px 0', fontSize: 16, fontWeight: 600 }}>
-            其他区域
-          </h3>
+          <h3 style={{ margin: '0 0 12px 0', fontSize: 16, fontWeight: 600 }}>其他区域</h3>
           <Row gutter={[16, 16]}>
             {otherDistricts.map((district) => (
               <Col xs={24} sm={12} lg={6} key={district.id}>

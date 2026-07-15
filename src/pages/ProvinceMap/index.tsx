@@ -1,6 +1,6 @@
 import { useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Row, Col, Card, Statistic, Typography, Space, Tag, Spin } from 'antd';
+import { Row, Col, Card, Typography, Space, Tag, Spin } from 'antd';
 import {
   TeamOutlined,
   CheckCircleOutlined,
@@ -186,20 +186,43 @@ export default function ProvinceMap() {
   return (
     <div>
       {/* 全省统计卡片 */}
-      <Row gutter={[12, 12]} style={{ marginBottom: 20 }}>
+      <Row gutter={[14, 14]} style={{ marginBottom: 24 }}>
         {statCards.map((card) => (
           <Col xs={12} sm={8} md={6} lg={3} key={card.title}>
-            <Card hoverable size="small" styles={{ body: { padding: '10px 14px' } }}>
-              <Statistic
-                title={card.title}
-                value={card.value}
-                prefix={
-                  <span style={{ color: card.color, fontSize: 16 }}>
-                    {card.icon}
-                  </span>
-                }
-                valueStyle={{ fontSize: 20 }}
-              />
+            <Card
+              hoverable
+              size="small"
+              styles={{ body: { padding: '14px 16px' } }}
+              style={{
+                borderRadius: 12,
+                border: '1px solid #f1f5f9',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 10,
+                    background: `${card.color}15`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  <span style={{ color: card.color, fontSize: 18 }}>{card.icon}</span>
+                </div>
+                <div>
+                  <div style={{ fontSize: 12, color: '#94a3b8', marginBottom: 2 }}>
+                    {card.title}
+                  </div>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: '#1e293b', lineHeight: 1 }}>
+                    {card.value}
+                  </div>
+                </div>
+              </div>
             </Card>
           </Col>
         ))}
@@ -208,22 +231,37 @@ export default function ProvinceMap() {
       {/* 行政地图 */}
       <Card
         styles={{ body: { padding: 8 } }}
-        style={{ marginBottom: 20 }}
+        style={{
+          marginBottom: 24,
+          borderRadius: 14,
+          border: '1px solid #f1f5f9',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+        }}
       >
+        <div style={{ padding: '8px 12px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <EnvironmentOutlined style={{ color: '#1677ff', fontSize: 18 }} />
+          <Text strong style={{ fontSize: 15, color: '#1e293b' }}>江苏省行政地图</Text>
+        </div>
         <ReactECharts
           option={mapOption}
           style={{ height: 520 }}
           onEvents={{ click: onChartClick }}
         />
-        <div style={{ textAlign: 'center', marginTop: 4 }}>
-          <Text type="secondary" style={{ fontSize: 12 }}>
+        <div style={{ textAlign: 'center', padding: '4px 0 10px' }}>
+          <Text style={{ fontSize: 12, color: '#94a3b8' }}>
             点击地图上的城市进入详情
           </Text>
         </div>
       </Card>
 
       {/* 13市概况卡片 */}
-      <Row gutter={[12, 12]}>
+      <div style={{ marginBottom: 4 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+          <BankOutlined style={{ color: '#1677ff', fontSize: 16 }} />
+          <Text strong style={{ fontSize: 15, color: '#1e293b' }}>各城市概览</Text>
+        </div>
+      </div>
+      <Row gutter={[14, 14]}>
         {data.cities.map((city) => {
           const cityStats = computeCityStats(city);
           const borderColor = CITY_COLORS[city.name] || '#e8e8e8';
@@ -235,8 +273,10 @@ export default function ProvinceMap() {
                 style={{
                   borderLeft: `4px solid ${borderColor}`,
                   cursor: 'pointer',
+                  borderRadius: 12,
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
                 }}
-                styles={{ body: { padding: '12px 16px' } }}
+                styles={{ body: { padding: '14px 18px' } }}
                 onClick={() => navigate(`/city/${city.id}`)}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -244,30 +284,31 @@ export default function ProvinceMap() {
                     <span
                       style={{
                         display: 'inline-block',
-                        width: 12,
-                        height: 12,
-                        borderRadius: 2,
+                        width: 14,
+                        height: 14,
+                        borderRadius: 4,
                         backgroundColor: borderColor,
+                        boxShadow: `0 2px 6px ${borderColor}60`,
                       }}
                     />
-                    <Text strong style={{ fontSize: 14 }}>{city.name}</Text>
+                    <Text strong style={{ fontSize: 15, color: '#1e293b' }}>{city.name}</Text>
                   </Space>
-                  <RightOutlined style={{ color: '#bbb', fontSize: 12 }} />
+                  <RightOutlined style={{ color: '#cbd5e1', fontSize: 12 }} />
                 </div>
-                <div style={{ marginTop: 8, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                  <Text type="secondary" style={{ fontSize: 12 }}>
-                    区县：{city.districts.length}
+                <div style={{ marginTop: 10, display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+                  <Text style={{ fontSize: 12, color: '#94a3b8' }}>
+                    区县：<b style={{ color: '#475569' }}>{city.districts.length}</b>
                   </Text>
-                  <Text type="secondary" style={{ fontSize: 12 }}>
-                    学校：{cityStats.totalSchools}
+                  <Text style={{ fontSize: 12, color: '#94a3b8' }}>
+                    学校：<b style={{ color: '#475569' }}>{cityStats.totalSchools}</b>
                   </Text>
                   {cityStats.cooperating > 0 && (
-                    <Tag color="green" style={{ margin: 0, fontSize: 11 }}>
+                    <Tag color="success" style={{ margin: 0, fontSize: 11, borderRadius: 6 }}>
                       已合作 {cityStats.cooperating}
                     </Tag>
                   )}
                   {cityStats.trialing > 0 && (
-                    <Tag color="orange" style={{ margin: 0, fontSize: 11 }}>
+                    <Tag color="warning" style={{ margin: 0, fontSize: 11, borderRadius: 6 }}>
                       试用 {cityStats.trialing}
                     </Tag>
                   )}

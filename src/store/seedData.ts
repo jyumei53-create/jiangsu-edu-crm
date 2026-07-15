@@ -7,6 +7,8 @@ const createId = () => Math.random().toString(36).substring(2, 10);
 interface DistrictDef {
   id: string;
   name: string;
+  isKey?: boolean;
+  projects?: { category: '市场现状' | '人工智能通识' | '心理通识'; content: string }[];
 }
 
 interface CityDef {
@@ -37,10 +39,10 @@ const JIANGSU_CITIES: CityDef[] = [
     id: 'wuxi',
     name: '无锡市',
     districts: [
-      { id: 'xishan', name: '锡山区' },
-      { id: 'huishan', name: '惠山区' },
-      { id: 'binhu', name: '滨湖区' },
-      { id: 'liangxi', name: '梁溪区' },
+      { id: 'xishan', name: '锡山区', isKey: true, projects: [{ category: '市场现状', content: '飞象部分统筹' }, { category: '人工智能通识', content: '全区统筹2个年级（小学1个+初中1个）' }, { category: '心理通识', content: '' }] },
+      { id: 'huishan', name: '惠山区', isKey: true },
+      { id: 'binhu', name: '滨湖区', isKey: true, projects: [{ category: '市场现状', content: '' }, { category: '人工智能通识', content: '' }, { category: '心理通识', content: '未续费' }] },
+      { id: 'liangxi', name: '梁溪区', isKey: true, projects: [{ category: '市场现状', content: '飞象统筹' }, { category: '人工智能通识', content: '飞象统筹' }, { category: '心理通识', content: '' }] },
       { id: 'xinwu', name: '新吴区' },
       { id: 'jiangyin', name: '江阴市' },
       { id: 'yixing', name: '宜兴市' },
@@ -225,11 +227,20 @@ function buildSeedSchools(districtName: string): School[] {
 
 /** 构建一个区县 */
 function buildDistrict(def: DistrictDef): District {
+  const projects = def.projects
+    ? def.projects.map((p) => ({
+        id: createId(),
+        category: p.category,
+        content: p.content,
+        updatedAt: '',
+      }))
+    : buildDefaultProjects();
+
   return {
     id: def.id,
     name: def.name,
-    isKey: false,
-    projects: buildDefaultProjects(),
+    isKey: def.isKey ?? false,
+    projects,
     schools: buildSeedSchools(def.name),
     leaders: [],
   };
@@ -241,6 +252,7 @@ function buildCity(def: CityDef): City {
     id: def.id,
     name: def.name,
     districts: def.districts.map(buildDistrict),
+    cityLeaders: [],
   };
 }
 

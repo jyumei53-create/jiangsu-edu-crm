@@ -33,6 +33,7 @@ export interface DistrictProject {
   id: string;
   category: '市场现状' | '人工智能通识' | '心理通识';
   content: string;
+  updatedAt?: string;
 }
 
 /** 区县 */
@@ -50,6 +51,7 @@ export interface City {
   id: string;
   name: string;
   districts: District[];
+  cityLeaders: EducationLeader[];
 }
 
 /** 应用根数据 */

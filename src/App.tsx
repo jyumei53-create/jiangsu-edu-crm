@@ -10,6 +10,7 @@ import LoginPage from './pages/Login';
 import ProvinceMap from './pages/ProvinceMap';
 import CityDetail from './pages/CityDetail';
 import DistrictDetail from './pages/DistrictDetail';
+import CityDashboard from './pages/CityDashboard';
 import UserManagement from './pages/UserManagement';
 
 function AppRoutes() {
@@ -17,7 +18,7 @@ function AppRoutes() {
 
   return (
     <AppContext.Provider value={{ data, setData, loading }}>
-      <BrowserRouter>
+      <BrowserRouter basename="/jiangsu-edu-crm">
         <Routes>
           {/* 登录页（公开） */}
           <Route path="/login" element={<LoginPage />} />
@@ -32,6 +33,7 @@ function AppRoutes() {
           >
             <Route path="/" element={<ProvinceMap />} />
             <Route path="/city/:cityId" element={<CityDetail />} />
+            <Route path="/city/:cityId/dashboard" element={<CityDashboard />} />
             <Route path="/city/:cityId/:districtId" element={<DistrictDetail />} />
             <Route
               path="/admin/users"
@@ -55,7 +57,59 @@ function App() {
       theme={{
         token: {
           colorPrimary: '#1677ff',
-          borderRadius: 6,
+          borderRadius: 8,
+          colorBgContainer: '#ffffff',
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif",
+          fontSize: 14,
+          colorText: '#1f2937',
+          colorTextSecondary: '#6b7280',
+          colorBorder: '#e5e7eb',
+          colorBorderSecondary: '#f0f0f0',
+          colorPrimaryBg: '#eff6ff',
+          colorSuccess: '#10b981',
+          colorWarning: '#f59e0b',
+          colorError: '#ef4444',
+          controlHeight: 36,
+          lineHeight: 1.6,
+        },
+        components: {
+          Card: {
+            paddingLG: 20,
+            borderRadiusLG: 12,
+          },
+          Button: {
+            borderRadius: 8,
+            controlHeight: 36,
+            fontWeight: 500,
+          },
+          Table: {
+            borderRadius: 10,
+            headerBg: '#f9fafb',
+            headerColor: '#374151',
+            rowHoverBg: '#f0f4ff',
+          },
+          Menu: {
+            itemBorderRadius: 8,
+            itemMarginInline: 8,
+          },
+          Modal: {
+            borderRadiusLG: 14,
+            titleFontSize: 17,
+          },
+          Tag: {
+            borderRadiusSM: 6,
+          },
+          Statistic: {
+            contentFontSize: 28,
+            titleFontSize: 13,
+          },
+          Input: {
+            borderRadius: 8,
+          },
+          Select: {
+            borderRadius: 8,
+          },
         },
       }}
     >

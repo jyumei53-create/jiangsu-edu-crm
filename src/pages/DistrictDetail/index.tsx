@@ -16,7 +16,6 @@ import {
   Typography,
   Row,
   Col,
-  Tabs,
   Dropdown,
 } from 'antd';
 import {
@@ -25,13 +24,18 @@ import {
   DeleteOutlined,
   ImportOutlined,
   EditOutlined,
+  UserOutlined,
+  PhoneOutlined,
+  WechatOutlined,
+  MailOutlined,
+  CalendarOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import type { School, SchoolStatus, AppData } from '../../types';
+import type { School, SchoolStatus, AppData, EducationLeader } from '../../types';
 import { ALL_STATUSES } from '../../types';
 import { useAppContext } from '../../store/AppContext';
 import { updateDistrict } from '../../store';
-import LeadersPanel from '../../components/LeadersPanel';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -53,57 +57,461 @@ export default function DistrictDetail() {
     );
   }
 
-  const tabItems = [
-    {
-      key: 'schools',
-      label: `学校管理 (${district.schools.length})`,
-      children: (
-        <SchoolPanel
-          cityId={cityId!}
-          district={district}
-          data={data}
-          setData={setData}
-        />
-      ),
-    },
-    {
-      key: 'leaders',
-      label: `教育局领导 (${district.leaders.length})`,
-      children: (
-        <LeadersPanel
-          district={district}
-          data={data}
-          setData={setData}
-          cityId={cityId!}
-        />
-      ),
-    },
+  // 区县级统计
+  const totalSchools = district.schools.length;
+  const cooperating = district.schools.filter((s) => s.status === '已合作').length;
+  const trialing = district.schools.filter((s) => s.status === '试用中').length;
+  const reported = district.schools.filter((s) => s.status === '已汇报').length;
+  const pending = district.schools.filter((s) => s.status === '待开发').length;
+
+  const statCards = [
+    { title: '学校总数', value: totalSchools, color: '#1677ff' },
+    { title: '已合作', value: cooperating, color: '#52c41a' },
+    { title: '试用中', value: trialing, color: '#faad14' },
+    { title: '已汇报', value: reported, color: '#722ed1' },
+    { title: '待开发', value: pending, color: '#bfbfbf' },
   ];
 
   return (
     <div>
-      <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+      {/* 顶部返回 + 标题 */}
+      <div className="page-header" style={{ marginBottom: 20 }}>
         <Button
           icon={<ArrowLeftOutlined />}
           onClick={() => navigate(`/city/${cityId}`)}
+          style={{ borderRadius: 8, fontWeight: 500 }}
         >
           返回{city.name}
         </Button>
-        <Title level={4} style={{ margin: 0 }}>
+        <Title level={4} style={{ margin: 0, fontWeight: 600, color: '#1e293b' }}>
           {district.name}
         </Title>
-        {district.isKey && <Tag color="blue">重点区域</Tag>}
+        {district.isKey && (
+          <Tag color="blue" style={{ borderRadius: 8, padding: '2px 12px', fontSize: 13, fontWeight: 500 }}>
+            重点区域
+          </Tag>
+        )}
       </div>
-      <Card>
-        <Tabs items={tabItems} />
+
+      {/* 第一块：区域学校统计 */}
+      <Card
+        size="small"
+        style={{
+          marginBottom: 20,
+          borderRadius: 12,
+          border: '1px solid #f1f5f9',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
+        }}
+        styles={{ body: { padding: '18px 24px' } }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+          <div
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 8,
+              background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <TeamOutlined style={{ color: '#1677ff', fontSize: 16 }} />
+          </div>
+          <Text strong style={{ fontSize: 14, color: '#1e293b' }}>区域学校统计</Text>
+        </div>
+        <Row gutter={[16, 16]}>
+          {statCards.map((card) => (
+            <Col xs={12} sm={8} md={4} key={card.title}>
+              <div
+                style={{
+                  textAlign: 'center',
+                  padding: '14px 12px',
+                  borderRadius: 10,
+                  background: `${card.color}08`,
+                  border: `1px solid ${card.color}20`,
+                }}
+              >
+                <div style={{ fontSize: 12, color: '#94a3b8', marginBottom: 6, fontWeight: 500 }}>
+                  {card.title}
+                </div>
+                <div style={{ fontSize: 30, fontWeight: 700, color: card.color, lineHeight: 1 }}>
+                  {card.value}
+                </div>
+              </div>
+            </Col>
+          ))}
+        </Row>
       </Card>
+
+      {/* 第二块：教育局领导 */}
+      <Card
+        title={
+          <Space>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 8,
+                background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <UserOutlined style={{ color: '#1677ff', fontSize: 16 }} />
+            </div>
+            <span style={{ fontWeight: 600, color: '#1e293b' }}>教育局领导</span>
+          </Space>
+        }
+        style={{
+          marginBottom: 20,
+          borderRadius: 12,
+          border: '1px solid #f1f5f9',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
+        }}
+      >
+        <LeadersPanel district={district} data={data} setData={setData} cityId={cityId!} />
+      </Card>
+
+      {/* 第三块：学校管理 */}
+      <Card
+        title={
+          <Space>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 8,
+                background: 'linear-gradient(135deg, #fef3c7, #fef9c3)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <EditOutlined style={{ color: '#f59e0b', fontSize: 16 }} />
+            </div>
+            <span style={{ fontWeight: 600, color: '#1e293b' }}>学校管理</span>
+          </Space>
+        }
+        style={{
+          borderRadius: 12,
+          border: '1px solid #f1f5f9',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
+        }}
+      >
+        <SchoolPanel cityId={cityId!} district={district} data={data} setData={setData} />
+      </Card>
+    </div>
+  );
+}
+
+// ==================== 教育局领导面板 ====================
+
+function LeadersPanel({
+  district,
+  data,
+  setData,
+  cityId,
+}: {
+  district: import('../../types').District;
+  data: AppData;
+  setData: (newData: AppData) => boolean;
+  cityId: string;
+}) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingLeader, setEditingLeader] = useState<EducationLeader | null>(null);
+
+  const handleAdd = () => {
+    setEditingLeader({
+      id: Math.random().toString(36).substring(2, 10),
+      name: '',
+      position: '',
+      phone: '',
+      wechat: '',
+      email: '',
+      lastContact: '',
+      notes: '',
+    });
+    setModalOpen(true);
+  };
+
+  const handleEdit = (leader: EducationLeader) => {
+    setEditingLeader({ ...leader });
+    setModalOpen(true);
+  };
+
+  const handleSave = () => {
+    if (!editingLeader) return;
+    if (!editingLeader.name.trim()) {
+      message.warning('请输入姓名');
+      return;
+    }
+    if (!editingLeader.position.trim()) {
+      message.warning('请输入职位');
+      return;
+    }
+
+    const existing = district.leaders.find((l) => l.id === editingLeader.id);
+    let updatedLeaders: EducationLeader[];
+
+    if (existing) {
+      updatedLeaders = district.leaders.map((l) =>
+        l.id === editingLeader.id ? editingLeader : l
+      );
+    } else {
+      updatedLeaders = [...district.leaders, editingLeader];
+    }
+
+    const result = updateDistrict(data, cityId, district.id, (d) => ({
+      ...d,
+      leaders: updatedLeaders,
+    }));
+
+    if (result.success) {
+      setData(result.data);
+      message.success(existing ? '领导信息已更新' : '领导已添加');
+      setModalOpen(false);
+      setEditingLeader(null);
+    } else {
+      message.error('保存失败');
+    }
+  };
+
+  const handleDelete = (leaderId: string) => {
+    const updatedLeaders = district.leaders.filter((l) => l.id !== leaderId);
+    const result = updateDistrict(data, cityId, district.id, (d) => ({
+      ...d,
+      leaders: updatedLeaders,
+    }));
+    if (result.success) {
+      setData(result.data);
+      message.success('已删除');
+    } else {
+      message.error('删除失败');
+    }
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: 16 }}>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={handleAdd}
+          style={{ borderRadius: 8, fontWeight: 500 }}
+        >
+          添加领导
+        </Button>
+      </div>
+
+      {district.leaders.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: 32, color: '#94a3b8', background: '#f8fafc', borderRadius: 10 }}>
+          暂无教育局领导信息，点击上方按钮添加
+        </div>
+      ) : (
+        <Row gutter={[14, 14]}>
+          {district.leaders.map((leader) => (
+            <Col xs={24} sm={12} lg={8} xl={6} key={leader.id}>
+              <Card
+                hoverable
+                size="small"
+                actions={[
+                  <EditOutlined key="edit" onClick={() => handleEdit(leader)} />,
+                  <Popconfirm
+                    key="delete"
+                    title="确定删除此领导？"
+                    onConfirm={() => handleDelete(leader.id)}
+                  >
+                    <DeleteOutlined style={{ color: '#ef4444' }} />
+                  </Popconfirm>,
+                ]}
+                style={{
+                  borderRadius: 10,
+                  border: '1px solid #f1f5f9',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                }}
+                styles={{ body: { padding: '14px 16px' } }}
+              >
+                <div style={{ marginBottom: 8 }}>
+                  <div
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 10,
+                      background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginBottom: 8,
+                    }}
+                  >
+                    <UserOutlined style={{ color: '#1677ff', fontSize: 16 }} />
+                  </div>
+                  <Text strong style={{ fontSize: 15, color: '#1e293b' }}>
+                    {leader.name}
+                  </Text>
+                </div>
+                <div style={{ marginBottom: 4 }}>
+                  <Tag color="blue" style={{ borderRadius: 6 }}>{leader.position}</Tag>
+                </div>
+                {leader.phone && (
+                  <div style={{ marginBottom: 3 }}>
+                    <PhoneOutlined style={{ marginRight: 6, color: '#94a3b8', fontSize: 12 }} />
+                    <Text style={{ fontSize: 12, color: '#64748b' }}>{leader.phone}</Text>
+                  </div>
+                )}
+                {leader.wechat && (
+                  <div style={{ marginBottom: 3 }}>
+                    <WechatOutlined style={{ marginRight: 6, color: '#10b981', fontSize: 12 }} />
+                    <Text style={{ fontSize: 12, color: '#64748b' }}>{leader.wechat}</Text>
+                  </div>
+                )}
+                {leader.email && (
+                  <div style={{ marginBottom: 3 }}>
+                    <MailOutlined style={{ marginRight: 6, color: '#94a3b8', fontSize: 12 }} />
+                    <Text style={{ fontSize: 12, color: '#64748b' }}>{leader.email}</Text>
+                  </div>
+                )}
+                {leader.lastContact && (
+                  <div style={{ marginBottom: 3 }}>
+                    <CalendarOutlined style={{ marginRight: 6, color: '#94a3b8', fontSize: 12 }} />
+                    <Text style={{ fontSize: 12, color: '#64748b' }}>最近联系：{leader.lastContact}</Text>
+                  </div>
+                )}
+                {leader.notes && (
+                  <div style={{ marginTop: 6, padding: '8px 10px', background: '#f8fafc', borderRadius: 6 }}>
+                    <FileTextOutlined style={{ marginRight: 6, color: '#94a3b8', fontSize: 12 }} />
+                    <Text style={{ fontSize: 12, color: '#64748b' }}>
+                      {leader.notes}
+                    </Text>
+                  </div>
+                )}
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+
+      <Modal
+        title={
+          editingLeader && district.leaders.find((l) => l.id === editingLeader.id)
+            ? '编辑领导'
+            : '添加领导'
+        }
+        open={modalOpen}
+        onOk={handleSave}
+        onCancel={() => {
+          setModalOpen(false);
+          setEditingLeader(null);
+        }}
+        destroyOnClose
+      >
+        <Form layout="vertical">
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="姓名" required>
+                <Input
+                  value={editingLeader?.name || ''}
+                  onChange={(e) =>
+                    setEditingLeader((prev) =>
+                      prev ? { ...prev, name: e.target.value } : null
+                    )
+                  }
+                  placeholder="请输入姓名"
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="职位" required>
+                <Input
+                  value={editingLeader?.position || ''}
+                  onChange={(e) =>
+                    setEditingLeader((prev) =>
+                      prev ? { ...prev, position: e.target.value } : null
+                    )
+                  }
+                  placeholder="如：局长、副局长、科长"
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="电话">
+                <Input
+                  value={editingLeader?.phone || ''}
+                  onChange={(e) =>
+                    setEditingLeader((prev) =>
+                      prev ? { ...prev, phone: e.target.value } : null
+                    )
+                  }
+                  placeholder="手机/座机"
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="微信">
+                <Input
+                  value={editingLeader?.wechat || ''}
+                  onChange={(e) =>
+                    setEditingLeader((prev) =>
+                      prev ? { ...prev, wechat: e.target.value } : null
+                    )
+                  }
+                  placeholder="微信号"
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item label="邮箱">
+            <Input
+              value={editingLeader?.email || ''}
+              onChange={(e) =>
+                setEditingLeader((prev) =>
+                  prev ? { ...prev, email: e.target.value } : null
+                )
+              }
+              placeholder="电子邮箱"
+            />
+          </Form.Item>
+          <Form.Item label="最近联系">
+            <Input
+              value={editingLeader?.lastContact || ''}
+              onChange={(e) =>
+                setEditingLeader((prev) =>
+                  prev ? { ...prev, lastContact: e.target.value } : null
+                )
+              }
+              placeholder="如：2025-01-15"
+            />
+          </Form.Item>
+          <Form.Item label="备注">
+            <Input.TextArea
+              rows={3}
+              value={editingLeader?.notes || ''}
+              onChange={(e) =>
+                setEditingLeader((prev) =>
+                  prev ? { ...prev, notes: e.target.value } : null
+                )
+              }
+              placeholder="备注信息"
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }
 
 // ==================== 学校面板 ====================
 
-function SchoolPanel({ cityId, district, data, setData }: {
+function SchoolPanel({
+  cityId,
+  district,
+  data,
+  setData,
+}: {
   cityId: string;
   district: import('../../types').District;
   data: AppData;
@@ -346,9 +754,7 @@ function SchoolPanel({ cityId, district, data, setData }: {
       dataIndex: 'status',
       key: 'status',
       width: 100,
-      render: (status: SchoolStatus) => (
-        <Tag color={statusColor[status]}>{status}</Tag>
-      ),
+      render: (status: SchoolStatus) => <Tag color={statusColor[status]}>{status}</Tag>,
     },
     {
       title: '产品',
@@ -402,21 +808,42 @@ function SchoolPanel({ cityId, district, data, setData }: {
           display: 'flex',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: 8,
+          gap: 10,
+          alignItems: 'center',
         }}
       >
         <Space>
-          <Button type="primary" icon={<PlusOutlined />} onClick={handleAddSchool}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={handleAddSchool}
+            style={{ borderRadius: 8, fontWeight: 500 }}
+          >
             添加学校
           </Button>
-          <Button icon={<ImportOutlined />} onClick={() => setImportModalOpen(true)}>
+          <Button
+            icon={<ImportOutlined />}
+            onClick={() => setImportModalOpen(true)}
+            style={{ borderRadius: 8, fontWeight: 500 }}
+          >
             批量导入
           </Button>
         </Space>
 
         {selectedRowKeys.length > 0 && (
           <Space>
-            <Text type="secondary">已选 {selectedRowKeys.length} 项</Text>
+            <span
+              style={{
+                padding: '4px 12px',
+                background: '#eff6ff',
+                borderRadius: 8,
+                fontSize: 13,
+                fontWeight: 600,
+                color: '#1677ff',
+              }}
+            >
+              已选 {selectedRowKeys.length} 项
+            </span>
             <Dropdown
               menu={{
                 items: ALL_STATUSES.map((s) => ({
@@ -426,13 +853,13 @@ function SchoolPanel({ cityId, district, data, setData }: {
                 })),
               }}
             >
-              <Button>批量改状态</Button>
+              <Button style={{ borderRadius: 8 }}>批量改状态</Button>
             </Dropdown>
             <Popconfirm
               title={`确定删除 ${selectedRowKeys.length} 所学校？`}
               onConfirm={handleBatchDelete}
             >
-              <Button danger>批量删除</Button>
+              <Button danger style={{ borderRadius: 8 }}>批量删除</Button>
             </Popconfirm>
           </Space>
         )}

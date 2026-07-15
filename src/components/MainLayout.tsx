@@ -113,12 +113,13 @@ export default function MainLayout() {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
-        width={220}
+        width={230}
         style={{
-          background: '#fff',
-          borderRight: '1px solid #f0f0f0',
+          background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
+          borderRight: 'none',
           display: 'flex',
           flexDirection: 'column',
+          boxShadow: '2px 0 20px rgba(0,0,0,0.06)',
         }}
         breakpoint="lg"
         collapsedWidth="60"
@@ -130,31 +131,59 @@ export default function MainLayout() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            borderBottom: '1px solid #f0f0f0',
+            padding: '0 16px',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
           }}
         >
-          <Title level={5} style={{ margin: 0, whiteSpace: 'nowrap' }}>
-            江苏教育CRM
-          </Title>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+            }}
+          >
+            <div
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 10,
+                background: 'linear-gradient(135deg, #1677ff 0%, #7c3aed 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 12px rgba(22,119,255,0.4)',
+              }}
+            >
+              <DashboardOutlined style={{ color: '#fff', fontSize: 18 }} />
+            </div>
+            <Title level={5} style={{ margin: 0, color: '#fff', whiteSpace: 'nowrap', letterSpacing: 0.5 }}>
+              江苏教育CRM
+            </Title>
+          </div>
         </div>
 
         {/* 菜单区 */}
-        <div style={{ flex: 1, overflow: 'auto' }}>
+        <div style={{ flex: 1, overflow: 'auto', padding: '12px 0' }}>
           <Menu
             mode="inline"
             selectedKeys={getSelectedKeys()}
             defaultOpenKeys={getOpenKeys()}
             items={menuItems}
             onClick={({ key }) => navigate(key)}
-            style={{ borderRight: 0 }}
+            style={{
+              borderRight: 0,
+              background: 'transparent',
+              color: 'rgba(255,255,255,0.85)',
+            }}
+            theme="dark"
           />
         </div>
 
         {/* 底部用户区 */}
         <div
           style={{
-            borderTop: '1px solid #f0f0f0',
-            padding: '12px 16px',
+            borderTop: '1px solid rgba(255,255,255,0.08)',
+            padding: '14px 16px',
           }}
         >
           <Dropdown menu={{ items: userMenuItems }} placement="topRight" trigger={['click']}>
@@ -164,31 +193,43 @@ export default function MainLayout() {
                 alignItems: 'center',
                 gap: 10,
                 cursor: 'pointer',
-                padding: '8px',
-                borderRadius: 8,
+                padding: '8px 10px',
+                borderRadius: 10,
                 transition: 'background 0.2s',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f5f5')}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
               onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
             >
               <div
                 style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: '50%',
-                  background: user?.role === 'admin' ? '#1677ff' : '#52c41a',
+                  width: 34,
+                  height: 34,
+                  borderRadius: 10,
+                  background: user?.role === 'admin'
+                    ? 'linear-gradient(135deg, #1677ff, #7c3aed)'
+                    : 'linear-gradient(135deg, #10b981, #059669)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  flexShrink: 0,
                 }}
               >
-                <UserOutlined style={{ color: '#fff', fontSize: 14 }} />
+                <UserOutlined style={{ color: '#fff', fontSize: 15 }} />
               </div>
-              <div style={{ overflow: 'hidden' }}>
-                <div style={{ fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div style={{ overflow: 'hidden', flex: 1 }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: '#fff',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
                   {user?.displayName}
                 </div>
-                <Text type="secondary" style={{ fontSize: 11 }}>
+                <Text style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>
                   {user?.role === 'admin' ? '管理员' : '区域经理'}
                 </Text>
               </div>
@@ -200,21 +241,33 @@ export default function MainLayout() {
         <Header
           style={{
             background: '#fff',
-            padding: '0 24px',
-            borderBottom: '1px solid #f0f0f0',
+            padding: '0 28px',
+            borderBottom: '1px solid #f1f5f9',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            boxShadow: '0 1px 8px rgba(0,0,0,0.03)',
+            height: 56,
           }}
         >
-          <Title level={4} style={{ margin: 0 }}>
+          <Title level={4} style={{ margin: 0, fontWeight: 600, color: '#1e293b' }}>
             江苏省教育市场作战地图
           </Title>
           <Space>
-            <Tag color="blue">{user?.displayName}</Tag>
+            <Tag
+              color="blue"
+              style={{
+                borderRadius: 8,
+                padding: '2px 12px',
+                fontSize: 13,
+                fontWeight: 500,
+              }}
+            >
+              {user?.displayName}
+            </Tag>
           </Space>
         </Header>
-        <Content style={{ padding: 24, background: '#f5f5f5', overflow: 'auto' }}>
+        <Content style={{ padding: 24, background: '#f1f5f9', overflow: 'auto', minHeight: 'calc(100vh - 56px)' }}>
           <Outlet />
         </Content>
       </Layout>
