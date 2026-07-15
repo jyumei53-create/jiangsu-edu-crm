@@ -68,15 +68,15 @@ export default function CityMap({ city }: CityMapProps) {
   // 根据城市密度设置初始缩放：区县密集的城市默认放大
   const initialZoom = useMemo(() => {
     const denseCities: Record<string, number> = {
-      nanjing: 1.55,
-      suzhou: 1.55,
-      changzhou: 1.45,
-      wuxi: 1.35,
-      xuzhou: 1.35,
-      nantong: 1.35,
-      yangzhou: 1.35,
+      nanjing: 2.0,
+      suzhou: 2.0,
+      changzhou: 1.7,
+      wuxi: 1.5,
+      xuzhou: 1.5,
+      nantong: 1.5,
+      yangzhou: 1.5,
     };
-    return denseCities[city.id] || 1.25;
+    return denseCities[city.id] || 1.3;
   }, [city.id]);
 
   const mapOption = useMemo(() => {
@@ -491,7 +491,7 @@ export default function CityMap({ city }: CityMapProps) {
               <EnvironmentOutlined style={{ color: '#1677ff', fontSize: 16 }} />
               <Text strong style={{ fontSize: 14, color: '#1e293b' }}>{city.name}行政地图</Text>
             </div>
-            <ReactECharts option={mapOption} style={{ height: 500 }} onEvents={{ click: onChartClick }} />
+            <ReactECharts option={mapOption} style={{ height: 600 }} onEvents={{ click: onChartClick }} />
             <div style={{ textAlign: 'center', padding: '4px 0 10px' }}>
               <Text style={{ fontSize: 12, color: '#94a3b8' }}>
                 点击地图上的区域进入详情
@@ -521,7 +521,7 @@ export default function CityMap({ city }: CityMapProps) {
                 <span style={{ fontWeight: 600, color: '#1e293b' }}>区域合作状态</span>
               </Space>
             }
-            styles={{ body: { padding: '12px 16px', maxHeight: 548, overflowY: 'auto' } }}
+            styles={{ body: { padding: '12px 16px', maxHeight: 628, overflowY: 'auto' } }}
             style={{
               borderRadius: 14,
               border: '1px solid #f1f5f9',
