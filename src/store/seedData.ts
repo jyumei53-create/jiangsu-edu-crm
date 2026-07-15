@@ -1,5 +1,6 @@
-import type { AppData, City, District, School } from '../types';
+import type { AppData, City, District } from '../types';
 import { WUXI_CITY_LEADERS, WUXI_DISTRICT_LEADERS } from './wuxiLeaders';
+import { WUXI_SEED_SCHOOLS } from './wuxiSchools';
 
 const createId = () => Math.random().toString(36).substring(2, 10);
 
@@ -205,27 +206,6 @@ function buildDefaultProjects() {
   ];
 }
 
-/** 为每个区县生成种子学校 */
-function buildSeedSchools(districtName: string): School[] {
-  const templates = [
-    { name: `${districtName}第一实验小学`, stage: '小学' },
-    { name: `${districtName}实验中学`, stage: '初中' },
-    { name: `${districtName}高级中学`, stage: '高中' },
-  ];
-
-  return templates.map((t, i) => ({
-    id: createId(),
-    name: t.name,
-    status: '待开发' as const,
-    stage: t.stage,
-    products: [],
-    street: '',
-    keyPerson: '',
-    remark: '',
-    order: i + 1,
-  }));
-}
-
 /** 构建一个区县 */
 function buildDistrict(def: DistrictDef): District {
   const projects = def.projects
@@ -245,7 +225,7 @@ function buildDistrict(def: DistrictDef): District {
     name: def.name,
     isKey: def.isKey ?? false,
     projects,
-    schools: buildSeedSchools(def.name),
+    schools: [],
     leaders: districtLeaders,
   };
 }
@@ -265,11 +245,26 @@ function buildCity(def: CityDef): City {
 
 /** 生成完整种子数据 */
 export function getSeedData(): AppData {
-  return {
+  const data: AppData = {
     version: 3,
     cities: JIANGSU_CITIES.map(buildCity),
     updatedAt: new Date().toISOString(),
+    wuxiSeedVersion: 2, // 与《副本2025年小学初中高中xls.xls》最终名单一致
   };
+
+  // 预填充无锡市各区县学校（小学/初中/高中/九年一贯/十二年一贯/完中）
+  // 数据来源：无锡市教育局《2025年度无锡市学校名录》
+  const wuxiCity = data.cities.find((c) => c.id === 'wuxi');
+  if (wuxiCity) {
+    for (const dist of wuxiCity.districts) {
+      const schools = WUXI_SEED_SCHOOLS[dist.id];
+      if (schools && schools.length > 0) {
+        dist.schools = schools;
+      }
+    }
+  }
+
+  return data;
 }
 
 /** 导出项目模板（用于空项目自动回填） */

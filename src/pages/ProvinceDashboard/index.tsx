@@ -1,15 +1,6 @@
 import { useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import {
-  Row,
-  Col,
-  Card,
-  Button,
-  Typography,
-  Space,
-  Tag,
-  Table,
-} from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Row, Col, Card, Button, Typography, Space, Tag, Table } from 'antd';
 import {
   ArrowLeftOutlined,
   TeamOutlined,
@@ -24,37 +15,15 @@ import {
 } from '@ant-design/icons';
 import { useAppContext } from '../../store/AppContext';
 import SchoolAnalytics from '../../components/SchoolAnalytics';
-import { computeCityStats, computeDistrictStats } from '../../store';
+import { computeStats, computeCityStats, computeDistrictStats } from '../../store';
 
 const { Title, Text } = Typography;
 
-export default function CityDashboard() {
-  const { cityId } = useParams<{ cityId: string }>();
+export default function ProvinceDashboard() {
   const navigate = useNavigate();
   const { data } = useAppContext();
 
-  const city = data.cities.find((c) => c.id === cityId);
-
-  if (!city) {
-    return (
-      <div style={{ textAlign: 'center', padding: 60 }}>
-        <Title level={4}>城市未找到</Title>
-        <Button onClick={() => navigate('/')}>返回首页</Button>
-      </div>
-    );
-  }
-
-  const stats = computeCityStats(city);
-
-  const allSchools = useMemo(
-    () =>
-      city.districts.flatMap((d) =>
-        d.schools
-          .filter((s) => !s.seed)
-          .map((s) => ({ ...s, cityName: city.name, districtName: d.name }))
-      ),
-    [city]
-  );
+  const stats = computeStats(data);
 
   const statCards = [
     { title: 'CRM学校总数', value: stats.totalSchools, icon: <TeamOutlined />, color: '#1677ff' },
@@ -65,21 +34,63 @@ export default function CityDashboard() {
     { title: '区域合作项目', value: stats.totalProjects, icon: <ProjectOutlined />, color: '#ff7a45' },
   ];
 
-  const districtTable = city.districts.map((d) => {
-    const s = computeDistrictStats(d);
+  const cityTable = data.cities.map((city) => {
+    const s = computeCityStats(city);
     return {
-      name: d.name,
+      key: city.id,
+      name: city.name,
+      districts: city.districts.length,
       total: s.totalSchools,
       cooperating: s.cooperating,
       trialing: s.trialing,
       reported: s.reported,
       pending: s.pending,
-      projects: d.projects.length,
-      isKey: d.isKey,
+      projects: s.totalProjects,
     };
   });
 
-  const columns = [
+  const districtTable = data.cities.flatMap((city) =>
+    city.districts.map((d) => {
+      const s = computeDistrictStats(d);
+      return {
+        key: `${city.id}-${d.id}`,
+        cityName: city.name,
+        cityId: city.id,
+        districtId: d.id,
+        name: d.name,
+        total: s.totalSchools,
+        cooperating: s.cooperating,
+        trialing: s.trialing,
+        reported: s.reported,
+        pending: s.pending,
+        projects: d.projects.length,
+        isKey: d.isKey,
+      };
+    })
+  );
+
+  const cityColumns = [
+    {
+      title: '城市',
+      dataIndex: 'name',
+      key: 'name',
+      render: (name: string) => (
+        <Space>
+          <BankOutlined style={{ color: '#1677ff' }} />
+          <Text strong>{name}</Text>
+        </Space>
+      ),
+    },
+    { title: '区县数', dataIndex: 'districts', key: 'districts', align: 'center' as const },
+    { title: '学校总数', dataIndex: 'total', key: 'total', align: 'center' as const },
+    { title: '已合作', dataIndex: 'cooperating', key: 'cooperating', align: 'center' as const },
+    { title: '试用中', dataIndex: 'trialing', key: 'trialing', align: 'center' as const },
+    { title: '已汇报', dataIndex: 'reported', key: 'reported', align: 'center' as const },
+    { title: '待开发', dataIndex: 'pending', key: 'pending', align: 'center' as const },
+    { title: '区域项目', dataIndex: 'projects', key: 'projects', align: 'center' as const },
+  ];
+
+  const districtColumns = [
     {
       title: '区县',
       dataIndex: 'name',
@@ -92,6 +103,12 @@ export default function CityDashboard() {
         </Space>
       ),
     },
+    {
+      title: '所属城市',
+      dataIndex: 'cityName',
+      key: 'cityName',
+      render: (name: string) => <Tag>{name}</Tag>,
+    },
     { title: '学校总数', dataIndex: 'total', key: 'total', align: 'center' as const },
     { title: '已合作', dataIndex: 'cooperating', key: 'cooperating', align: 'center' as const },
     { title: '试用中', dataIndex: 'trialing', key: 'trialing', align: 'center' as const },
@@ -100,24 +117,36 @@ export default function CityDashboard() {
     { title: '区域项目', dataIndex: 'projects', key: 'projects', align: 'center' as const },
   ];
 
+  const allSchools = useMemo(
+    () =>
+      data.cities.flatMap((city) =>
+        city.districts.flatMap((d) =>
+          d.schools
+            .filter((s) => !s.seed)
+            .map((s) => ({ ...s, cityName: city.name, districtName: d.name }))
+        )
+      ),
+    [data]
+  );
+
   return (
     <div>
       {/* 返回 + 标题 */}
       <div className="page-header" style={{ marginBottom: 20 }}>
         <Button
           icon={<ArrowLeftOutlined />}
-          onClick={() => navigate(`/city/${cityId}`)}
+          onClick={() => navigate('/')}
           style={{ borderRadius: 8, fontWeight: 500 }}
         >
-          返回{city.name}
+          返回江苏省作战地图
         </Button>
         <Title level={4} style={{ margin: 0, fontWeight: 600, color: '#1e293b' }}>
           <BarChartOutlined style={{ marginRight: 6, color: '#1677ff' }} />
-          {city.name}全市数据看板
+          江苏省全市数据看板
         </Title>
       </div>
 
-      {/* 全市统计卡片 */}
+      {/* 全省统计卡片 */}
       <Row gutter={[14, 14]} style={{ marginBottom: 24 }}>
         {statCards.map((card) => (
           <Col xs={12} sm={8} md={4} key={card.title}>
@@ -159,9 +188,9 @@ export default function CityDashboard() {
       </Row>
 
       {/* 多维数据分析 */}
-      <SchoolAnalytics schools={allSchools} groupBy="district" groupLabel="区县" />
+      <SchoolAnalytics schools={allSchools} groupBy="city" groupLabel="城市" />
 
-      {/* 区县明细表 */}
+      {/* 13 市数据汇总 */}
       <Card
         title={
           <Space>
@@ -178,6 +207,47 @@ export default function CityDashboard() {
             >
               <BankOutlined style={{ color: '#1677ff', fontSize: 16 }} />
             </div>
+            <span style={{ fontWeight: 600, color: '#1e293b' }}>13 市数据汇总</span>
+          </Space>
+        }
+        style={{
+          marginBottom: 24,
+          borderRadius: 14,
+          border: '1px solid #f1f5f9',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+        }}
+      >
+        <Table
+          rowKey="key"
+          columns={cityColumns}
+          dataSource={cityTable}
+          pagination={false}
+          size="middle"
+          onRow={(record) => ({
+            onClick: () => navigate(`/city/${record.key}`),
+            style: { cursor: 'pointer' },
+          })}
+          style={{ borderRadius: 10 }}
+        />
+      </Card>
+
+      {/* 各区县数据明细 */}
+      <Card
+        title={
+          <Space>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 8,
+                background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <EnvironmentOutlined style={{ color: '#1677ff', fontSize: 16 }} />
+            </div>
             <span style={{ fontWeight: 600, color: '#1e293b' }}>各区县数据明细</span>
           </Space>
         }
@@ -188,16 +258,17 @@ export default function CityDashboard() {
         }}
       >
         <Table
-          rowKey="name"
-          columns={columns}
+          rowKey="key"
+          columns={districtColumns}
           dataSource={districtTable}
-          pagination={false}
+          pagination={{
+            pageSize: 20,
+            showSizeChanger: true,
+            showTotal: (t) => `共 ${t} 个区县`,
+          }}
           size="middle"
           onRow={(record) => ({
-            onClick: () => {
-              const district = city.districts.find((d) => d.name === record.name);
-              if (district) navigate(`/city/${cityId}/${district.id}`);
-            },
+            onClick: () => navigate(`/city/${record.cityId}/${record.districtId}`),
             style: { cursor: 'pointer' },
           })}
           style={{ borderRadius: 10 }}

@@ -8,10 +8,8 @@ import {
   Typography,
   Space,
   Tag,
-  Spin,
   Input,
   message,
-  Statistic,
   Modal,
   Form,
   Popconfirm,
@@ -20,25 +18,19 @@ import {
   ArrowLeftOutlined,
   EnvironmentOutlined,
   EditOutlined,
-  TeamOutlined,
-  CheckCircleOutlined,
-  ExperimentOutlined,
-  FileTextOutlined,
-  ClockCircleOutlined,
   ProjectOutlined,
   BarChartOutlined,
   UserOutlined,
   PhoneOutlined,
   WechatOutlined,
   MailOutlined,
-  CalendarOutlined,
   PlusOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
 import ReactECharts from 'echarts-for-react';
 import * as echarts from 'echarts';
 import { useAppContext } from '../../store/AppContext';
-import { computeCityStats, updateDistrict, updateCity } from '../../store';
+import { updateDistrict, updateCity, computeDistrictStats } from '../../store';
 import { WUXI_GEOJSON } from '../../utils/wuxiGeoJson';
 import type { District, DistrictProject, EducationLeader } from '../../types';
 import { PROJECT_CATEGORIES } from '../../types';
@@ -84,8 +76,6 @@ export default function WuxiCityMap({ city }: Props) {
   const [editingCityLeader, setEditingCityLeader] = useState<EducationLeader | null>(null);
   const cityLeaders = city.cityLeaders || [];
 
-  const stats = useMemo(() => computeCityStats(city), [city]);
-
   const districtMap = useMemo(() => {
     return new Map(city.districts.map((d) => [d.name, d]));
   }, [city.districts]);
@@ -93,8 +83,9 @@ export default function WuxiCityMap({ city }: Props) {
   const mapOption = useMemo(() => {
     const mapData = city.districts.map((d) => {
       const color = DISTRICT_COLORS[d.name] || '#E8E8E8';
-      const schoolCount = d.schools.length;
-      const cooperating = d.schools.filter((s) => s.status === '已合作').length;
+      const ds = computeDistrictStats(d);
+      const schoolCount = ds.totalSchools;
+      const cooperating = ds.cooperating;
 
       return {
         name: d.name,
@@ -163,15 +154,6 @@ export default function WuxiCityMap({ city }: Props) {
       }
     }
   };
-
-  const statCards = [
-    { title: 'CRM学校总数', value: stats.totalSchools, icon: <TeamOutlined />, color: '#1677ff' },
-    { title: '已合作', value: stats.cooperating, icon: <CheckCircleOutlined />, color: '#52c41a' },
-    { title: '试用中', value: stats.trialing, icon: <ExperimentOutlined />, color: '#faad14' },
-    { title: '已汇报', value: stats.reported, icon: <FileTextOutlined />, color: '#722ed1' },
-    { title: '待开发', value: stats.pending, icon: <ClockCircleOutlined />, color: '#bfbfbf' },
-    { title: '区域合作项目', value: stats.totalProjects, icon: <ProjectOutlined />, color: '#ff7a45' },
-  ];
 
   // ===== 编辑逻辑 =====
   const handleStartEdit = (district: District) => {
@@ -369,20 +351,34 @@ export default function WuxiCityMap({ city }: Props) {
                 <Card
                   hoverable
                   size="small"
-                  actions={[
-                    <EditOutlined key="edit" onClick={() => handleEditCityLeader(leader)} />,
-                    <Popconfirm
-                      key="del"
-                      title="确定删除？"
-                      onConfirm={() => handleDeleteCityLeader(leader.id)}
-                    >
-                      <DeleteOutlined style={{ color: '#ff4d4f' }} />
-                    </Popconfirm>,
-                  ]}
+                  styles={{ body: { padding: '12px 16px' } }}
                 >
-                  <div style={{ marginBottom: 6 }}>
-                    <UserOutlined style={{ marginRight: 6, color: '#1677ff' }} />
-                    <Text strong>{leader.name}</Text>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                      marginBottom: 6,
+                    }}
+                  >
+                    <div>
+                      <UserOutlined style={{ marginRight: 6, color: '#1677ff' }} />
+                      <Text strong>{leader.name}</Text>
+                    </div>
+                    <Space size={4}>
+                      <EditOutlined
+                        style={{ fontSize: 14, color: '#64748b', cursor: 'pointer' }}
+                        onClick={() => handleEditCityLeader(leader)}
+                      />
+                      <Popconfirm
+                        title="确定删除？"
+                        onConfirm={() => handleDeleteCityLeader(leader.id)}
+                      >
+                        <DeleteOutlined
+                          style={{ fontSize: 14, color: '#ff4d4f', cursor: 'pointer' }}
+                        />
+                      </Popconfirm>
+                    </Space>
                   </div>
                   <Tag color="blue">{leader.position}</Tag>
                   {leader.phone && (
@@ -444,8 +440,9 @@ export default function WuxiCityMap({ city }: Props) {
             </div>
             {city.districts.filter(d => d.isKey).map((district) => {
               const color = getDistrictColor(district.name);
-              const schoolCount = district.schools.length;
-              const cooperating = district.schools.filter((s) => s.status === '已合作').length;
+              const ds = computeDistrictStats(district);
+              const schoolCount = ds.totalSchools;
+              const cooperating = ds.cooperating;
               const isEditing = editingDistrictId === district.id;
 
               return (
@@ -555,8 +552,9 @@ export default function WuxiCityMap({ city }: Props) {
                 </div>
                 {city.districts.filter(d => !d.isKey).map((district) => {
                   const color = getDistrictColor(district.name);
-                  const schoolCount = district.schools.length;
-                  const cooperating = district.schools.filter((s) => s.status === '已合作').length;
+                  const ds = computeDistrictStats(district);
+                  const schoolCount = ds.totalSchools;
+                  const cooperating = ds.cooperating;
                   const isEditing = editingDistrictId === district.id;
 
                   return (

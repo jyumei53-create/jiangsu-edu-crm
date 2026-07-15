@@ -14,6 +14,9 @@ export interface School {
   keyPerson?: string;
   remark?: string;
   order: number;
+  isPrivate?: boolean;
+  seed?: boolean;
+  isMunicipal?: boolean;
 }
 
 /** 教育局领导 */
@@ -41,6 +44,8 @@ export interface District {
   id: string;
   name: string;
   isKey: boolean;
+  /** 区域合作状态面板中的展示排序（仅在同一 isKey 组内生效，数字越小越靠前） */
+  order?: number;
   projects: DistrictProject[];
   schools: School[];
   leaders: EducationLeader[];
@@ -59,6 +64,8 @@ export interface AppData {
   version: number;
   cities: City[];
   updatedAt: string;
+  /** 无锡市学校种子版本：用于精准迁移，避免覆盖用户在其他城市/项目的编辑 */
+  wuxiSeedVersion?: number;
 }
 
 // ==================== 常量 ====================

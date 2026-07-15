@@ -48,3 +48,38 @@ export function darkenColor(hex: string, amount: number): string {
   const b = Math.max(0, (num & 0x0000ff) - amount);
   return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
 }
+
+/** 计算 GeoJSON 的经纬度包围盒与几何中心，用于地图自适应居中 */
+export function getGeoBbox(geoJson: {
+  features?: { geometry?: { type: string; coordinates: unknown } }[];
+}): { center: [number, number]; width: number; height: number } | null {
+  let minLng = Infinity, minLat = Infinity, maxLng = -Infinity, maxLat = -Infinity;
+  let found = false;
+
+  const iterate = (coords: unknown) => {
+    if (Array.isArray(coords) && typeof coords[0] === 'number') {
+      const lng = coords[0] as number;
+      const lat = coords[1] as number;
+      if (typeof lng === 'number' && typeof lat === 'number') {
+        if (lng < minLng) minLng = lng;
+        if (lng > maxLng) maxLng = lng;
+        if (lat < minLat) minLat = lat;
+        if (lat > maxLat) maxLat = lat;
+        found = true;
+      }
+    } else if (Array.isArray(coords)) {
+      for (const c of coords) iterate(c);
+    }
+  };
+
+  for (const f of geoJson.features || []) {
+    if (f.geometry) iterate(f.geometry.coordinates);
+  }
+  if (!found) return null;
+
+  return {
+    center: [(minLng + maxLng) / 2, (minLat + maxLat) / 2],
+    width: maxLng - minLng,
+    height: maxLat - minLat,
+  };
+}

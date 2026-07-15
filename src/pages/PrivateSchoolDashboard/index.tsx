@@ -1,20 +1,15 @@
 import { useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Row, Col, Card, Button, Typography, Space, Table, Tag, Statistic } from 'antd';
+import { Row, Col, Card, Button, Typography, Space, Table, Tag } from 'antd';
 import {
-  ArrowLeftOutlined, TeamOutlined, CheckCircleOutlined, ExperimentOutlined,
-  FileTextOutlined, ClockCircleOutlined, BankOutlined, EnvironmentOutlined,
+  ArrowLeftOutlined, CheckCircleOutlined, ExperimentOutlined,
+  FileTextOutlined, ClockCircleOutlined, BankOutlined,
 } from '@ant-design/icons';
 import { useAppContext } from '../../store/AppContext';
+import SchoolAnalytics from '../../components/SchoolAnalytics';
 import type { School, SchoolStatus } from '../../types';
 
 const { Title, Text } = Typography;
-
-const PRIVATE_KEYWORDS = ['私立', '民办', '国际', '外国语'];
-
-function isPrivateSchool(school: School): boolean {
-  return PRIVATE_KEYWORDS.some((kw) => school.name.includes(kw));
-}
 
 export default function PrivateSchoolDashboard() {
   const { cityId } = useParams<{ cityId: string }>();
@@ -27,7 +22,7 @@ export default function PrivateSchoolDashboard() {
     const schools: Array<School & { districtName: string; districtId: string }> = [];
     for (const d of city.districts) {
       for (const s of d.schools) {
-        if (isPrivateSchool(s)) {
+        if (s.isPrivate && !s.seed) {
           schools.push({ ...s, districtName: d.name, districtId: d.id });
         }
       }
@@ -61,7 +56,7 @@ export default function PrivateSchoolDashboard() {
   }
 
   const statCards = [
-    { title: '私立/民办学校', value: privateData.total, icon: <BankOutlined />, color: '#1677ff' },
+    { title: '民办学校', value: privateData.total, icon: <BankOutlined />, color: '#1677ff' },
     { title: '已合作', value: privateData.cooperating, icon: <CheckCircleOutlined />, color: '#10b981' },
     { title: '试用中', value: privateData.trialing, icon: <ExperimentOutlined />, color: '#f59e0b' },
     { title: '已汇报', value: privateData.reported, icon: <FileTextOutlined />, color: '#8b5cf6' },
@@ -100,7 +95,7 @@ export default function PrivateSchoolDashboard() {
         </Button>
         <Title level={4} style={{ margin: 0, fontWeight: 600, color: '#1e293b' }}>
           <BankOutlined style={{ marginRight: 6, color: '#1677ff' }} />
-          {city.name}私立校数据看板
+          {city.name}民办校数据看板
         </Title>
       </div>
 
@@ -123,7 +118,9 @@ export default function PrivateSchoolDashboard() {
         ))}
       </Row>
 
-      <Card title={<Space><BankOutlined style={{ color: '#1677ff' }} /><span style={{ fontWeight: 600, color: '#1e293b' }}>私立/民办学校明细</span></Space>}
+      <SchoolAnalytics schools={privateData.schools} groupBy="district" groupLabel="区县" />
+
+      <Card title={<Space><BankOutlined style={{ color: '#1677ff' }} /><span style={{ fontWeight: 600, color: '#1e293b' }}>民办学校明细</span></Space>}
         style={{ borderRadius: 14, border: '1px solid #f1f5f9', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
         <Table rowKey="id" columns={columns} dataSource={privateData.schools} size="middle" scroll={{ x: 1000 }}
           pagination={{ pageSize: 20, showSizeChanger: true, showTotal: (t) => `共 ${t} 所学校` }}

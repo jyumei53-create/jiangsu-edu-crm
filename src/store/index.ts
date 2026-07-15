@@ -1,5 +1,6 @@
 import type { AppData, City, District } from '../types';
 import { getSeedData, DEFAULT_PROJECTS_TEMPLATE } from './seedData';
+import { WUXI_SEED_SCHOOLS } from './wuxiSchools';
 
 const STORAGE_KEY = 'jiangsu_crm_data_v3';
 const OLD_STORAGE_KEY = 'wuxi_crm_data_v2';
@@ -53,9 +54,26 @@ export function loadAppData(): AppData {
       return seed;
     }
 
+    // 精准迁移：以《副本2025年小学初中高中xls.xls》最终名单为准，替换无锡市学校
+    // 仅在 wuxiSeedVersion 不匹配时执行，避免覆盖用户在其他城市/项目的编辑
+    let modified = false;
+    const WUXI_SEED_VERSION = 2;
+    if ((data as AppData).wuxiSeedVersion !== WUXI_SEED_VERSION) {
+      const wuxiCity = data.cities.find((c) => c.id === 'wuxi');
+      if (wuxiCity) {
+        for (const dist of wuxiCity.districts) {
+          const seedSchools = WUXI_SEED_SCHOOLS[dist.id];
+          if (seedSchools && seedSchools.length > 0) {
+            dist.schools = seedSchools.map((s) => ({ ...s }));
+          }
+        }
+        (data as AppData).wuxiSeedVersion = WUXI_SEED_VERSION;
+        modified = true;
+      }
+    }
+
     // 确保 13 市都存在，各区县 projects/schools 不为空
     const seedCities = getSeedData().cities;
-    let modified = false;
 
     for (const sc of seedCities) {
       let existing = data.cities.find((c) => c.id === sc.id);
@@ -88,6 +106,14 @@ export function loadAppData(): AppData {
               id: Math.random().toString(36).substring(2, 10),
             }));
             modified = true;
+          }
+          // 无锡市各区县：若学校为空则自动填充种子数据（来自教育局名录）
+          if (sc.id === 'wuxi' && (!ed.schools || ed.schools.length === 0)) {
+            const seedSchools = WUXI_SEED_SCHOOLS[sd.id];
+            if (seedSchools && seedSchools.length > 0) {
+              ed.schools = seedSchools;
+              modified = true;
+            }
           }
           // 确保 order 字段
           if (ed.schools) {
@@ -186,7 +212,7 @@ export function updateCity(
   return { success, data: newData };
 }
 
-/** 计算某城市的统计汇总 */
+/** 计算某城市的统计汇总（排除 seed 示例学校） */
 export function computeCityStats(city: City) {
   let totalSchools = 0;
   let cooperating = 0;
@@ -196,10 +222,11 @@ export function computeCityStats(city: City) {
   let totalProjects = 0;
 
   for (const district of city.districts) {
-    totalSchools += district.schools.length;
     totalProjects += (district.projects || []).length;
 
     for (const school of district.schools) {
+      if (school.seed) continue;
+      totalSchools++;
       switch (school.status) {
         case '已合作': cooperating++; break;
         case '试用中': trialing++; break;
@@ -212,7 +239,29 @@ export function computeCityStats(city: City) {
   return { totalSchools, cooperating, trialing, reported, pending, totalProjects };
 }
 
-/** 计算全省统计汇总 */
+/** 计算单区县统计汇总（排除 seed 示例学校） */
+export function computeDistrictStats(district: District) {
+  let totalSchools = 0;
+  let cooperating = 0;
+  let trialing = 0;
+  let reported = 0;
+  let pending = 0;
+
+  for (const school of district.schools) {
+    if (school.seed) continue;
+    totalSchools++;
+    switch (school.status) {
+      case '已合作': cooperating++; break;
+      case '试用中': trialing++; break;
+      case '已汇报': reported++; break;
+      default: pending++; break;
+    }
+  }
+
+  return { totalSchools, cooperating, trialing, reported, pending };
+}
+
+/** 计算全省统计汇总（排除 seed 示例学校） */
 export function computeStats(data: AppData) {
   let totalSchools = 0;
   let cooperating = 0;
@@ -225,10 +274,11 @@ export function computeStats(data: AppData) {
   for (const city of data.cities) {
     totalDistricts += city.districts.length;
     for (const district of city.districts) {
-      totalSchools += district.schools.length;
       totalProjects += (district.projects || []).length;
 
       for (const school of district.schools) {
+        if (school.seed) continue;
+        totalSchools++;
         switch (school.status) {
           case '已合作': cooperating++; break;
           case '试用中': trialing++; break;

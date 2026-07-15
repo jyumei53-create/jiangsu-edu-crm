@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Card,
@@ -9,6 +9,7 @@ import {
   Form,
   Input,
   Select,
+  Switch,
   Space,
   Tag,
   message,
@@ -17,6 +18,7 @@ import {
   Row,
   Col,
   Dropdown,
+  Empty,
 } from 'antd';
 import {
   ArrowLeftOutlined,
@@ -30,7 +32,6 @@ import {
   ExperimentOutlined,
   FileTextOutlined,
   ClockCircleOutlined,
-  EnvironmentOutlined,
   PhoneOutlined,
   WechatOutlined,
   MailOutlined,
@@ -44,6 +45,70 @@ import { updateDistrict } from '../../store';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
+
+// 状态配色（与全局分析图保持一致，避免风格漂移）
+const STATUS_PALETTE: Record<string, { color: string; bg: string }> = {
+  已合作: { color: '#10b981', bg: '#ecfdf5' },
+  试用中: { color: '#f59e0b', bg: '#fef3c7' },
+  已汇报: { color: '#8b5cf6', bg: '#f5f3ff' },
+  待开发: { color: '#64748b', bg: '#f8fafc' },
+};
+
+/** 统一的合作状态标签 */
+function StatusTag({ status }: { status: string }) {
+  const c = STATUS_PALETTE[status] || STATUS_PALETTE['待开发'];
+  return (
+    <span
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 5,
+        padding: '2px 10px',
+        borderRadius: 999,
+        fontSize: 12,
+        fontWeight: 600,
+        color: c.color,
+        background: c.bg,
+        border: `1px solid ${c.color}33`,
+        whiteSpace: 'nowrap',
+      }}
+    >
+      <span style={{ width: 6, height: 6, borderRadius: 999, background: c.color }} />
+      {status}
+    </span>
+  );
+}
+
+/** 区块标题（带彩色图标徽章） */
+function SectionTitle({
+  icon,
+  label,
+  accent = '#1677ff',
+}: {
+  icon: ReactNode;
+  label: string;
+  accent?: string;
+}) {
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+      <span
+        style={{
+          width: 32,
+          height: 32,
+          borderRadius: 9,
+          background: `linear-gradient(135deg, ${accent}1a, ${accent}0d)`,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: `0 2px 8px ${accent}1a`,
+        }}
+      >
+        <span style={{ color: accent, fontSize: 16 }}>{icon}</span>
+      </span>
+      <span style={{ fontWeight: 600, color: '#1e293b', fontSize: 15 }}>{label}</span>
+    </span>
+  );
+}
 
 export default function DistrictDetail() {
   const { cityId, districtId } = useParams<{ cityId: string; districtId: string }>();
@@ -62,49 +127,83 @@ export default function DistrictDetail() {
     );
   }
 
-  // 区县级统计
-  const totalSchools = district.schools.length;
-  const cooperating = district.schools.filter((s) => s.status === '已合作').length;
-  const trialing = district.schools.filter((s) => s.status === '试用中').length;
-  const reported = district.schools.filter((s) => s.status === '已汇报').length;
-  const pending = district.schools.filter((s) => s.status === '待开发').length;
+  // 区县级统计（排除 seed 示例学校）
+  const realSchools = district.schools.filter((s) => !s.seed);
+  const totalSchools = realSchools.length;
+  const cooperating = realSchools.filter((s) => s.status === '已合作').length;
+  const trialing = realSchools.filter((s) => s.status === '试用中').length;
+  const reported = realSchools.filter((s) => s.status === '已汇报').length;
+  const pending = realSchools.filter((s) => s.status === '待开发').length;
 
   const statCards = [
-    { title: '学校总数', value: totalSchools, color: '#1677ff', icon: <TeamOutlined /> },
-    { title: '已合作', value: cooperating, color: '#10b981', icon: <CheckCircleOutlined /> },
-    { title: '试用中', value: trialing, color: '#f59e0b', icon: <ExperimentOutlined /> },
-    { title: '已汇报', value: reported, color: '#8b5cf6', icon: <FileTextOutlined /> },
-    { title: '待开发', value: pending, color: '#94a3b8', icon: <ClockCircleOutlined /> },
+    { title: '学校总数', value: totalSchools, color: '#1677ff', bg: '#eff6ff', icon: <TeamOutlined /> },
+    { title: '已合作', value: cooperating, color: '#10b981', bg: '#ecfdf5', icon: <CheckCircleOutlined /> },
+    { title: '试用中', value: trialing, color: '#f59e0b', bg: '#fef3c7', icon: <ExperimentOutlined /> },
+    { title: '已汇报', value: reported, color: '#8b5cf6', bg: '#f5f3ff', icon: <FileTextOutlined /> },
+    { title: '待开发', value: pending, color: '#64748b', bg: '#f8fafc', icon: <ClockCircleOutlined /> },
   ];
 
   return (
     <div>
-      {/* 顶部返回 + 标题 */}
-      <div className="page-header" style={{ marginBottom: 20 }}>
-        <Button
-          icon={<ArrowLeftOutlined />}
-          onClick={() => navigate(`/city/${cityId}`)}
-          style={{ borderRadius: 8, fontWeight: 500 }}
-        >
-          返回{city.name}
-        </Button>
-        <Title level={4} style={{ margin: 0, fontWeight: 600, color: '#1e293b' }}>
-          {district.name}
-        </Title>
-        {district.isKey && (
-          <Tag color="blue" style={{ borderRadius: 8, padding: '2px 12px', fontSize: 13, fontWeight: 500 }}>
-            重点区域
-          </Tag>
-        )}
-        <div style={{ flex: 1 }} />
-        <div
-          style={{
-            display: 'flex', alignItems: 'center', gap: 6,
-            padding: '6px 14px', borderRadius: 20, background: '#f8fafc', border: '1px solid #e2e8f0',
-          }}
-        >
-          <EnvironmentOutlined style={{ color: '#1677ff', fontSize: 14 }} />
-          <Text style={{ fontSize: 13, color: '#475569' }}>{city.name} · {district.name}</Text>
+      {/* 顶部 Hero 标题区 */}
+      <div
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          marginBottom: 20,
+          padding: '22px 28px',
+          borderRadius: 16,
+          background: 'linear-gradient(120deg, #1e3a8a 0%, #4338ca 55%, #6d28d9 100%)',
+          boxShadow: '0 10px 30px rgba(30,58,138,0.28)',
+          color: '#fff',
+        }}
+      >
+        <div style={{ position: 'absolute', right: -40, top: -50, width: 190, height: 190, borderRadius: 999, background: 'rgba(255,255,255,0.08)' }} />
+        <div style={{ position: 'absolute', right: 70, bottom: -70, width: 130, height: 130, borderRadius: 999, background: 'rgba(255,255,255,0.06)' }} />
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <Button
+              ghost
+              icon={<ArrowLeftOutlined />}
+              onClick={() => navigate(`/city/${cityId}`)}
+              style={{ borderColor: 'rgba(255,255,255,0.4)', color: '#fff', marginBottom: 14, borderRadius: 8 }}
+            >
+              返回{city.name}
+            </Button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <Title level={2} style={{ margin: 0, color: '#fff', fontWeight: 700, letterSpacing: 0.5 }}>
+                {district.name}
+              </Title>
+              {district.isKey && (
+                <Tag
+                  style={{
+                    background: 'rgba(255,255,255,0.18)',
+                    color: '#fff',
+                    border: '1px solid rgba(255,255,255,0.35)',
+                    borderRadius: 8,
+                    padding: '1px 10px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                  }}
+                >
+                  重点区域
+                </Tag>
+              )}
+            </div>
+            <div style={{ marginTop: 10, fontSize: 13, color: 'rgba(255,255,255,0.82)' }}>
+              {city.name} · {district.name} · 共 {totalSchools} 所学校
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <div style={{ textAlign: 'center', padding: '8px 18px', borderRadius: 12, background: 'rgba(255,255,255,0.14)' }}>
+              <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1 }}>{cooperating}</div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.82)', marginTop: 4 }}>已合作</div>
+            </div>
+            <div style={{ textAlign: 'center', padding: '8px 18px', borderRadius: 12, background: 'rgba(255,255,255,0.14)' }}>
+              <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1 }}>{totalSchools - cooperating}</div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.82)', marginTop: 4 }}>未合作</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -118,32 +217,20 @@ export default function DistrictDetail() {
           boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
         }}
         styles={{ body: { padding: '20px 24px' } }}
+        title={<SectionTitle icon={<TeamOutlined />} label="区域学校统计" />}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-          <div
-            style={{
-              width: 36, height: 36, borderRadius: 10,
-              background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 2px 8px rgba(22,119,255,0.12)',
-            }}
-          >
-            <TeamOutlined style={{ color: '#1677ff', fontSize: 18 }} />
-          </div>
-          <Text strong style={{ fontSize: 15, color: '#1e293b' }}>区域学校统计</Text>
-        </div>
         <Row gutter={[14, 14]}>
           {statCards.map((card) => (
             <Col xs={12} sm={8} md={Math.floor(24 / 5)} key={card.title}>
               <div
                 style={{
                   textAlign: 'center', padding: '16px 12px', borderRadius: 12,
-                  background: card.color + '08', border: `1px solid ${card.color}25`,
-                  transition: 'all 0.2s ease',
+                  background: card.bg, border: `1px solid ${card.color}33`,
+                  transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
-                  (e.currentTarget as HTMLDivElement).style.boxShadow = `0 4px 16px ${card.color}20`;
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)';
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = `0 8px 20px ${card.color}26`;
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
@@ -154,7 +241,7 @@ export default function DistrictDetail() {
                 <div style={{ fontSize: 28, fontWeight: 700, color: card.color, lineHeight: 1, marginBottom: 4 }}>
                   {card.value}
                 </div>
-                <div style={{ fontSize: 12, color: '#94a3b8', fontWeight: 500 }}>{card.title}</div>
+                <div style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>{card.title}</div>
               </div>
             </Col>
           ))}
@@ -163,24 +250,7 @@ export default function DistrictDetail() {
 
       {/* 第二块：教育局领导 */}
       <Card
-        title={
-          <Space>
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 8,
-                background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <UserOutlined style={{ color: '#1677ff', fontSize: 16 }} />
-            </div>
-            <span style={{ fontWeight: 600, color: '#1e293b' }}>教育局领导</span>
-          </Space>
-        }
+        title={<SectionTitle icon={<UserOutlined />} label="教育局领导" />}
         style={{
           marginBottom: 20,
           borderRadius: 12,
@@ -193,24 +263,7 @@ export default function DistrictDetail() {
 
       {/* 第三块：学校管理 */}
       <Card
-        title={
-          <Space>
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 8,
-                background: 'linear-gradient(135deg, #fef3c7, #fef9c3)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <EditOutlined style={{ color: '#f59e0b', fontSize: 16 }} />
-            </div>
-            <span style={{ fontWeight: 600, color: '#1e293b' }}>学校管理</span>
-          </Space>
-        }
+        title={<SectionTitle icon={<EditOutlined />} label="学校管理" accent="#f59e0b" />}
         style={{
           borderRadius: 12,
           border: '1px solid #f1f5f9',
@@ -333,16 +386,6 @@ function LeadersPanel({
               <Card
                 hoverable
                 size="small"
-                actions={[
-                  <EditOutlined key="edit" onClick={() => handleEdit(leader)} />,
-                  <Popconfirm
-                    key="delete"
-                    title="确定删除此领导？"
-                    onConfirm={() => handleDelete(leader.id)}
-                  >
-                    <DeleteOutlined style={{ color: '#ef4444' }} />
-                  </Popconfirm>,
-                ]}
                 style={{
                   borderRadius: 10,
                   border: '1px solid #f1f5f9',
@@ -350,24 +393,46 @@ function LeadersPanel({
                 }}
                 styles={{ body: { padding: '14px 16px' } }}
               >
-                <div style={{ marginBottom: 8 }}>
-                  <div
-                    style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 10,
-                      background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginBottom: 8,
-                    }}
-                  >
-                    <UserOutlined style={{ color: '#1677ff', fontSize: 16 }} />
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 8,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: 10,
+                        background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <UserOutlined style={{ color: '#1677ff', fontSize: 16 }} />
+                    </div>
+                    <Text strong style={{ fontSize: 15, color: '#1e293b' }}>
+                      {leader.name}
+                    </Text>
                   </div>
-                  <Text strong style={{ fontSize: 15, color: '#1e293b' }}>
-                    {leader.name}
-                  </Text>
+                  <Space size={4}>
+                    <EditOutlined
+                      style={{ fontSize: 14, color: '#64748b', cursor: 'pointer' }}
+                      onClick={() => handleEdit(leader)}
+                    />
+                    <Popconfirm
+                      title="确定删除此领导？"
+                      onConfirm={() => handleDelete(leader.id)}
+                    >
+                      <DeleteOutlined
+                        style={{ fontSize: 14, color: '#ef4444', cursor: 'pointer' }}
+                      />
+                    </Popconfirm>
+                  </Space>
                 </div>
                 <div style={{ marginBottom: 4 }}>
                   <Tag color="blue" style={{ borderRadius: 6 }}>{leader.position}</Tag>
@@ -597,6 +662,7 @@ function SchoolPanel({
       keyPerson: '',
       remark: '',
       order: district.schools.length + 1,
+      isPrivate: false,
     });
     setEditModalOpen(true);
   };
@@ -616,7 +682,12 @@ function SchoolPanel({
         s.id === editingSchool.id ? editingSchool : s
       );
     } else {
-      updatedSchools = [...district.schools, editingSchool];
+      // 首次正式录入：清除所有 seed 示例学校，重新编号
+      const nonSeed = district.schools
+        .filter((s) => !s.seed)
+        .map((s, i) => ({ ...s, order: i + 1 }));
+      const newSchool = { ...editingSchool, order: nonSeed.length + 1 };
+      updatedSchools = [...nonSeed, newSchool];
     }
 
     const result = updateDistrict(data, cityId, district.id, (d) => ({
@@ -728,13 +799,6 @@ function SchoolPanel({
     }
   };
 
-  const statusColor: Record<SchoolStatus, string> = {
-    '已合作': 'green',
-    '试用中': 'orange',
-    '已汇报': 'purple',
-    '待开发': 'default',
-  };
-
   const columns: ColumnsType<School> = [
     {
       title: '序号',
@@ -774,7 +838,7 @@ function SchoolPanel({
       dataIndex: 'status',
       key: 'status',
       width: 85,
-      render: (status: SchoolStatus) => <Tag color={statusColor[status]}>{status}</Tag>,
+      render: (status: SchoolStatus) => <StatusTag status={status} />,
     },
     {
       title: '产品',
@@ -812,6 +876,22 @@ function SchoolPanel({
       width: 120,
       ellipsis: true,
       render: (text: string) => text || '-',
+    },
+    {
+      title: '民办校',
+      dataIndex: 'isPrivate',
+      key: 'isPrivate',
+      width: 75,
+      render: (v: boolean | undefined) =>
+        v ? <Tag color="volcano" style={{ margin: 0, fontSize: 11, borderRadius: 6 }}>民办</Tag> : null,
+    },
+    {
+      title: '市直属',
+      dataIndex: 'isMunicipal',
+      key: 'isMunicipal',
+      width: 75,
+      render: (v: boolean | undefined) =>
+        v ? <Tag color="geekblue" style={{ margin: 0, fontSize: 11, borderRadius: 6 }}>市直属</Tag> : null,
     },
     {
       title: '备注',
@@ -918,10 +998,32 @@ function SchoolPanel({
           selectedRowKeys,
           onChange: (keys) => setSelectedRowKeys(keys),
         }}
+        onRow={(record: School) => ({
+          style: record.seed
+            ? { color: '#9ca3af', fontStyle: 'italic' as const, background: '#fafafa' }
+            : undefined,
+        })}
         pagination={{
           pageSize: 20,
           showSizeChanger: true,
           showTotal: (t) => `共 ${t} 所学校`,
+        }}
+        locale={{
+          emptyText: (
+            <div style={{ padding: '28px 0' }}>
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={
+                  <div>
+                    <div style={{ color: '#475569', fontWeight: 600 }}>暂无学校数据</div>
+                    <div style={{ color: '#94a3b8', fontSize: 12, marginTop: 2 }}>
+                      点击「添加学校」或「批量导入」开始录入本区县的学校
+                    </div>
+                  </div>
+                }
+              />
+            </div>
+          ),
         }}
         size="middle"
         scroll={{ x: 1100 }}
@@ -1045,6 +1147,32 @@ function SchoolPanel({
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item label="民办校">
+            <Switch
+              checked={editingSchool?.isPrivate || false}
+              onChange={(v) =>
+                setEditingSchool((prev) =>
+                  prev ? { ...prev, isPrivate: v } : null
+                )
+              }
+            />
+            <Text type="secondary" style={{ marginLeft: 10, fontSize: 12 }}>
+              标记为民办学校（将出现在民办校数据看板中）
+            </Text>
+          </Form.Item>
+          <Form.Item label="市直属">
+            <Switch
+              checked={editingSchool?.isMunicipal || false}
+              onChange={(v) =>
+                setEditingSchool((prev) =>
+                  prev ? { ...prev, isMunicipal: v } : null
+                )
+              }
+            />
+            <Text type="secondary" style={{ marginLeft: 10, fontSize: 12 }}>
+              标记为市教育局直属学校（列表中显示「市直属」标签）
+            </Text>
+          </Form.Item>
         </Form>
       </Modal>
 

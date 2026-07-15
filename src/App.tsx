@@ -13,6 +13,9 @@ import DistrictDetail from './pages/DistrictDetail';
 import CityDashboard from './pages/CityDashboard';
 import PrivateSchoolDashboard from './pages/PrivateSchoolDashboard';
 import EssayProjectDashboard from './pages/EssayProjectDashboard';
+import ProvinceDashboard from './pages/ProvinceDashboard';
+import ProvincePrivateSchoolDashboard from './pages/ProvincePrivateSchoolDashboard';
+import ProvinceEssayProjectDashboard from './pages/ProvinceEssayProjectDashboard';
 import UserManagement from './pages/UserManagement';
 
 function AppRoutes() {
@@ -34,6 +37,9 @@ function AppRoutes() {
             }
           >
             <Route path="/" element={<ProvinceMap />} />
+            <Route path="/province/dashboard" element={<ProvinceDashboard />} />
+            <Route path="/province/private-schools" element={<ProvincePrivateSchoolDashboard />} />
+            <Route path="/province/essay-project" element={<ProvinceEssayProjectDashboard />} />
             <Route path="/city/:cityId" element={<CityDetail />} />
             <Route path="/city/:cityId/dashboard" element={<CityDashboard />} />
             <Route path="/city/:cityId/private-schools" element={<PrivateSchoolDashboard />} />

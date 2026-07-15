@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type DragEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Row,
@@ -13,17 +13,11 @@ import {
   Modal,
   Form,
   Popconfirm,
-  Statistic,
 } from 'antd';
 import {
   ArrowLeftOutlined,
   EnvironmentOutlined,
   EditOutlined,
-  TeamOutlined,
-  CheckCircleOutlined,
-  ExperimentOutlined,
-  FileTextOutlined,
-  ClockCircleOutlined,
   ProjectOutlined,
   BarChartOutlined,
   BankOutlined,
@@ -33,12 +27,13 @@ import {
   MailOutlined,
   PlusOutlined,
   DeleteOutlined,
+  HolderOutlined,
 } from '@ant-design/icons';
 import ReactECharts from 'echarts-for-react';
 import * as echarts from 'echarts';
 import { useAppContext } from '../../store/AppContext';
-import { computeCityStats, updateDistrict, updateCity } from '../../store';
-import { getCityGeoJson, getCityDistrictColors, darkenColor } from '../../utils/geo';
+import { updateDistrict, updateCity } from '../../store';
+import { getCityGeoJson, getCityDistrictColors, darkenColor, getGeoBbox } from '../../utils/geo';
 import type { District, DistrictProject, EducationLeader } from '../../types';
 import { PROJECT_CATEGORIES } from '../../types';
 
@@ -59,25 +54,55 @@ export default function CityMap({ city }: CityMapProps) {
   const [editingCityLeader, setEditingCityLeader] = useState<EducationLeader | null>(null);
   const cityLeaders = city.cityLeaders || [];
 
-  const stats = useMemo(() => computeCityStats(city), [city]);
+  // 区域拖拽排序：当前被拖拽的区县 id
+  const [dragId, setDragId] = useState<string | null>(null);
+
   const districtColors = useMemo(() => getCityDistrictColors(city), [city]);
 
   const districtMap = useMemo(() => {
     return new Map(city.districts.map((d) => [d.name, d]));
   }, [city.districts]);
 
-  // 根据城市密度设置初始缩放：区县密集的城市默认放大
-  const initialZoom = useMemo(() => {
-    const denseCities: Record<string, number> = {
-      nanjing: 2.0,
-      suzhou: 2.0,
-      changzhou: 1.7,
-      wuxi: 1.5,
-      xuzhou: 1.5,
-      nantong: 1.5,
-      yangzhou: 1.5,
+  // 按 order 排序展示（同一 isKey 组内生效；未设置 order 时回退到原始数组顺序）
+  const sortedGroups = useMemo(() => {
+    const idxById = new Map(city.districts.map((d, i) => [d.id, i] as const));
+    const byOrder = (a: District, b: District) =>
+      (a.order ?? idxById.get(a.id)! + 10000) - (b.order ?? idxById.get(b.id)! + 10000);
+    return {
+      key: [...city.districts.filter((d) => d.isKey)].sort(byOrder),
+      other: [...city.districts.filter((d) => !d.isKey)].sort(byOrder),
     };
-    return denseCities[city.id] || 1.3;
+  }, [city.districts]);
+
+  /**
+   * 在「重点区域」或「其他区域」组内拖动重排后写回 order 并持久化
+   * @param isKeyGroup 被拖拽元素所属组（重点=true / 其他=false）
+   * @param draggedId 被拖拽区县 id
+   * @param targetId  放置目标区县 id（落点在其上方）
+   */
+  const handleReorderDistrict = (isKeyGroup: boolean, draggedId: string, targetId: string) => {
+    if (!draggedId || draggedId === targetId) return;
+    const group = city.districts.filter((d) => d.isKey === isKeyGroup);
+    const ids = group.map((d) => d.id);
+    const from = ids.indexOf(draggedId);
+    const to = ids.indexOf(targetId);
+    if (from < 0 || to < 0) return;
+    const moved = ids.splice(from, 1)[0];
+    ids.splice(to, 0, moved);
+    const orderMap = new Map(ids.map((id, i) => [id, i + 1] as const));
+    const result = updateCity(data, city.id, (c) => ({
+      ...c,
+      districts: c.districts.map((d) =>
+        orderMap.has(d.id) ? { ...d, order: orderMap.get(d.id) } : d
+      ),
+    }));
+    if (result.success) setData(result.data);
+  };
+
+  // 根据城市 GeoJSON 几何中心自适应居中，避免写死缩放导致边缘区县被裁切
+  const geoBbox = useMemo(() => {
+    const gj = getCityGeoJson(city.id);
+    return gj ? getGeoBbox(gj as never) : null;
   }, [city.id]);
 
   const mapOption = useMemo(() => {
@@ -122,8 +147,11 @@ export default function CityMap({ city }: CityMapProps) {
           type: 'map',
           map: city.id,
           roam: true,
-          scaleLimit: { min: 0.8, max: 5 },
-          zoom: initialZoom,
+          scaleLimit: { min: 0.5, max: 8 },
+          zoom: 1,
+          center: geoBbox ? geoBbox.center : undefined,
+          layoutCenter: ['50%', '50%'],
+          layoutSize: '95%',
           label: {
             show: true,
             color: '#1f2937',
@@ -147,7 +175,7 @@ export default function CityMap({ city }: CityMapProps) {
         },
       ],
     };
-  }, [city, districtColors]);
+  }, [city, districtColors, geoBbox]);
 
   // 注册地图
   const geoJson = getCityGeoJson(city.id);
@@ -161,15 +189,6 @@ export default function CityMap({ city }: CityMapProps) {
       if (district) navigate(`/city/${city.id}/${district.id}`);
     }
   };
-
-  const statCards = [
-    { title: 'CRM学校总数', value: stats.totalSchools, icon: <TeamOutlined />, color: '#1677ff' },
-    { title: '已合作', value: stats.cooperating, icon: <CheckCircleOutlined />, color: '#52c41a' },
-    { title: '试用中', value: stats.trialing, icon: <ExperimentOutlined />, color: '#faad14' },
-    { title: '已汇报', value: stats.reported, icon: <FileTextOutlined />, color: '#722ed1' },
-    { title: '待开发', value: stats.pending, icon: <ClockCircleOutlined />, color: '#bfbfbf' },
-    { title: '区域合作项目', value: stats.totalProjects, icon: <ProjectOutlined />, color: '#ff7a45' },
-  ];
 
   // 区域项目编辑
   const handleStartEdit = (district: District) => {
@@ -354,20 +373,30 @@ export default function CityMap({ city }: CityMapProps) {
               size="middle"
               icon={<BankOutlined />}
               style={{
-                borderRadius: 8, fontWeight: 600, borderColor: '#e2e8f0', color: '#475569',
+                borderRadius: 8,
+                fontWeight: 600,
+                color: '#fff',
+                border: 'none',
+                background: 'linear-gradient(135deg, #ff7a45 0%, #fa8c16 100%)',
+                boxShadow: '0 4px 14px rgba(255,122,69,0.35)',
               }}
             >
-              私立校数据看板
+              民办校数据看板
             </Button>
             <Button
               onClick={() => navigate(`/city/${city.id}/essay-project`)}
               size="middle"
               icon={<EditOutlined />}
               style={{
-                borderRadius: 8, fontWeight: 600, borderColor: '#e2e8f0', color: '#475569',
+                borderRadius: 8,
+                fontWeight: 600,
+                color: '#fff',
+                border: 'none',
+                background: 'linear-gradient(135deg, #52c41a 0%, #13c2c2 100%)',
+                boxShadow: '0 4px 14px rgba(82,196,26,0.35)',
               }}
             >
-              作文项目数据看板
+              作文专项数据看板
             </Button>
             <Button
               type="primary"
@@ -437,16 +466,6 @@ export default function CityMap({ city }: CityMapProps) {
                 <Card
                   hoverable
                   size="small"
-                  actions={[
-                    <EditOutlined key="edit" onClick={() => handleEditCityLeader(leader)} />,
-                    <Popconfirm
-                      key="del"
-                      title="确定删除？"
-                      onConfirm={() => handleDeleteCityLeader(leader.id)}
-                    >
-                      <DeleteOutlined style={{ color: '#ef4444' }} />
-                    </Popconfirm>,
-                  ]}
                   style={{
                     borderRadius: 10,
                     border: '1px solid #f1f5f9',
@@ -454,26 +473,47 @@ export default function CityMap({ city }: CityMapProps) {
                   }}
                   styles={{ body: { padding: '14px 16px' } }}
                 >
-                  <div style={{ marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 10 }}>
                     <div
                       style={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: 10,
-                        background: 'linear-gradient(135deg, #eff6ff, #eef2ff)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: 8,
+                        width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                        background: 'linear-gradient(135deg, #1677ff, #7c3aed)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        boxShadow: '0 3px 10px rgba(22,119,255,0.3)',
                       }}
                     >
-                      <UserOutlined style={{ color: '#1677ff', fontSize: 16 }} />
+                      <UserOutlined style={{ color: '#fff', fontSize: 17 }} />
                     </div>
-                    <Text strong style={{ fontSize: 15, color: '#1e293b' }}>{leader.name}</Text>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <Text strong style={{ fontSize: 15, color: '#1e293b', display: 'block' }}>{leader.name}</Text>
+                      <Tag color="blue" style={{ borderRadius: 6, marginTop: 4 }}>{leader.position}</Tag>
+                    </div>
+                    <Space size={4}>
+                      <EditOutlined
+                        style={{ fontSize: 14, color: '#64748b', cursor: 'pointer' }}
+                        onClick={() => handleEditCityLeader(leader)}
+                      />
+                      <Popconfirm
+                        title="确定删除？"
+                        onConfirm={() => handleDeleteCityLeader(leader.id)}
+                      >
+                        <DeleteOutlined style={{ fontSize: 14, color: '#ef4444', cursor: 'pointer' }} />
+                      </Popconfirm>
+                    </Space>
                   </div>
-                  <Tag color="blue" style={{ borderRadius: 6 }}>{leader.position}</Tag>
+                  {leader.notes && (
+                    <div
+                      style={{
+                        padding: '8px 10px', borderRadius: 8,
+                        background: 'linear-gradient(135deg, #fffbeb, #fefce8)',
+                        border: '1px solid #fef3c7', marginBottom: 6,
+                      }}
+                    >
+                      <Text style={{ fontSize: 11, color: '#92400e', lineHeight: 1.6 }}>{leader.notes}</Text>
+                    </div>
+                  )}
                   {leader.phone && (
-                    <div style={{ marginTop: 6, fontSize: 12, color: '#64748b' }}>
+                    <div style={{ marginTop: 4, fontSize: 12, color: '#64748b' }}>
                       <PhoneOutlined style={{ marginRight: 6, color: '#94a3b8' }} />
                       {leader.phone}
                     </div>
@@ -555,17 +595,55 @@ export default function CityMap({ city }: CityMapProps) {
                 重点区域
               </Text>
             </div>
-            {city.districts.filter((d) => d.isKey).map((district) => renderDistrictCard(district, getDistrictColor, city.id, editingDistrictId, editValues, setEditValues, handleSaveEdit, handleCancelEdit, handleStartEdit, navigate, getProjectContent))}
+            {sortedGroups.key.map((district) => renderDistrictCard(district, getDistrictColor, city.id, editingDistrictId, editValues, setEditValues, handleSaveEdit, handleCancelEdit, handleStartEdit, navigate, getProjectContent, {
+              draggable: true,
+              isDragging: dragId === district.id,
+              onDragStart: (e: DragEvent<HTMLDivElement>) => {
+                setDragId(district.id);
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', district.id);
+              },
+              onDragOver: (e: DragEvent<HTMLDivElement>) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+              },
+              onDrop: (e: DragEvent<HTMLDivElement>) => {
+                e.preventDefault();
+                const dragged = e.dataTransfer.getData('text/plain') || dragId;
+                if (dragged) handleReorderDistrict(true, dragged, district.id);
+                setDragId(null);
+              },
+              onDragEnd: () => setDragId(null),
+            }))}
 
             {/* 其他区域 */}
-            {city.districts.filter((d) => !d.isKey).length > 0 && (
+            {sortedGroups.other.length > 0 && (
               <>
                 <div style={{ marginTop: 18, marginBottom: 10 }}>
                   <Text style={{ fontSize: 12, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                     其他区域
                   </Text>
                 </div>
-                {city.districts.filter((d) => !d.isKey).map((district) => renderDistrictCard(district, getDistrictColor, city.id, editingDistrictId, editValues, setEditValues, handleSaveEdit, handleCancelEdit, handleStartEdit, navigate, getProjectContent))}
+                {sortedGroups.other.map((district) => renderDistrictCard(district, getDistrictColor, city.id, editingDistrictId, editValues, setEditValues, handleSaveEdit, handleCancelEdit, handleStartEdit, navigate, getProjectContent, {
+                  draggable: true,
+                  isDragging: dragId === district.id,
+                  onDragStart: (e: DragEvent<HTMLDivElement>) => {
+                    setDragId(district.id);
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', district.id);
+                  },
+                  onDragOver: (e: DragEvent<HTMLDivElement>) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                  },
+                  onDrop: (e: DragEvent<HTMLDivElement>) => {
+                    e.preventDefault();
+                    const dragged = e.dataTransfer.getData('text/plain') || dragId;
+                    if (dragged) handleReorderDistrict(false, dragged, district.id);
+                    setDragId(null);
+                  },
+                  onDragEnd: () => setDragId(null),
+                }))}
               </>
             )}
           </Card>
@@ -696,7 +774,15 @@ function renderDistrictCard(
   handleCancelEdit: () => void,
   handleStartEdit: (d: District) => void,
   navigate: ReturnType<typeof useNavigate>,
-  getProjectContent: (d: District, c: DistrictProject['category']) => string
+  getProjectContent: (d: District, c: DistrictProject['category']) => string,
+  dragProps?: {
+    draggable?: boolean;
+    isDragging?: boolean;
+    onDragStart?: (e: DragEvent<HTMLDivElement>) => void;
+    onDragOver?: (e: DragEvent<HTMLDivElement>) => void;
+    onDrop?: (e: DragEvent<HTMLDivElement>) => void;
+    onDragEnd?: (e: DragEvent<HTMLDivElement>) => void;
+  }
 ) {
   const color = getDistrictColor(district.name);
   const schoolCount = district.schools.length;
@@ -706,13 +792,23 @@ function renderDistrictCard(
   return (
     <div
       key={district.id}
+      data-district-id={district.id}
+      draggable={dragProps?.draggable}
+      onDragStart={dragProps?.onDragStart}
+      onDragOver={dragProps?.onDragOver}
+      onDrop={dragProps?.onDrop}
+      onDragEnd={dragProps?.onDragEnd}
       style={{
         marginBottom: 12,
         padding: 14,
         borderRadius: 10,
         borderLeft: `4px solid ${color}`,
         backgroundColor: '#fafbfc',
-        boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+        boxShadow: dragProps?.isDragging
+          ? '0 0 0 2px #1677ff, 0 4px 12px rgba(22,119,255,0.18)'
+          : '0 1px 2px rgba(0,0,0,0.03)',
+        opacity: dragProps?.isDragging ? 0.55 : 1,
+        cursor: dragProps?.draggable ? 'grab' : 'default',
         transition: 'all 0.2s ease',
       }}
     >
@@ -725,6 +821,10 @@ function renderDistrictCard(
         }}
       >
         <Space>
+          <HolderOutlined
+            style={{ color: '#cbd5e1', fontSize: 14, cursor: 'grab' }}
+            title="拖动可调整排列顺序"
+          />
           <div
             style={{
               width: 28,

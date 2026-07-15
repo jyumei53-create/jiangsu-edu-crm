@@ -12,6 +12,7 @@ import {
   Popconfirm,
   Empty,
   Typography,
+  Space,
 } from 'antd';
 import {
   PlusOutlined,
@@ -129,25 +130,36 @@ export default function LeadersPanel({ district, data, setData, cityId }: Props)
               <Card
                 hoverable
                 size="small"
-                actions={[
-                  <EditOutlined
-                    key="edit"
-                    onClick={() => handleEdit(leader)}
-                  />,
-                  <Popconfirm
-                    key="delete"
-                    title="确定删除此领导？"
-                    onConfirm={() => handleDelete(leader.id)}
-                  >
-                    <DeleteOutlined style={{ color: '#ff4d4f' }} />
-                  </Popconfirm>,
-                ]}
+                styles={{ body: { padding: '12px 16px' } }}
               >
-                <div style={{ marginBottom: 8 }}>
-                  <UserOutlined style={{ marginRight: 6, color: '#1677ff' }} />
-                  <Text strong style={{ fontSize: 15 }}>
-                    {leader.name}
-                  </Text>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 8,
+                  }}
+                >
+                  <div>
+                    <UserOutlined style={{ marginRight: 6, color: '#1677ff' }} />
+                    <Text strong style={{ fontSize: 15 }}>
+                      {leader.name}
+                    </Text>
+                  </div>
+                  <Space size={4}>
+                    <EditOutlined
+                      style={{ fontSize: 14, color: '#64748b', cursor: 'pointer' }}
+                      onClick={() => handleEdit(leader)}
+                    />
+                    <Popconfirm
+                      title="确定删除此领导？"
+                      onConfirm={() => handleDelete(leader.id)}
+                    >
+                      <DeleteOutlined
+                        style={{ fontSize: 14, color: '#ff4d4f', cursor: 'pointer' }}
+                      />
+                    </Popconfirm>
+                  </Space>
                 </div>
                 <div style={{ marginBottom: 4 }}>
                   <Tag color="blue">{leader.position}</Tag>
