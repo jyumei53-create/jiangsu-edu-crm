@@ -119,7 +119,9 @@ export default function ProvinceMap() {
           name: '江苏省',
           type: 'map',
           map: 'jiangsu',
-          roam: false,
+          roam: true,
+          scaleLimit: { min: 0.8, max: 4 },
+          zoom: 1.1,
           label: {
             show: true,
             color: '#333',

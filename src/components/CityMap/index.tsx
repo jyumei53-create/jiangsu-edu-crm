@@ -106,7 +106,9 @@ export default function CityMap({ city }: CityMapProps) {
           name: city.name,
           type: 'map',
           map: city.id,
-          roam: false,
+          roam: true,
+          scaleLimit: { min: 0.8, max: 5 },
+          zoom: 1.1,
           label: { show: true, color: '#333', fontSize: 13, fontWeight: 'bold' },
           emphasis: {
             label: { show: true, fontSize: 15, fontWeight: 'bold', color: '#000' },
