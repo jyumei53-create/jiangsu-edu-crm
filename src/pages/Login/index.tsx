@@ -165,22 +165,6 @@ export default function LoginPage() {
           </Form.Item>
         </Form>
 
-        <div
-          style={{
-            marginTop: 20,
-            padding: '14px 18px',
-            background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
-            borderRadius: 12,
-            border: '1px solid #e2e8f0',
-          }}
-        >
-          <Text style={{ fontSize: 12, color: '#64748b', lineHeight: 1.8 }}>
-            默认账号：<b style={{ color: '#334155' }}>admin / admin123</b><br />
-            苏南经理：<b style={{ color: '#334155' }}>sunan / sunan123</b><br />
-            苏中经理：<b style={{ color: '#334155' }}>suzhong / suzhong123</b><br />
-            苏北经理：<b style={{ color: '#334155' }}>subei / subei123</b>
-          </Text>
-        </div>
       </Card>
     </div>
   );
