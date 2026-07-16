@@ -57,7 +57,7 @@ export function loadAppData(): AppData {
     // 精准迁移：以《副本2025年小学初中高中xls.xls》最终名单为准，替换无锡市学校
     // 仅在 wuxiSeedVersion 不匹配时执行，避免覆盖用户在其他城市/项目的编辑
     let modified = false;
-    const WUXI_SEED_VERSION = 2;
+    const WUXI_SEED_VERSION = 3;
     if ((data as AppData).wuxiSeedVersion !== WUXI_SEED_VERSION) {
       const wuxiCity = data.cities.find((c) => c.id === 'wuxi');
       if (wuxiCity) {

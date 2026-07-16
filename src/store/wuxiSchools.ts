@@ -1,5 +1,6 @@
-// 自动生成：无锡市各区县学校种子数据（数据以《副本2025年小学初中高中xls.xls》最终名单为权威来源）
-// 字段说明：isMunicipal=true 表示市直属（局直属）；street 仅保留路/街/大道/巷/里/村等道路或地名
+// 自动生成：无锡市各区县学校种子数据
+// 更新日期：2026-07-16 — 基于「分城市更新」江苏销售过程管理.xlsx 同步客户状态
+// 字段说明：isMunicipal=true 表示市直属；street 仅保留路/街/大道/巷/里/村等道路或地名
 import type { School } from './../types';
 
 export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
@@ -46,66 +47,66 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_liangxi_3",
       "name": "无锡市梁溪区扬名实验学校",
-      "status": "待开发",
-      "stage": "九年一贯制",
+      "status": "已汇报",
+      "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 4,
       "street": "梁东路",
-      "products": [],
+      "products": ["作文", "学习空间"],
       "remark": ""
     },
     {
       "id": "wx_liangxi_4",
       "name": "无锡市梁溪区明德实验学校",
-      "status": "待开发",
-      "stage": "九年一贯制",
+      "status": "已汇报",
+      "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 5,
       "street": "动力路",
-      "products": [],
+      "products": ["作文"],
       "remark": ""
     },
     {
       "id": "wx_liangxi_5",
       "name": "无锡市梁溪区英禾双语学校",
-      "status": "待开发",
-      "stage": "九年一贯制",
+      "status": "已汇报",
+      "stage": "小学",
       "isPrivate": true,
       "isMunicipal": false,
       "seed": false,
       "order": 6,
       "street": "风顺里",
-      "products": [],
+      "products": ["作业", "作文", "学习空间", "飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_liangxi_6",
       "name": "无锡市梁溪区金桥双语实验学校",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "九年一贯制",
       "isPrivate": true,
       "isMunicipal": false,
       "seed": false,
       "order": 7,
       "street": "学前街",
-      "products": [],
+      "products": ["学习空间", "飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_liangxi_7",
       "name": "无锡市积余实验学校",
-      "status": "待开发",
-      "stage": "九年一贯制",
+      "status": "试用中",
+      "stage": "九年一贯",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 8,
       "street": "春申路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -118,8 +119,8 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 9,
       "street": "竞志路",
-      "products": [],
-      "remark": ""
+      "products": ["学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_liangxi_9",
@@ -137,40 +138,40 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_liangxi_10",
       "name": "无锡市侨谊古运河中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 11,
       "street": "南长街",
-      "products": [],
+      "products": ["作文"],
       "remark": ""
     },
     {
       "id": "wx_liangxi_11",
       "name": "无锡市侨谊实验中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 12,
       "street": "南下塘",
-      "products": [],
-      "remark": ""
+      "products": ["作文", "学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_liangxi_12",
       "name": "无锡市南长实验中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 13,
       "street": "水沟头",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -229,13 +230,13 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "id": "wx_liangxi_17",
       "name": "无锡市江南中学",
       "status": "待开发",
-      "stage": "初中",
+      "stage": "小学",
       "isPrivate": false,
       "isMunicipal": true,
       "seed": false,
       "order": 18,
       "street": "通扬路",
-      "products": [],
+      "products": ["作文"],
       "remark": ""
     },
     {
@@ -306,15 +307,15 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_liangxi_23",
       "name": "无锡市大桥实验学校",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "十二年一贯制",
       "isPrivate": true,
       "isMunicipal": true,
       "seed": false,
       "order": 24,
       "street": "学前街",
-      "products": [],
-      "remark": ""
+      "products": ["作文", "学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_liangxi_24",
@@ -352,8 +353,8 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 27,
       "street": "解放东路",
-      "products": [],
-      "remark": ""
+      "products": ["作文", "学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_liangxi_27",
@@ -371,14 +372,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_liangxi_28",
       "name": "无锡市五爱小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 29,
       "street": "人民西路",
-      "products": [],
+      "products": ["作业", "作文", "学习空间"],
       "remark": ""
     },
     {
@@ -475,14 +476,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_liangxi_36",
       "name": "无锡市塔影中心小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 37,
       "street": "塔影二村",
-      "products": [],
+      "products": ["作业", "作文", "学习空间"],
       "remark": ""
     },
     {
@@ -585,7 +586,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 45,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -605,14 +605,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_liangxi_46",
       "name": "无锡市梁溪区积余实验学校运河分校",
-      "status": "待开发",
-      "stage": "小学",
+      "status": "试用中",
+      "stage": "九年一贯",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 47,
       "street": "通惠中路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -650,7 +650,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 50,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -865,14 +864,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_liangxi_66",
       "name": "无锡市市北高级中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "高中",
       "isPrivate": false,
       "isMunicipal": true,
       "seed": false,
       "order": 67,
       "street": "广石西路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -898,22 +897,58 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 69,
       "street": "丽新路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
-    }
+    },
+    {
+      "id": "wx_liangxi_2070",
+      "name": "无锡市第六高级中学",
+      "status": "待开发",
+      "stage": "高中",
+      "isPrivate": false,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 70,
+      "products": ["学习空间"],
+      "remark": ""
+    },
+    {
+      "id": "wx_liangxi_2071",
+      "name": "无锡市青山高级中学",
+      "status": "已汇报",
+      "stage": "高中",
+      "isPrivate": false,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 71,
+      "products": ["学习空间"],
+      "remark": ""
+    },
+    {
+      "id": "wx_liangxi_2072",
+      "name": "无锡市梁溪区教育局",
+      "status": "待开发",
+      "isPrivate": false,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 72,
+      "products": ["飞象老师"],
+      "remark": ""
+    },
   ],
+
   "xishan": [
     {
       "id": "wx_xishan_0",
       "name": "无锡市锡山区春蕾学校",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "九年一贯制",
       "isPrivate": true,
       "isMunicipal": false,
       "seed": false,
       "order": 1,
       "street": "八士东街",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -939,7 +974,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 3,
       "street": "东升路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -952,7 +987,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 4,
       "street": "二泉中路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -965,7 +1000,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 5,
       "street": "钱长路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -978,7 +1013,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 6,
       "street": "八士青店弄",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -990,7 +1025,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 7,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -1010,14 +1044,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_xishan_8",
       "name": "无锡市安镇中学",
-      "status": "待开发",
-      "stage": "初中",
+      "status": "已汇报",
+      "stage": "高中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 9,
       "street": "安西路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -1030,7 +1064,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 10,
       "street": "张泾锡港西路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1056,20 +1090,20 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 12,
       "street": "港下兴港南路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
       "id": "wx_xishan_12",
       "name": "无锡市羊尖中学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 13,
       "street": "育才路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1082,59 +1116,59 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 14,
       "street": "学海路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_xishan_14",
       "name": "无锡市华天双语学校",
       "status": "待开发",
-      "stage": "十二年一贯制",
+      "stage": "高中",
       "isPrivate": true,
       "isMunicipal": true,
       "seed": false,
       "order": 15,
       "street": "先锋东路",
-      "products": [],
-      "remark": ""
+      "products": ["学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_xishan_15",
       "name": "无锡市协和双语学校",
-      "status": "待开发",
-      "stage": "十二年一贯制",
+      "status": "试用中",
+      "stage": "初中",
       "isPrivate": true,
       "isMunicipal": false,
       "seed": false,
       "order": 16,
       "street": "文景路",
-      "products": [],
+      "products": ["作业", "学习空间"],
       "remark": ""
     },
     {
       "id": "wx_xishan_16",
       "name": "无锡市东北塘中学",
       "status": "待开发",
-      "stage": "完中",
+      "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 17,
       "street": "芙蓉中四路",
-      "products": [],
+      "products": ["作文"],
       "remark": ""
     },
     {
       "id": "wx_xishan_17",
       "name": "江苏省天一中学",
-      "status": "待开发",
-      "stage": "完中",
+      "status": "已汇报",
+      "stage": "高中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 18,
       "street": "二泉中路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -1147,7 +1181,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 19,
       "street": "隆亭路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -1186,7 +1220,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 22,
       "street": "诚毅路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -1225,7 +1259,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 25,
       "street": "云林中路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1238,7 +1272,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 26,
       "street": "新坝村",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1264,20 +1298,20 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 28,
       "street": "中心路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_xishan_28",
       "name": "无锡市安镇实验小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 29,
       "street": "和泽路",
-      "products": [],
+      "products": ["学习空间", "飞象老师"],
       "remark": ""
     },
     {
@@ -1290,20 +1324,20 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 30,
       "street": "泾桂路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_xishan_30",
       "name": "无锡市柏庄实验小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 31,
       "street": "柏木桥路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1315,7 +1349,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 32,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -1335,27 +1368,27 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_xishan_33",
       "name": "无锡市港下实验小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 34,
       "street": "利港路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_xishan_34",
       "name": "无锡市甘露实验小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 35,
       "street": "甘露大街",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1368,8 +1401,8 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 36,
       "street": "育才西路",
-      "products": [],
-      "remark": ""
+      "products": ["飞象老师"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_xishan_36",
@@ -1381,8 +1414,8 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 37,
       "street": "港羊路",
-      "products": [],
-      "remark": ""
+      "products": ["飞象老师"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_xishan_37",
@@ -1394,8 +1427,8 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 38,
       "street": "东廊路",
-      "products": [],
-      "remark": ""
+      "products": ["飞象老师"],
+      "remark": "这个学校今年6月份毕校，学生老师并入洋尖实验小学，暂不推进；"
     },
     {
       "id": "wx_xishan_38",
@@ -1407,7 +1440,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 39,
       "street": "会通路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1426,27 +1459,27 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_xishan_40",
       "name": "无锡市锡北镇寨门小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 41,
       "street": "寨门村",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_xishan_41",
       "name": "无锡市锡山区新港学校",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": true,
       "isMunicipal": false,
       "seed": false,
       "order": 42,
       "street": "蠡西村",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1458,21 +1491,20 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 43,
-      "street": "",
       "products": [],
       "remark": ""
     },
     {
       "id": "wx_xishan_43",
       "name": "无锡市隆亭实验小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 44,
       "street": "锡沪路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1511,10 +1543,46 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 47,
       "street": "文瑞路",
-      "products": [],
+      "products": ["学习空间"],
+      "remark": "暂不推进"
+    },
+    {
+      "id": "wx_xishan_2048",
+      "name": "无锡市天一实验学校（文景校区）",
+      "status": "试用中",
+      "stage": "初中",
+      "isPrivate": false,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 48,
+      "products": ["作文", "学习空间"],
       "remark": ""
-    }
+    },
+    {
+      "id": "wx_xishan_2049",
+      "name": "无锡市锡山实验小学（文景校区）",
+      "status": "试用中",
+      "stage": "小学",
+      "isPrivate": false,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 49,
+      "products": ["飞象老师"],
+      "remark": ""
+    },
+    {
+      "id": "wx_xishan_2050",
+      "name": "无锡市锡山区教育局",
+      "status": "待开发",
+      "isPrivate": false,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 50,
+      "products": ["飞象老师"],
+      "remark": ""
+    },
   ],
+
   "huishan": [
     {
       "id": "wx_huishan_0",
@@ -1558,14 +1626,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_huishan_3",
       "name": "江苏省锡山高级中学实验学校",
-      "status": "待开发",
-      "stage": "九年一贯制",
+      "status": "已汇报",
+      "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 4,
       "street": "惠绿路",
-      "products": [],
+      "products": ["作文"],
       "remark": ""
     },
     {
@@ -1584,14 +1652,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_huishan_5",
       "name": "无锡市前洲中学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 6,
       "street": "邓北路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1617,8 +1685,8 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 8,
       "street": "健康路",
-      "products": [],
-      "remark": ""
+      "products": ["学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_huishan_8",
@@ -1682,7 +1750,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 13,
       "street": "育才路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -1714,40 +1782,40 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_huishan_15",
       "name": "江苏省锡山高级中学匡村实验学校",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 16,
       "street": "杨市园大街",
-      "products": [],
+      "products": ["作文", "飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_huishan_16",
       "name": "无锡市匡园双语学校",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "十二年一贯制",
       "isPrivate": true,
       "isMunicipal": true,
       "seed": false,
       "order": 17,
       "street": "洛洲路",
-      "products": [],
+      "products": ["作文", "学习空间"],
       "remark": ""
     },
     {
       "id": "wx_huishan_17",
       "name": "无锡市前洲中心小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 18,
       "street": "崇文路",
-      "products": [],
+      "products": ["学习空间", "飞象老师"],
       "remark": ""
     },
     {
@@ -1812,7 +1880,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 23,
       "street": "天一街",
-      "products": [],
+      "products": ["学习空间", "飞象老师"],
       "remark": ""
     },
     {
@@ -1824,7 +1892,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 24,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -1837,7 +1904,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 25,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -1857,14 +1923,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_huishan_26",
       "name": "无锡市杨市中心小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 27,
       "street": "杨市星火东大街",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -1877,8 +1943,8 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 28,
       "street": "新陶路",
-      "products": [],
-      "remark": ""
+      "products": ["学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_huishan_28",
@@ -1909,14 +1975,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_huishan_30",
       "name": "无锡市玉祁中心小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 31,
       "street": "海瑞路",
-      "products": [],
+      "products": ["作文", "学习空间", "飞象老师"],
       "remark": ""
     },
     {
@@ -1935,53 +2001,53 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_huishan_32",
       "name": "无锡市藕塘中心小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 33,
       "street": "钱藕路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_huishan_33",
       "name": "无锡市钱桥中心小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 34,
       "street": "育才路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_huishan_34",
       "name": "无锡市长安中心小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 35,
       "street": "长宁路",
-      "products": [],
+      "products": ["作文", "学习空间", "飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_huishan_35",
       "name": "无锡市阳山中心小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 36,
       "street": "陆中南路",
-      "products": [],
+      "products": ["学习空间", "飞象老师"],
       "remark": ""
     },
     {
@@ -2000,14 +2066,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_huishan_37",
       "name": "江苏省锡山高级中学实验学校第三小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 38,
       "street": "金惠路",
-      "products": [],
+      "products": ["学习空间", "飞象老师"],
       "remark": ""
     },
     {
@@ -2100,8 +2166,9 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "street": "志勤路",
       "products": [],
       "remark": ""
-    }
+    },
   ],
+
   "binhu": [
     {
       "id": "wx_binhu_0",
@@ -2155,19 +2222,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "products": [],
       "remark": ""
     },
-    {
-      "id": "wx_binhu_4",
-      "name": "无锡市东绛第二实验学校",
-      "status": "待开发",
-      "stage": "九年一贯制",
-      "isPrivate": false,
-      "isMunicipal": false,
-      "seed": false,
-      "order": 5,
-      "street": "瑞星家园",
-      "products": [],
-      "remark": ""
-    },
+    
     {
       "id": "wx_binhu_5",
       "name": "无锡市滨湖区红沙湾实验学校",
@@ -2177,23 +2232,10 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 6,
-      "street": "",
       "products": [],
       "remark": ""
     },
-    {
-      "id": "wx_binhu_6",
-      "name": "无锡金桥双语实验学校",
-      "status": "待开发",
-      "stage": "九年一贯制",
-      "isPrivate": true,
-      "isMunicipal": false,
-      "seed": false,
-      "order": 7,
-      "street": "观顺道",
-      "products": [],
-      "remark": ""
-    },
+    
     {
       "id": "wx_binhu_7",
       "name": "南京师范大学滨湖实验学校蠡湖中学部",
@@ -2207,19 +2249,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "products": [],
       "remark": ""
     },
-    {
-      "id": "wx_binhu_8",
-      "name": "无锡市华庄中学",
-      "status": "待开发",
-      "stage": "初中",
-      "isPrivate": false,
-      "isMunicipal": false,
-      "seed": false,
-      "order": 9,
-      "street": "清源路",
-      "products": [],
-      "remark": ""
-    },
+    
     {
       "id": "wx_binhu_9",
       "name": "无锡市南湖中学",
@@ -2288,14 +2318,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_binhu_14",
       "name": "无锡市江南新城实验中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": true,
       "seed": false,
       "order": 15,
       "street": "西凤道",
-      "products": [],
+      "products": ["作文", "学习空间"],
       "remark": ""
     },
     {
@@ -2340,27 +2370,27 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_binhu_18",
       "name": "无锡市胡埭中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 19,
       "street": "民盛路",
-      "products": [],
+      "products": ["作文"],
       "remark": ""
     },
     {
       "id": "wx_binhu_19",
       "name": "无锡市蠡园中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 20,
       "street": "中南西路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -2385,7 +2415,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": true,
       "seed": false,
       "order": 22,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -2457,14 +2486,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_binhu_27",
       "name": "南京师范大学滨湖实验学校蠡湖",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 28,
       "street": "中南西路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -2587,40 +2616,40 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_binhu_37",
       "name": "无锡市稻香实验小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 38,
       "street": "稻香新村",
-      "products": [],
+      "products": ["作文", "飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_binhu_38",
       "name": "无锡市立人小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 39,
       "street": "南路",
-      "products": [],
+      "products": ["学习空间", "飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_binhu_39",
       "name": "无锡市育红小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 40,
       "street": "梁溪路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -2646,7 +2675,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 42,
       "street": "青山东路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -2665,14 +2694,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_binhu_43",
       "name": "无锡市育英胜利小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 44,
       "street": "惠河路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -2691,14 +2720,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_binhu_45",
       "name": "无锡市胡埭中心小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 46,
       "street": "胡埭振胡路",
-      "products": [],
+      "products": ["作业", "作文", "学习空间", "飞象老师"],
       "remark": ""
     },
     {
@@ -2730,14 +2759,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_binhu_48",
       "name": "无锡市蠡园中心小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 49,
       "street": "建筑西路",
-      "products": [],
+      "products": ["作文", "飞象老师"],
       "remark": ""
     },
     {
@@ -2782,14 +2811,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_binhu_52",
       "name": "江苏省无锡师范附属太湖新城小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": true,
       "seed": false,
       "order": 53,
       "street": "万兴路",
-      "products": [],
+      "products": ["作文", "学习空间"],
       "remark": ""
     },
     {
@@ -2801,7 +2830,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": true,
       "seed": false,
       "order": 54,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -2827,7 +2855,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": true,
       "seed": false,
       "order": 56,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -2879,7 +2906,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": true,
       "seed": false,
       "order": 60,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -2892,7 +2918,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": true,
       "seed": false,
       "order": 61,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -2912,17 +2937,30 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_binhu_62",
       "name": "江苏省锡山高级中学滨湖分校",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "高中",
       "isPrivate": false,
       "isMunicipal": true,
       "seed": false,
       "order": 63,
       "street": "塘绛路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
-    }
+    },
+    {
+      "id": "wx_binhu_2064",
+      "name": "无锡市滨湖区金桥红沙湾实验学校",
+      "status": "已汇报",
+      "stage": "小学",
+      "isPrivate": false,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 64,
+      "products": ["作文", "飞象老师"],
+      "remark": ""
+    },
   ],
+
   "xinwu": [
     {
       "id": "wx_xinwu_0",
@@ -2934,7 +2972,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 1,
       "street": "梅育路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -2953,14 +2991,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_xinwu_2",
       "name": "无锡市新吴区丽景实验学校",
-      "status": "待开发",
-      "stage": "九年一贯制",
+      "status": "已汇报",
+      "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 3,
       "street": "新农路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -3051,8 +3089,8 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 10,
       "street": "坊泰路",
-      "products": [],
-      "remark": ""
+      "products": ["学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_xinwu_10",
@@ -3063,7 +3101,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 11,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -3109,14 +3146,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_xinwu_14",
       "name": "无锡市新吴实验中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 15,
       "street": "江学路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -3148,27 +3185,27 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_xinwu_17",
       "name": "无锡市梅里中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 18,
       "street": "梅苑路",
-      "products": [],
-      "remark": ""
+      "products": ["作文", "学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_xinwu_18",
       "name": "无锡市硕放中学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 19,
       "street": "通祥路",
-      "products": [],
+      "products": ["学习空间", "飞象老师"],
       "remark": ""
     },
     {
@@ -3227,14 +3264,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "id": "wx_xinwu_23",
       "name": "无锡市新吴区幸福外国语小学",
       "status": "待开发",
-      "stage": "小学",
+      "stage": "九年一贯",
       "isPrivate": true,
       "isMunicipal": false,
       "seed": false,
       "order": 24,
       "street": "清晏路",
-      "products": [],
-      "remark": ""
+      "products": ["学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_xinwu_24",
@@ -3259,8 +3296,8 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 26,
       "street": "湘江北路",
-      "products": [],
-      "remark": ""
+      "products": ["学习空间"],
+      "remark": "暂不推进"
     },
     {
       "id": "wx_xinwu_26",
@@ -3337,7 +3374,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 32,
       "street": "通祥北路",
-      "products": [],
+      "products": ["作文"],
       "remark": ""
     },
     {
@@ -3369,27 +3406,27 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_xinwu_34",
       "name": "无锡市新吴区高浪小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 35,
       "street": "高浪嘉园",
-      "products": [],
+      "products": ["学习空间", "飞象老师"],
       "remark": ""
     },
     {
       "id": "wx_xinwu_35",
       "name": "无锡市新吴区鸿山实验小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 36,
       "street": "锡协路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -3447,14 +3484,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_xinwu_40",
       "name": "无锡市梅村实验小学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 41,
       "street": "梅育路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -3480,20 +3517,20 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 43,
       "street": "行创四路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
       "id": "wx_xinwu_43",
       "name": "江苏省梅村高级中学",
-      "status": "待开发",
+      "status": "试用中",
       "stage": "高中",
       "isPrivate": false,
       "isMunicipal": true,
       "seed": false,
       "order": 44,
       "street": "梅育路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -3508,8 +3545,51 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "street": "文源路",
       "products": [],
       "remark": ""
-    }
+    },
   ],
+
+  "jingkai": [
+  
+{
+      "id": "wx_jingkai_3000",
+      "name": "无锡市东绛第二实验学校",
+      "status": "试用中",
+      "stage": "初中",
+      "isPrivate": false,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 5,
+      "street": "瑞星家园",
+      "products": ["作文"],
+      "remark": ""
+    },
+{
+      "id": "wx_jingkai_3001",
+      "name": "无锡市华庄中学",
+      "status": "已汇报",
+      "stage": "初中",
+      "isPrivate": false,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 9,
+      "street": "清源路",
+      "products": ["学习空间"],
+      "remark": ""
+    },
+{
+      "id": "wx_jingkai_3002",
+      "name": "无锡金桥双语实验学校",
+      "status": "待开发",
+      "stage": "九年一贯制",
+      "isPrivate": true,
+      "isMunicipal": false,
+      "seed": false,
+      "order": 7,
+      "street": "观顺道",
+      "products": [],
+      "remark": ""
+    },],
+
   "jiangyin": [
     {
       "id": "wx_jiangyin_0",
@@ -4092,7 +4172,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 45,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -4450,14 +4529,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_jiangyin_72",
       "name": "江阴市毗陵路小学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "小学",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 73,
       "street": "博文路",
-      "products": [],
+      "products": ["作文", "飞象老师"],
       "remark": ""
     },
     {
@@ -4626,7 +4705,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 86,
       "street": "春晖路",
-      "products": [],
+      "products": ["飞象老师"],
       "remark": ""
     },
     {
@@ -4888,8 +4967,9 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "street": "人民东路",
       "products": [],
       "remark": ""
-    }
+    },
   ],
+
   "yixing": [
     {
       "id": "wx_yixing_0",
@@ -4972,14 +5052,14 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     {
       "id": "wx_yixing_6",
       "name": "宜兴市丁蜀镇陶都中学",
-      "status": "待开发",
+      "status": "已汇报",
       "stage": "初中",
       "isPrivate": false,
       "isMunicipal": false,
       "seed": false,
       "order": 7,
       "street": "鑫圩新村",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -5420,7 +5500,6 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "isMunicipal": false,
       "seed": false,
       "order": 41,
-      "street": "",
       "products": [],
       "remark": ""
     },
@@ -5980,7 +6059,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "seed": false,
       "order": 84,
       "street": "东郊路",
-      "products": [],
+      "products": ["学习空间"],
       "remark": ""
     },
     {
@@ -6268,6 +6347,22 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "street": "彭干村",
       "products": [],
       "remark": ""
-    }
+    },
   ],
+
+  "municipal": [
+    {
+      "id": "wx_municipal_2001",
+      "name": "江苏省无锡市师范附属小学",
+      "status": "已汇报",
+      "stage": "小学",
+      "isPrivate": false,
+      "isMunicipal": true,
+      "seed": false,
+      "order": 1,
+      "products": ["作文", "学习空间"],
+      "remark": ""
+    },
+  ],
+
 };

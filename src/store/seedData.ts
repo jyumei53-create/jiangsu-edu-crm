@@ -46,6 +46,7 @@ const JIANGSU_CITIES: CityDef[] = [
       { id: 'binhu', name: '滨湖区', isKey: true, projects: [{ category: '市场现状', content: '' }, { category: '人工智能通识', content: '' }, { category: '心理通识', content: '未续费' }] },
       { id: 'liangxi', name: '梁溪区', isKey: true, projects: [{ category: '市场现状', content: '飞象统筹' }, { category: '人工智能通识', content: '飞象统筹' }, { category: '心理通识', content: '' }] },
       { id: 'xinwu', name: '新吴区' },
+      { id: 'jingkai', name: '经开区' },
       { id: 'jiangyin', name: '江阴市' },
       { id: 'yixing', name: '宜兴市' },
     ],
@@ -249,7 +250,7 @@ export function getSeedData(): AppData {
     version: 3,
     cities: JIANGSU_CITIES.map(buildCity),
     updatedAt: new Date().toISOString(),
-    wuxiSeedVersion: 2, // 与《副本2025年小学初中高中xls.xls》最终名单一致
+    wuxiSeedVersion: 3, // 2026-07-16 基于「分城市更新」江苏销售过程管理.xlsx 同步客户状态
   };
 
   // 预填充无锡市各区县学校（小学/初中/高中/九年一贯/十二年一贯/完中）
