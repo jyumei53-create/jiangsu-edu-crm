@@ -52,7 +52,7 @@ export default function LoginPage() {
           backgroundImage: `url(${loginBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          filter: 'brightness(0.85)',
+          filter: 'brightness(1.05)',
         }}
       />
 
@@ -61,7 +61,7 @@ export default function LoginPage() {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(135deg, rgba(6,11,20,0.78) 0%, rgba(10,22,45,0.65) 50%, rgba(6,11,20,0.82) 100%)',
+          background: 'linear-gradient(135deg, rgba(6,11,20,0.60) 0%, rgba(10,22,45,0.45) 50%, rgba(6,11,20,0.65) 100%)',
           pointerEvents: 'none',
         }}
       />
