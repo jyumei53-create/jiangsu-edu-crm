@@ -10,6 +10,7 @@ export interface School {
   status: SchoolStatus;
   stage?: string;
   products?: string[];
+  cooperationProducts?: string[];
   street?: string;
   keyPerson?: string;
   remark?: string;

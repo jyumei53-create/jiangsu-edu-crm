@@ -621,6 +621,7 @@ function SchoolPanel({
   const [stageFilter, setStageFilter] = useState<string[]>([]);
   const [statusFilter, setStatusFilter] = useState<string[]>([]);
   const [productFilter, setProductFilter] = useState<string[]>([]);
+  const [cooperationProductFilter, setCooperationProductFilter] = useState<string[]>([]);
   const [keyPersonFilter, setKeyPersonFilter] = useState('');
   const [streetFilter, setStreetFilter] = useState('');
   const [privateFilter, setPrivateFilter] = useState<string[]>([]);
@@ -648,6 +649,12 @@ function SchoolPanel({
         (s) => s.products && s.products.some((p) => productFilter.includes(p))
       );
     }
+    // 合作产品多选筛选（拥有任一选中合作产品即匹配）
+    if (cooperationProductFilter.length > 0) {
+      result = result.filter(
+        (s) => s.cooperationProducts && s.cooperationProducts.some((p) => cooperationProductFilter.includes(p))
+      );
+    }
     // 关键人模糊搜索
     if (keyPersonFilter.trim()) {
       const kw = keyPersonFilter.trim().toLowerCase();
@@ -670,7 +677,7 @@ function SchoolPanel({
     }
 
     return result;
-  }, [district.schools, nameFilter, stageFilter, statusFilter, productFilter, keyPersonFilter, streetFilter, privateFilter, municipalFilter]);
+  }, [district.schools, nameFilter, stageFilter, statusFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter, privateFilter, municipalFilter]);
 
   const handleOrderChange = (schoolId: string, value: number | null) => {
     if (value !== null && value !== undefined) {
@@ -722,6 +729,7 @@ function SchoolPanel({
       status: '待开发',
       stage: '',
       products: [],
+      cooperationProducts: [],
       street: '',
       keyPerson: '',
       remark: '',
@@ -962,6 +970,48 @@ function SchoolPanel({
         <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
       ),
       render: (status: SchoolStatus) => <StatusTag status={status} />,
+    },
+    {
+      title: '合作产品',
+      dataIndex: 'cooperationProducts',
+      key: 'cooperationProducts',
+      width: 150,
+      filtered: cooperationProductFilter.length > 0,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 200 }}>
+          <Select
+            mode="multiple"
+            placeholder="筛选合作产品"
+            value={cooperationProductFilter}
+            onChange={(v) => setCooperationProductFilter(v)}
+            style={{ width: '100%' }}
+            options={ALL_PRODUCTS.map((p) => ({ label: p, value: p }))}
+            allowClear
+            maxTagCount={2}
+            onBlur={() => close()}
+            autoFocus
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
+      render: (products: string[] | undefined) => {
+        if (!products || products.length === 0) return <Text type="secondary">-</Text>;
+        const colorMap: Record<string, string> = {
+          '作文': '#1677ff', '作业': '#52c41a', '通识课': '#722ed1',
+          '飞象老师': '#fa8c16', '学习空间': '#13c2c2', '墨水屏': '#eb2f96',
+        };
+        return (
+          <Space size={2} wrap>
+            {products.map((p) => (
+              <Tag key={p} color={colorMap[p] || 'default'} style={{ margin: 0, fontSize: 11 }}>
+                {p}
+              </Tag>
+            ))}
+          </Space>
+        );
+      },
     },
     {
       title: '产品',
@@ -1331,6 +1381,20 @@ function SchoolPanel({
               }
               allowClear
               placeholder="可选择多个产品"
+              options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
+            />
+          </Form.Item>
+          <Form.Item label="合作产品">
+            <Select
+              mode="multiple"
+              value={editingSchool?.cooperationProducts || []}
+              onChange={(v) =>
+                setEditingSchool((prev) =>
+                  prev ? { ...prev, cooperationProducts: v } : null
+                )
+              }
+              allowClear
+              placeholder="可选择多个合作产品"
               options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
             />
           </Form.Item>

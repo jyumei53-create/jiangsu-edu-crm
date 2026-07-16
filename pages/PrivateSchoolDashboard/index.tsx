@@ -72,6 +72,17 @@ export default function PrivateSchoolDashboard() {
       render: (s: SchoolStatus) => <Tag color={statusColor[s]}>{s}</Tag>,
     },
     {
+      title: '合作产品', dataIndex: 'cooperationProducts', key: 'cooperationProducts', width: 160,
+      render: (products: string[] | undefined) => {
+        if (!products || products.length === 0) return <Text type="secondary">-</Text>;
+        return (
+          <Space size={2} wrap>
+            {products.map((p) => <Tag key={p} color={productColorMap[p] || 'default'} style={{ margin: 0, fontSize: 11 }}>{p}</Tag>)}
+          </Space>
+        );
+      },
+    },
+    {
       title: '产品', dataIndex: 'products', key: 'products', width: 160,
       render: (products: string[] | undefined) => {
         if (!products || products.length === 0) return <Text type="secondary">-</Text>;

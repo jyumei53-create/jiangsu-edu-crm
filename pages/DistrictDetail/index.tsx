@@ -658,6 +658,7 @@ function SchoolPanel({
       status: '待开发',
       stage: '',
       products: [],
+      cooperationProducts: [],
       street: '',
       keyPerson: '',
       remark: '',
@@ -839,6 +840,28 @@ function SchoolPanel({
       key: 'status',
       width: 85,
       render: (status: SchoolStatus) => <StatusTag status={status} />,
+    },
+    {
+      title: '合作产品',
+      dataIndex: 'cooperationProducts',
+      key: 'cooperationProducts',
+      width: 150,
+      render: (products: string[] | undefined) => {
+        if (!products || products.length === 0) return <Text type="secondary">-</Text>;
+        const colorMap: Record<string, string> = {
+          '作文': '#1677ff', '作业': '#52c41a', '通识课': '#722ed1',
+          '飞象老师': '#fa8c16', '学习空间': '#13c2c2', '墨水屏': '#eb2f96',
+        };
+        return (
+          <Space size={2} wrap>
+            {products.map((p) => (
+              <Tag key={p} color={colorMap[p] || 'default'} style={{ margin: 0, fontSize: 11 }}>
+                {p}
+              </Tag>
+            ))}
+          </Space>
+        );
+      },
     },
     {
       title: '产品',
@@ -1116,6 +1139,20 @@ function SchoolPanel({
               }
               allowClear
               placeholder="可选择多个产品"
+              options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
+            />
+          </Form.Item>
+          <Form.Item label="合作产品">
+            <Select
+              mode="multiple"
+              value={editingSchool?.cooperationProducts || []}
+              onChange={(v) =>
+                setEditingSchool((prev) =>
+                  prev ? { ...prev, cooperationProducts: v } : null
+                )
+              }
+              allowClear
+              placeholder="可选择多个合作产品"
               options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
             />
           </Form.Item>

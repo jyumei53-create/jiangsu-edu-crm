@@ -23,6 +23,7 @@ export default function ProvincePrivateSchoolDashboard() {
   const [stageFilter, setStageFilter] = useState<string[]>([]);
   const [statusFilter, setStatusFilter] = useState<string[]>([]);
   const [productFilter, setProductFilter] = useState<string[]>([]);
+  const [cooperationProductFilter, setCooperationProductFilter] = useState<string[]>([]);
   const [keyPersonFilter, setKeyPersonFilter] = useState('');
   const [streetFilter, setStreetFilter] = useState('');
 
@@ -57,6 +58,9 @@ export default function ProvincePrivateSchoolDashboard() {
     if (productFilter.length > 0) {
       schools = schools.filter((s) => s.products && s.products.some((p) => productFilter.includes(p)));
     }
+    if (cooperationProductFilter.length > 0) {
+      schools = schools.filter((s) => s.cooperationProducts && s.cooperationProducts.some((p) => cooperationProductFilter.includes(p)));
+    }
     if (keyPersonFilter.trim()) {
       const kw = keyPersonFilter.trim().toLowerCase();
       schools = schools.filter((s) => (s.keyPerson || '').toLowerCase().includes(kw));
@@ -74,7 +78,7 @@ export default function ProvincePrivateSchoolDashboard() {
       reported: schools.filter((s) => s.status === '已汇报').length,
       pending: schools.filter((s) => s.status === '待开发').length,
     };
-  }, [data, nameFilter, cityFilter, districtFilter, stageFilter, statusFilter, productFilter, keyPersonFilter, streetFilter]);
+  }, [data, nameFilter, cityFilter, districtFilter, stageFilter, statusFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter]);
 
   const statusColor: Record<SchoolStatus, string> = {
     '已合作': 'green', '试用中': 'orange', '已汇报': 'purple', '待开发': 'default',
@@ -166,6 +170,27 @@ export default function ProvincePrivateSchoolDashboard() {
       ),
       filterIcon: (f: boolean) => <FilterOutlined style={{ color: f ? '#1677ff' : undefined }} />,
       render: (s: SchoolStatus) => <Tag color={statusColor[s]}>{s}</Tag>,
+    },
+    {
+      title: '合作产品', dataIndex: 'cooperationProducts', key: 'cooperationProducts', width: 160,
+      filtered: cooperationProductFilter.length > 0,
+      filterDropdown: ({ close }: { close: () => void }) => (
+        <div style={{ padding: 8, width: 200 }}>
+          <Select mode="multiple" placeholder="筛选合作产品" value={cooperationProductFilter}
+            onChange={(v) => setCooperationProductFilter(v)} style={{ width: '100%' }}
+            options={ALL_PRODUCTS.map((p) => ({ label: p, value: p }))}
+            allowClear maxTagCount={2} onBlur={() => close()} autoFocus />
+        </div>
+      ),
+      filterIcon: (f: boolean) => <FilterOutlined style={{ color: f ? '#1677ff' : undefined }} />,
+      render: (products: string[] | undefined) => {
+        if (!products || products.length === 0) return <Text type="secondary">-</Text>;
+        return (
+          <Space size={2} wrap>
+            {products.map((p) => <Tag key={p} color={productColorMap[p] || 'default'} style={{ margin: 0, fontSize: 11 }}>{p}</Tag>)}
+          </Space>
+        );
+      },
     },
     {
       title: '产品', dataIndex: 'products', key: 'products', width: 160,

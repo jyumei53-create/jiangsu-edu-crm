@@ -15,6 +15,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 1,
       "street": "民丰路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -28,6 +29,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 2,
       "street": "石澄路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -41,6 +43,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 3,
       "street": "金山三支路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -54,6 +57,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 4,
       "street": "梁东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -67,6 +71,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 5,
       "street": "动力路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -80,6 +85,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 6,
       "street": "风顺里",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -93,6 +99,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 7,
       "street": "学前街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -106,6 +113,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 8,
       "street": "春申路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -119,6 +127,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 9,
       "street": "竞志路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -132,6 +141,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 10,
       "street": "桐学路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -145,6 +155,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 11,
       "street": "南长街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -158,6 +169,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 12,
       "street": "南下塘",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -171,6 +183,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 13,
       "street": "水沟头",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -184,6 +197,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 14,
       "street": "上马墩",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -197,6 +211,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 15,
       "street": "惠峰新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -210,6 +225,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 16,
       "street": "广瑞路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -223,6 +239,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 17,
       "street": "周山浜俞巷",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -236,6 +253,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 18,
       "street": "通扬路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -249,6 +267,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 19,
       "street": "界泾桥弄",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -262,6 +281,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 20,
       "street": "沁园新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -275,6 +295,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 21,
       "street": "芦庄三区",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -288,6 +309,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 22,
       "street": "羊腰湾",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -301,6 +323,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 23,
       "street": "西凤道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -314,6 +337,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 24,
       "street": "学前街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -327,6 +351,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 25,
       "street": "羊腰湾",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -340,6 +365,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 26,
       "street": "槐古二村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -353,6 +379,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 27,
       "street": "解放东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -366,6 +393,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 28,
       "street": "五河新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -379,6 +407,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 29,
       "street": "人民西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -392,6 +421,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 30,
       "street": "东门唐巷",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -405,6 +435,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 31,
       "street": "刘潭二村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -418,6 +449,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 32,
       "street": "德才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -431,6 +463,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 33,
       "street": "扬名路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -444,6 +477,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 34,
       "street": "双河新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -457,6 +491,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 35,
       "street": "南长街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -470,6 +505,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 36,
       "street": "五河支路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -483,6 +519,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 37,
       "street": "塔影二村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -496,6 +533,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 38,
       "street": "清扬新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -509,6 +547,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 39,
       "street": "惠龙新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -522,6 +561,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 40,
       "street": "庆丰路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -535,6 +575,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 41,
       "street": "广瑞三村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -548,6 +589,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 42,
       "street": "广益路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -561,6 +603,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 43,
       "street": "曹张新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -574,6 +617,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 44,
       "street": "毛湾家园",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -587,6 +631,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 45,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -600,6 +645,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 46,
       "street": "五星家园",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -613,6 +659,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 47,
       "street": "通惠中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -626,6 +673,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 48,
       "street": "前宋巷",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -639,6 +687,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 49,
       "street": "芦庄四区",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -652,6 +701,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 50,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -665,6 +715,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 51,
       "street": "锡澄路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -678,6 +729,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 52,
       "street": "芦中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -691,6 +743,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 53,
       "street": "芦庄一区",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -704,6 +757,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 54,
       "street": "芦庄五区",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -717,6 +771,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 55,
       "street": "通扬南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -730,6 +785,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 56,
       "street": "连元街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -743,6 +799,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 57,
       "street": "竢实路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -756,6 +813,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 58,
       "street": "全丰路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -769,6 +827,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 59,
       "street": "靖海新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -782,6 +841,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 60,
       "street": "广源路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -795,6 +855,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 61,
       "street": "崇宁路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -808,6 +869,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 62,
       "street": "教育路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -821,6 +883,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 63,
       "street": "盛岸二村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -834,6 +897,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 64,
       "street": "沁园新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -847,6 +911,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 65,
       "street": "五爱路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -860,6 +925,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 66,
       "street": "庆丰路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -873,6 +939,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 67,
       "street": "广石西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -886,6 +953,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 68,
       "street": "运河东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -899,6 +967,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 69,
       "street": "丽新路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     }
   ],
@@ -914,6 +983,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 1,
       "street": "八士东街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -927,6 +997,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 2,
       "street": "学士路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -940,6 +1011,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 3,
       "street": "东升路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -953,6 +1025,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 4,
       "street": "二泉中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -966,6 +1039,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 5,
       "street": "钱长路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -979,6 +1053,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 6,
       "street": "八士青店弄",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -992,6 +1067,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 7,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1005,6 +1081,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 8,
       "street": "兴越路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1018,6 +1095,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 9,
       "street": "安西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1031,6 +1109,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 10,
       "street": "张泾锡港西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1044,6 +1123,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 11,
       "street": "查桥盛源北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1057,6 +1137,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 12,
       "street": "港下兴港南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1070,6 +1151,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 13,
       "street": "育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1083,6 +1165,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 14,
       "street": "学海路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1096,6 +1179,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 15,
       "street": "先锋东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1109,6 +1193,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 16,
       "street": "文景路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1122,6 +1207,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 17,
       "street": "芙蓉中四路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1135,6 +1221,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 18,
       "street": "二泉中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1148,6 +1235,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 19,
       "street": "隆亭路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1161,6 +1249,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 20,
       "street": "绿景雅苑",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1174,6 +1263,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 21,
       "street": "学前东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1187,6 +1277,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 22,
       "street": "诚毅路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1200,6 +1291,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 23,
       "street": "芙蓉西三路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1213,6 +1305,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 24,
       "street": "东港路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1226,6 +1319,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 25,
       "street": "云林中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1239,6 +1333,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 26,
       "street": "新坝村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1252,6 +1347,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 27,
       "street": "勤新路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1265,6 +1361,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 28,
       "street": "中心路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1278,6 +1375,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 29,
       "street": "和泽路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1291,6 +1389,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 30,
       "street": "泾桂路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1304,6 +1403,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 31,
       "street": "柏木桥路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1317,6 +1417,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 32,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1330,6 +1431,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 33,
       "street": "查桥弘博路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1343,6 +1445,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 34,
       "street": "利港路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1356,6 +1459,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 35,
       "street": "甘露大街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1369,6 +1473,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 36,
       "street": "育才西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1382,6 +1487,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 37,
       "street": "港羊路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1395,6 +1501,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 38,
       "street": "东廊路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1408,6 +1515,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 39,
       "street": "会通路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1421,6 +1529,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 40,
       "street": "东房桥新街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1434,6 +1543,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 41,
       "street": "寨门村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1447,6 +1557,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 42,
       "street": "蠡西村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1460,6 +1571,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 43,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1473,6 +1585,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 44,
       "street": "锡沪路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1486,6 +1599,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 45,
       "street": "厚民路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1499,6 +1613,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 46,
       "street": "东湖塘东港路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1512,6 +1627,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 47,
       "street": "文瑞路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     }
   ],
@@ -1527,6 +1643,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 1,
       "street": "育英路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1540,6 +1657,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 2,
       "street": "新开河村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1553,6 +1671,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 3,
       "street": "洋溪上伟路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1566,6 +1685,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 4,
       "street": "惠绿路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1579,6 +1699,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 5,
       "street": "石澄路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1592,6 +1713,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 6,
       "street": "邓北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1605,6 +1727,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 7,
       "street": "堰联路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1618,6 +1741,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 8,
       "street": "健康路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1631,6 +1755,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 9,
       "street": "堰玉路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1644,6 +1769,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 10,
       "street": "石塘湾联通路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1657,6 +1783,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 11,
       "street": "藕塘南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1670,6 +1797,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 12,
       "street": "西漳街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1683,6 +1811,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 13,
       "street": "育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1696,6 +1825,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 14,
       "street": "长八路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1709,6 +1839,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 15,
       "street": "书院路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1722,6 +1853,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 16,
       "street": "杨市园大街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1735,6 +1867,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 17,
       "street": "洛洲路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1748,6 +1881,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 18,
       "street": "崇文路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1761,6 +1895,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 19,
       "street": "西塘南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1774,6 +1909,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 20,
       "street": "政和大道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1787,6 +1923,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 21,
       "street": "西漳天一街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1800,6 +1937,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 22,
       "street": "凤池路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1813,6 +1951,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 23,
       "street": "天一街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1826,6 +1965,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 24,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1839,6 +1979,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 25,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1852,6 +1993,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 26,
       "street": "玉丰路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1865,6 +2007,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 27,
       "street": "杨市星火东大街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1878,6 +2021,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 28,
       "street": "新陶路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1891,6 +2035,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 29,
       "street": "华圻村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1904,6 +2049,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 30,
       "street": "洛城大道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1917,6 +2063,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 31,
       "street": "海瑞路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1930,6 +2077,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 32,
       "street": "石前路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1943,6 +2091,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 33,
       "street": "钱藕路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1956,6 +2105,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 34,
       "street": "育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1969,6 +2119,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 35,
       "street": "长宁路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1982,6 +2133,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 36,
       "street": "陆中南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -1995,6 +2147,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 37,
       "street": "惠学路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2008,6 +2161,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 38,
       "street": "金惠路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2021,6 +2175,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 39,
       "street": "堰新路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2034,6 +2189,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 40,
       "street": "堰韵路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2047,6 +2203,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 41,
       "street": "新兴东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2060,6 +2217,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 42,
       "street": "玉洁路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2073,6 +2231,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 43,
       "street": "杨市园大街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2086,6 +2245,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 44,
       "street": "政和大道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2099,6 +2259,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 45,
       "street": "志勤路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     }
   ],
@@ -2114,6 +2275,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 1,
       "street": "清源路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2127,6 +2289,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 2,
       "street": "陆马公路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2140,6 +2303,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 3,
       "street": "安泰路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2153,6 +2317,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 4,
       "street": "盛园路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2166,6 +2331,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 5,
       "street": "瑞星家园",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2179,6 +2345,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 6,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2192,6 +2359,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 7,
       "street": "观顺道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2205,6 +2373,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 8,
       "street": "中南西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2218,6 +2387,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 9,
       "street": "清源路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2231,6 +2401,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 10,
       "street": "梁南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2244,6 +2415,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 11,
       "street": "方庙路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2257,6 +2429,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 12,
       "street": "溪南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2270,6 +2443,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 13,
       "street": "马山启帆路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2283,6 +2457,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 14,
       "street": "水秀新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2296,6 +2471,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 15,
       "street": "西凤道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2309,6 +2485,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 16,
       "street": "梁清路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2322,6 +2499,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 17,
       "street": "南泉新生桥西侧",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2335,6 +2513,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 18,
       "street": "环港路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2348,6 +2527,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 19,
       "street": "民盛路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2361,6 +2541,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 20,
       "street": "中南西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2374,6 +2555,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 21,
       "street": "雪浪敦睦路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2387,6 +2569,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 22,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2400,6 +2583,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 23,
       "street": "瑞景道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2413,6 +2597,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 24,
       "street": "雪丰路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2426,6 +2611,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 25,
       "street": "惠河路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2439,6 +2625,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 26,
       "street": "山水东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2452,6 +2639,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 27,
       "street": "清源路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2465,6 +2653,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 28,
       "street": "中南西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2478,6 +2667,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 29,
       "street": "育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2491,6 +2681,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 30,
       "street": "和畅路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2504,6 +2695,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 31,
       "street": "南苑",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2517,6 +2709,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 32,
       "street": "万科城市花园二期",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2530,6 +2723,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 33,
       "street": "观山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2543,6 +2737,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 34,
       "street": "马山启帆路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2556,6 +2751,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 35,
       "street": "落霞苑社区",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2569,6 +2765,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 36,
       "street": "稻香路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2582,6 +2779,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 37,
       "street": "南泉社区新生桥西侧",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2595,6 +2793,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 38,
       "street": "稻香新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2608,6 +2807,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 39,
       "street": "南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2621,6 +2821,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 40,
       "street": "梁溪路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2634,6 +2835,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 41,
       "street": "大通路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2647,6 +2849,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 42,
       "street": "青山东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2660,6 +2863,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 43,
       "street": "蠡湖大道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2673,6 +2877,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 44,
       "street": "惠河路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2686,6 +2891,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 45,
       "street": "渔景路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2699,6 +2905,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 46,
       "street": "胡埭振胡路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2712,6 +2919,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 47,
       "street": "方庙路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2725,6 +2933,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 48,
       "street": "观顺道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2738,6 +2947,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 49,
       "street": "建筑西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2751,6 +2961,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 50,
       "street": "夏家边经贸路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2764,6 +2975,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 51,
       "street": "育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2777,6 +2989,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 52,
       "street": "和风路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2790,6 +3003,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 53,
       "street": "万兴路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2803,6 +3017,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 54,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2816,6 +3031,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 55,
       "street": "民盛路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2829,6 +3045,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 56,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2842,6 +3059,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 57,
       "street": "沁园新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2855,6 +3073,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 58,
       "street": "会友路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2868,6 +3087,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 59,
       "street": "惠河路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2881,6 +3101,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 60,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2894,6 +3115,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 61,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2907,6 +3129,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 62,
       "street": "观山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2920,6 +3143,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 63,
       "street": "塘绛路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     }
   ],
@@ -2935,6 +3159,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 1,
       "street": "梅育路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2948,6 +3173,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 2,
       "street": "纺城大道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2961,6 +3187,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 3,
       "street": "新农路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2974,6 +3201,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 4,
       "street": "海创一路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -2987,6 +3215,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 5,
       "street": "坊明路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3000,6 +3229,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 6,
       "street": "旺庄西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3013,6 +3243,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 7,
       "street": "净慧西道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3026,6 +3257,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 8,
       "street": "江华路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3039,6 +3271,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 9,
       "street": "德育路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3052,6 +3285,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 10,
       "street": "坊泰路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3065,6 +3299,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 11,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3078,6 +3313,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 12,
       "street": "新荣路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3091,6 +3327,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 13,
       "street": "泰伯大道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3104,6 +3341,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 14,
       "street": "中庆路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3117,6 +3355,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 15,
       "street": "江学路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3130,6 +3369,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 16,
       "street": "坊前路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3143,6 +3383,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 17,
       "street": "宁乐路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3156,6 +3397,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 18,
       "street": "梅苑路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3169,6 +3411,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 19,
       "street": "通祥路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3182,6 +3425,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 20,
       "street": "鸿山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3195,6 +3439,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 21,
       "street": "缇香路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3208,6 +3453,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 22,
       "street": "南星苑二路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3221,6 +3467,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 23,
       "street": "坊明路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3234,6 +3481,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 24,
       "street": "清晏路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3247,6 +3495,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 25,
       "street": "长江北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3260,6 +3509,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 26,
       "street": "湘江北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3273,6 +3523,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 27,
       "street": "旺庄东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3286,6 +3537,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 28,
       "street": "锡贤路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3299,6 +3551,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 29,
       "street": "叙康里",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3312,6 +3565,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 30,
       "street": "鸿山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3325,6 +3579,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 31,
       "street": "泰山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3338,6 +3593,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 32,
       "street": "通祥北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3351,6 +3607,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 33,
       "street": "中庆路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3364,6 +3621,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 34,
       "street": "锡义路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3377,6 +3635,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 35,
       "street": "高浪嘉园",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3390,6 +3649,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 36,
       "street": "锡协路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3403,6 +3663,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 37,
       "street": "清源路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3416,6 +3677,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 38,
       "street": "新湖路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3429,6 +3691,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 39,
       "street": "联心嘉园",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3442,6 +3705,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 40,
       "street": "金城东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3455,6 +3719,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 41,
       "street": "梅育路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3468,6 +3733,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 42,
       "street": "锡兴北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3481,6 +3747,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 43,
       "street": "行创四路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3494,6 +3761,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 44,
       "street": "梅育路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3507,6 +3775,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 45,
       "street": "文源路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     }
   ],
@@ -3522,6 +3791,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 1,
       "street": "迎瑞路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3535,6 +3805,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 2,
       "street": "寿山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3548,6 +3819,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 3,
       "street": "华西村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3561,6 +3833,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 4,
       "street": "南焦路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3574,6 +3847,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 5,
       "street": "牡丹路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3587,6 +3861,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 6,
       "street": "王庄路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3600,6 +3875,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 7,
       "street": "花北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3613,6 +3889,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 8,
       "street": "北潮河",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3626,6 +3903,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 9,
       "street": "青霞路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3639,6 +3917,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 10,
       "street": "人民中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3652,6 +3931,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 11,
       "street": "澄江西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3665,6 +3945,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 12,
       "street": "人民西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3678,6 +3959,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 13,
       "street": "云南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3691,6 +3973,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 14,
       "street": "利港延安路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3704,6 +3987,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 15,
       "street": "自由西弄",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3717,6 +4001,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 16,
       "street": "龙山东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3730,6 +4015,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 17,
       "street": "新长江路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3743,6 +4029,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 18,
       "street": "峭岐社区博爱路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3756,6 +4043,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 19,
       "street": "东街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3769,6 +4057,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 20,
       "street": "文林人民路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3782,6 +4071,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 21,
       "street": "文化路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3795,6 +4085,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 22,
       "street": "中山北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3808,6 +4099,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 23,
       "street": "团结路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3821,6 +4113,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 24,
       "street": "桐前路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3834,6 +4127,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 25,
       "street": "河塘范钱路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3847,6 +4141,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 26,
       "street": "要塞路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3860,6 +4155,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 27,
       "street": "迎宾西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3873,6 +4169,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 28,
       "street": "璜塘环北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3886,6 +4183,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 29,
       "street": "申新路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3899,6 +4197,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 30,
       "street": "石庄新街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3912,6 +4211,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 31,
       "street": "北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3925,6 +4225,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 32,
       "street": "黄山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3938,6 +4239,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 33,
       "street": "西石桥南街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3951,6 +4253,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 34,
       "street": "长寿康须路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3964,6 +4267,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 35,
       "street": "渡江路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3977,6 +4281,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 36,
       "street": "花园路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -3990,6 +4295,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 37,
       "street": "陆桥西街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4003,6 +4309,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 38,
       "street": "青璜路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4016,6 +4323,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 39,
       "street": "香山北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4029,6 +4337,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 40,
       "street": "山观石山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4042,6 +4351,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 41,
       "street": "钱江路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4055,6 +4365,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 42,
       "street": "御龙路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4068,6 +4379,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 43,
       "street": "君山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4081,6 +4393,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 44,
       "street": "黄山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4094,6 +4407,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 45,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4107,6 +4421,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 46,
       "street": "虹桥北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4120,6 +4435,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 47,
       "street": "建设路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4133,6 +4449,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 48,
       "street": "建设路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4146,6 +4463,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 49,
       "street": "果成路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4159,6 +4477,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 50,
       "street": "兴港路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4172,6 +4491,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 51,
       "street": "君山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4185,6 +4505,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 52,
       "street": "北国育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4198,6 +4519,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 53,
       "street": "和平街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4211,6 +4533,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 54,
       "street": "环南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4224,6 +4547,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 55,
       "street": "硕桥",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4237,6 +4561,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 56,
       "street": "紫金路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4250,6 +4575,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 57,
       "street": "卧龙湖路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4263,6 +4589,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 58,
       "street": "周山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4276,6 +4603,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 59,
       "street": "龙西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4289,6 +4617,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 60,
       "street": "迎阳路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4302,6 +4631,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 61,
       "street": "南门石子街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4315,6 +4645,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 62,
       "street": "青山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4328,6 +4659,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 63,
       "street": "北巷",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4341,6 +4673,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 64,
       "street": "春晓路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4354,6 +4687,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 65,
       "street": "澄康路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4367,6 +4701,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 66,
       "street": "峭岐社区文政路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4380,6 +4715,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 67,
       "street": "东街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4393,6 +4729,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 68,
       "street": "文林文南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4406,6 +4743,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 69,
       "street": "文化路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4419,6 +4757,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 70,
       "street": "人民西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4432,6 +4771,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 71,
       "street": "花园路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4445,6 +4785,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 72,
       "street": "桐岐河滨西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4458,6 +4799,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 73,
       "street": "博文路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4471,6 +4813,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 74,
       "street": "河塘范钱路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4484,6 +4827,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 75,
       "street": "秦望山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4497,6 +4841,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 76,
       "street": "南街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4510,6 +4855,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 77,
       "street": "黄金南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4523,6 +4869,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 78,
       "street": "北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4536,6 +4883,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 79,
       "street": "崇文路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4549,6 +4897,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 80,
       "street": "南东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4562,6 +4911,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 81,
       "street": "达江路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4575,6 +4925,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 82,
       "street": "长江路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4588,6 +4939,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 83,
       "street": "滨江西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4601,6 +4953,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 84,
       "street": "君巫路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4614,6 +4967,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 85,
       "street": "西石桥公平路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4627,6 +4981,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 86,
       "street": "春晖路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4640,6 +4995,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 87,
       "street": "名贤路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4653,6 +5009,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 88,
       "street": "环城东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4666,6 +5023,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 89,
       "street": "长寿学园路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4679,6 +5037,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 90,
       "street": "虹桥路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4692,6 +5051,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 91,
       "street": "陆桥学前路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4705,6 +5065,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 92,
       "street": "公园路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4718,6 +5079,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 93,
       "street": "英才西街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4731,6 +5093,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 94,
       "street": "龙泉路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4744,6 +5107,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 95,
       "street": "延陵东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4757,6 +5121,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 96,
       "street": "长山渡江路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4770,6 +5135,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 97,
       "street": "龙定路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4783,6 +5149,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 98,
       "street": "长江路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4796,6 +5163,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 99,
       "street": "学前街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4809,6 +5177,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 100,
       "street": "崇文路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4822,6 +5191,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 101,
       "street": "环南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4835,6 +5205,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 102,
       "street": "龙山大街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4848,6 +5219,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 103,
       "street": "兴隆北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4861,6 +5233,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 104,
       "street": "镇澄路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4874,6 +5247,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 105,
       "street": "北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4887,6 +5261,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 106,
       "street": "人民东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     }
   ],
@@ -4902,6 +5277,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 1,
       "street": "张泽街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4915,6 +5291,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 2,
       "street": "湖㳇镇金湖路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4928,6 +5305,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 3,
       "street": "分水中兴路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4941,6 +5319,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 4,
       "street": "阳泉东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4954,6 +5333,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 5,
       "street": "丁山北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4967,6 +5347,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 6,
       "street": "东坡东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4980,6 +5361,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 7,
       "street": "鑫圩新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -4993,6 +5375,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 8,
       "street": "万兴路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5006,6 +5389,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 9,
       "street": "临溪路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5019,6 +5403,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 10,
       "street": "丰义村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5032,6 +5417,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 11,
       "street": "凌霞北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5045,6 +5431,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 12,
       "street": "教育西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5058,6 +5445,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 13,
       "street": "周前路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5071,6 +5459,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 14,
       "street": "鹅洲西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5084,6 +5473,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 15,
       "street": "育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5097,6 +5487,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 16,
       "street": "大浦人民南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5110,6 +5501,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 17,
       "street": "锦学路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5123,6 +5515,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 18,
       "street": "凌霞北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5136,6 +5529,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 19,
       "street": "荆溪中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5149,6 +5543,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 20,
       "street": "龙潭西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5162,6 +5557,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 21,
       "street": "屺亭村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5175,6 +5571,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 22,
       "street": "虹新东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5188,6 +5585,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 23,
       "street": "学府路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5201,6 +5599,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 24,
       "street": "新东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5214,6 +5613,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 25,
       "street": "老街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5227,6 +5627,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 26,
       "street": "创业路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5240,6 +5641,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 27,
       "street": "广通路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5253,6 +5655,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 28,
       "street": "阳羡西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5266,6 +5669,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 29,
       "street": "南新路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5279,6 +5683,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 30,
       "street": "闸口教育路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5292,6 +5697,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 31,
       "street": "南郊白泥场",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5305,6 +5711,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 32,
       "street": "红塔村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5318,6 +5725,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 33,
       "street": "范道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5331,6 +5739,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 34,
       "street": "溪西村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5344,6 +5753,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 35,
       "street": "龙池路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5357,6 +5767,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 36,
       "street": "滆湖路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5370,6 +5781,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 37,
       "street": "巷头社区文萃路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5383,6 +5795,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 38,
       "street": "东坡中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5396,6 +5809,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 39,
       "street": "通蜀路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5409,6 +5823,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 40,
       "street": "汤省公路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5422,6 +5837,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 41,
       "street": "",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5435,6 +5851,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 42,
       "street": "通蜀东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5448,6 +5865,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 43,
       "street": "阳羡东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5461,6 +5879,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 44,
       "street": "临溪路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5474,6 +5893,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 45,
       "street": "丰义村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5487,6 +5907,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 46,
       "street": "韶巷",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5500,6 +5921,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 47,
       "street": "振元北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5513,6 +5935,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 48,
       "street": "文卫路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5526,6 +5949,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 49,
       "street": "南新街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5539,6 +5963,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 50,
       "street": "申兴西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5552,6 +5977,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 51,
       "street": "南环路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5565,6 +5991,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 52,
       "street": "鹅洲东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5578,6 +6005,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 53,
       "street": "和新路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5591,6 +6019,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 54,
       "street": "学前路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5604,6 +6033,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 55,
       "street": "西后街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5617,6 +6047,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 56,
       "street": "人民南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5630,6 +6061,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 57,
       "street": "巷头西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5643,6 +6075,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 58,
       "street": "育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5656,6 +6089,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 59,
       "street": "人民南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5669,6 +6103,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 60,
       "street": "育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5682,6 +6117,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 61,
       "street": "学府北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5695,6 +6131,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 62,
       "street": "行知路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5708,6 +6145,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 63,
       "street": "宜丰路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5721,6 +6159,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 64,
       "street": "枫隐路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5734,6 +6173,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 65,
       "street": "广汇社区汇源路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5747,6 +6187,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 66,
       "street": "犊山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5760,6 +6201,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 67,
       "street": "临津路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5773,6 +6215,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 68,
       "street": "河东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5786,6 +6229,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 69,
       "street": "扶风通政路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5799,6 +6243,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 70,
       "street": "震泽路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5812,6 +6257,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 71,
       "street": "老街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5825,6 +6271,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 72,
       "street": "臧林村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5838,6 +6285,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 73,
       "street": "创业路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5851,6 +6299,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 74,
       "street": "文卫路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5864,6 +6313,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 75,
       "street": "南新路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5877,6 +6327,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 76,
       "street": "下邾街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5890,6 +6341,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 77,
       "street": "迎宾路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5903,6 +6355,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 78,
       "street": "桃源路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5916,6 +6369,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 79,
       "street": "归径社区人民南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5929,6 +6383,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 80,
       "street": "文昌路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5942,6 +6397,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 81,
       "street": "东山东路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5955,6 +6411,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 82,
       "street": "紫砂村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5968,6 +6425,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 83,
       "street": "红塔东街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5981,6 +6439,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 84,
       "street": "东郊路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -5994,6 +6453,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 85,
       "street": "范道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6007,6 +6467,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 86,
       "street": "荆溪中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6020,6 +6481,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 87,
       "street": "塍东北路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6033,6 +6495,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 88,
       "street": "西渚路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6046,6 +6509,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 89,
       "street": "都山村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6059,6 +6523,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 90,
       "street": "前曲坊",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6072,6 +6537,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 91,
       "street": "钮家村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6085,6 +6551,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 92,
       "street": "闸口富民路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6098,6 +6565,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 93,
       "street": "荆溪中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6111,6 +6579,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 94,
       "street": "阳泉新村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6124,6 +6593,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 95,
       "street": "通贞观路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6137,6 +6607,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 96,
       "street": "公园路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6150,6 +6621,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 97,
       "street": "鲸塘社区",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6163,6 +6635,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 98,
       "street": "丁山大街",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6176,6 +6649,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 99,
       "street": "彭城南路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6189,6 +6663,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 100,
       "street": "育才路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6202,6 +6677,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 101,
       "street": "犊山路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6215,6 +6691,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 102,
       "street": "永安路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6228,6 +6705,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 103,
       "street": "阳泉中路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6241,6 +6719,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 104,
       "street": "太湖大道",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6254,6 +6733,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 105,
       "street": "溪西路",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     },
     {
@@ -6267,6 +6747,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 106,
       "street": "彭干村",
       "products": [],
+    "cooperationProducts": [],
       "remark": ""
     }
   ],
