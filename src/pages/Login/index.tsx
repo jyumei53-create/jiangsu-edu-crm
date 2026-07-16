@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, Form, Input, Button, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined, AimOutlined } from '@ant-design/icons';
 import { useAuth } from '../../store/AuthContext';
+import loginBg from '/bg/login-bg.jpg';
 
 const { Title, Text } = Typography;
 
@@ -43,6 +44,28 @@ export default function LoginPage() {
         overflow: 'hidden',
       }}
     >
+      {/* 背景图片 — 积极向上、攀登进取 */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${loginBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'brightness(0.85)',
+        }}
+      />
+
+      {/* 深蓝科技遮罩 — 保持卡片可读性 */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(135deg, rgba(6,11,20,0.78) 0%, rgba(10,22,45,0.65) 50%, rgba(6,11,20,0.82) 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
       {/* 网格背景 — 指挥中心大屏质感 */}
       <div
         style={{
