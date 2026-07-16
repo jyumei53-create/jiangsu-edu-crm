@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Row, Col, Card, Typography, Tag } from 'antd';
 import ReactECharts from 'echarts-for-react';
 import type { School } from '../../types';
+import { ALL_PRODUCTS } from '../../types';
 
 const { Text } = Typography;
 
@@ -152,6 +153,55 @@ function buildGroupOption(
   };
 }
 
+function buildProductOption(productNames: string[], productValues: number[]) {
+  return {
+    grid: { left: 8, right: 18, top: 12, bottom: 6, containLabel: true },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: '{b}：{c} 所' },
+    xAxis: { type: 'value', splitLine: { lineStyle: { color: '#f1f5f9' } }, axisLabel: { color: '#94a3b8' } },
+    yAxis: {
+      type: 'category',
+      data: productNames,
+      inverse: true,
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: '#475569', fontSize: 12 },
+    },
+    series: [
+      {
+        type: 'bar',
+        data: productValues,
+        barWidth: '56%',
+        itemStyle: { color: '#8b5cf6', borderRadius: [0, 6, 6, 0] },
+      },
+    ],
+  };
+}
+
+function buildConversionRateOption(groupNames: string[], rates: number[]) {
+  return {
+    grid: { left: 8, right: 24, top: 12, bottom: 6, containLabel: true },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: '{b}：已合作率 {c}%' },
+    xAxis: { type: 'value', max: 100, splitLine: { lineStyle: { color: '#f1f5f9' } }, axisLabel: { color: '#94a3b8', formatter: '{value}%' } },
+    yAxis: {
+      type: 'category',
+      data: groupNames,
+      inverse: true,
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: '#475569', fontSize: 12 },
+    },
+    series: [
+      {
+        type: 'bar',
+        data: rates,
+        barWidth: '56%',
+        itemStyle: { color: '#10b981', borderRadius: [0, 6, 6, 0] },
+        label: { show: true, position: 'right', formatter: '{c}%', color: '#475569', fontSize: 12 },
+      },
+    ],
+  };
+}
+
 function cardTitle(icon: React.ReactNode, label: string) {
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
@@ -208,6 +258,30 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
 
     const cooperatingRate = total > 0 ? Math.round((statusCounts['已合作'] / total) * 100) : 0;
 
+    // 产品分布
+    const productMap: Record<string, number> = {};
+    for (const p of ALL_PRODUCTS) productMap[p] = 0;
+    for (const s of real) {
+      if (s.products) {
+        for (const p of s.products) {
+          if (productMap[p] !== undefined) productMap[p] += 1;
+        }
+      }
+    }
+    const productEntries = Object.entries(productMap).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+    const productNames = productEntries.map(([k]) => k);
+    const productValues = productEntries.map(([, v]) => v);
+
+    // 区域转化率排名
+    const rateEntries = groupNames
+      .map((g) => {
+        const grp = groupMap[g];
+        return { name: g, rate: grp.total > 0 ? Math.round((grp.coop / grp.total) * 100) : 0 };
+      })
+      .sort((a, b) => b.rate - a.rate);
+    const rateNames = rateEntries.map((r) => r.name);
+    const rateValues = rateEntries.map((r) => r.rate);
+
     return {
       total,
       statusCounts,
@@ -216,6 +290,10 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
       stageNames,
       stageValues,
       cooperatingRate,
+      productNames,
+      productValues,
+      rateNames,
+      rateValues,
     };
   }, [schools, groupBy]);
 
@@ -277,6 +355,26 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
           <Card styles={{ body: { padding: '14px 16px' } }} style={cardStyle} title={cardTitle('▤', `按${groupLabel}分布（堆叠合作状态）`)}>
             {model.groupNames.length > 0 ? (
               <ReactECharts option={buildGroupOption(model.groupNames, model.counts)} style={{ height: 360 }} />
+            ) : (
+              <div style={{ textAlign: 'center', padding: 40, color: '#94a3b8' }}>暂无数据</div>
+            )}
+          </Card>
+        </Col>
+      </Row>
+      <Row gutter={[14, 14]} style={{ marginTop: 14 }}>
+        <Col xs={24} sm={12} lg={12}>
+          <Card styles={{ body: { padding: '14px 16px' } }} style={cardStyle} title={cardTitle('◆', '产品分布')}>
+            {model.productNames.length > 0 ? (
+              <ReactECharts option={buildProductOption(model.productNames, model.productValues)} style={{ height: 280 }} />
+            ) : (
+              <div style={{ textAlign: 'center', padding: 40, color: '#94a3b8' }}>暂无产品数据</div>
+            )}
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} lg={12}>
+          <Card styles={{ body: { padding: '14px 16px' } }} style={cardStyle} title={cardTitle('◆', `各${groupLabel}已合作转化率排名`)}>
+            {model.rateNames.length > 0 ? (
+              <ReactECharts option={buildConversionRateOption(model.rateNames, model.rateValues)} style={{ height: 280 }} />
             ) : (
               <div style={{ textAlign: 'center', padding: 40, color: '#94a3b8' }}>暂无数据</div>
             )}
