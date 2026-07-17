@@ -302,7 +302,15 @@ export default function ProvinceEssayProjectDashboard() {
       </Row>
 
       <SchoolAnalytics schools={privateData.schools} groupBy="city" groupLabel="城市" mode="essay"
-        allSchoolsTotal={data.cities.reduce((sum, c) => sum + c.districts.reduce((s2, d) => s2 + d.schools.filter((s) => !s.seed).length, 0), 0)} />
+        allSchoolsTotal={data.cities.reduce((sum, c) => sum + c.districts.reduce((s2, d) => s2 + d.schools.filter((s) => !s.seed).length, 0), 0)}
+        districtSchoolTotals={(() => {
+          const map: Record<string, number> = {};
+          for (const c of data.cities) {
+            map[c.name] = c.districts.reduce((s, d) => s + d.schools.filter((s) => !s.seed).length, 0);
+          }
+          return map;
+        })()}
+      />
 
       <Card title={<Space><EditOutlined style={{ color: '#1677ff' }} /><span style={{ fontWeight: 600, color: '#1e293b' }}>作文专项学校明细</span></Space>}
         extra={<Button type="text" size="small" onClick={handleExportCSV} style={{ color: '#8b9cb0', fontSize: 12 }}>导出</Button>}

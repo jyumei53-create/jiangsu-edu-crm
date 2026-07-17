@@ -27,6 +27,8 @@ interface SchoolAnalyticsProps {
   mode?: 'full' | 'essay';
   /** 作文专项漏斗需要知道所有学校的总数 */
   allSchoolsTotal?: number;
+  /** 作文专项堆叠图：各区县总学校数 */
+  districtSchoolTotals?: Record<string, number>;
 }
 
 function buildStatusOption(total: number, statusCounts: Record<string, number>) {
@@ -147,6 +149,39 @@ function buildStageOption(stageNames: string[], stageValues: number[]) {
   };
 }
 
+/** 作文专项堆叠柱状图：各区县学校总数 + 作文试用中 */
+function buildEssayGroupOption(
+  groupNames: string[],
+  districtTotals: number[],
+  essayTrialCounts: number[],
+) {
+  return {
+    grid: { left: 8, right: 24, top: 34, bottom: 6, containLabel: true },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    legend: {
+      top: 0,
+      icon: 'circle',
+      itemWidth: 8,
+      itemHeight: 8,
+      textStyle: { fontSize: 11, color: '#64748b' },
+      data: ['学校总数', '作文试用中'],
+    },
+    xAxis: { type: 'value', splitLine: { lineStyle: { color: '#f1f5f9' } }, axisLabel: { color: '#94a3b8' } },
+    yAxis: {
+      type: 'category',
+      data: groupNames,
+      inverse: true,
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: '#475569', fontSize: 12 },
+    },
+    series: [
+      { name: '学校总数', type: 'bar', data: districtTotals, itemStyle: { color: '#94a3b8' }, barWidth: '62%', barGap: '20%' },
+      { name: '作文试用中', type: 'bar', data: essayTrialCounts, itemStyle: { color: '#f59e0b', borderRadius: [0, 6, 6, 0] } },
+    ],
+  };
+}
+
 function buildGroupOption(
   groupNames: string[],
   counts: { coop: number[]; trial: number[]; report: number[]; pending: number[] }
@@ -252,7 +287,7 @@ function cardTitle(icon: React.ReactNode, label: string) {
   );
 }
 
-export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县', mode = 'full', allSchoolsTotal }: SchoolAnalyticsProps) {
+export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县', mode = 'full', allSchoolsTotal, districtSchoolTotals }: SchoolAnalyticsProps) {
   const model = useMemo(() => {
     const real = schools.filter((s) => !s.seed);
     const statusCounts: Record<string, number> = { 已合作: 0, 试用中: 0, 已汇报: 0, 待开发: 0 };
@@ -330,8 +365,29 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
     boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
   } as const;
 
-  // 作文专项模式：仅漏斗 + 堆叠分布
+  // 作文专项模式：仅漏斗 + 堆叠分布（各区县学校总数 vs 作文试用中）
   if (mode === 'essay') {
+    // 按区县聚合：作文试用中 = 产品含「作文」且非已合作
+    const essayGroupMap: Record<string, { essayTrial: number }> = {};
+    for (const s of schools) {
+      const g = groupBy === 'city' ? s.cityName || '未知' : s.districtName || '未知';
+      if (!essayGroupMap[g]) essayGroupMap[g] = { essayTrial: 0 };
+      // 作文试用中 = 产品或合作产品含「作文」且状态不是「已合作」
+      const hasEssay = (s.products && s.products.includes('作文')) || (s.cooperationProducts && s.cooperationProducts.includes('作文'));
+      if (hasEssay && s.status !== '已合作') {
+        essayGroupMap[g].essayTrial += 1;
+      }
+    }
+
+    // 构建区县列表：按总学校数排序
+    const essayGroupNames = Object.keys(essayGroupMap).sort((a, b) => {
+      const ta = districtSchoolTotals?.[a] || 0;
+      const tb = districtSchoolTotals?.[b] || 0;
+      return tb - ta;
+    });
+    const essayDistrictTotals = essayGroupNames.map((g) => districtSchoolTotals?.[g] || 0);
+    const essayTrialCounts = essayGroupNames.map((g) => essayGroupMap[g]?.essayTrial || 0);
+
     return (
       <div>
         <Row gutter={[14, 14]} style={{ marginBottom: 14 }}>
@@ -351,9 +407,9 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
         </Row>
         <Row gutter={[14, 14]}>
           <Col xs={24}>
-            <Card styles={{ body: { padding: '14px 16px' } }} style={cardStyle} title={cardTitle('▤', `按${groupLabel}分布（堆叠合作状态）`)}>
-              {model.groupNames.length > 0 ? (
-                <ReactECharts option={buildGroupOption(model.groupNames, model.counts)} style={{ height: 360 }} />
+            <Card styles={{ body: { padding: '14px 16px' } }} style={cardStyle} title={cardTitle('▤', `按${groupLabel}分布（学校总数 vs 作文试用中）`)}>
+              {essayGroupNames.length > 0 ? (
+                <ReactECharts option={buildEssayGroupOption(essayGroupNames, essayDistrictTotals, essayTrialCounts)} style={{ height: 360 }} />
               ) : (
                 <div style={{ textAlign: 'center', padding: 40, color: '#94a3b8' }}>暂无数据</div>
               )}

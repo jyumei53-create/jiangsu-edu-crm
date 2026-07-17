@@ -297,7 +297,15 @@ export default function EssayProjectDashboard() {
       </Row>
 
       <SchoolAnalytics schools={essayData.schools} groupBy="district" groupLabel="区县" mode="essay"
-        allSchoolsTotal={city ? city.districts.reduce((sum, d) => sum + d.schools.filter((s) => !s.seed).length, 0) : 0} />
+        allSchoolsTotal={city ? city.districts.reduce((sum, d) => sum + d.schools.filter((s) => !s.seed).length, 0) : 0}
+        districtSchoolTotals={(() => {
+          const map: Record<string, number> = {};
+          for (const d of city?.districts || []) {
+            map[d.name] = d.schools.filter((s) => !s.seed).length;
+          }
+          return map;
+        })()}
+      />
 
       <Card title={<Space><EditOutlined style={{ color: '#1677ff' }} /><span style={{ fontWeight: 600, color: '#1e293b' }}>作文专项学校明细</span></Space>}
         extra={<Button type="text" size="small" onClick={handleExportCSV} style={{ color: '#8b9cb0', fontSize: 12 }}>导出</Button>}
