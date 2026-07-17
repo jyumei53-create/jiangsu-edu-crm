@@ -54,27 +54,35 @@ export function loadAppData(): AppData {
       return seed;
     }
 
-    // 精准迁移：以《副本2025年小学初中高中xls.xls》最终名单为准，替换无锡市学校
-    // 仅在 wuxiSeedVersion 不匹配时执行，避免覆盖用户在其他城市/项目的编辑
+    // 精准迁移：仅清理已不存在的区县（如经开区），不动其他数据
     let modified = false;
-    const WUXI_SEED_VERSION = 2;
+    const seedCities = getSeedData().cities;
+    const WUXI_SEED_VERSION = 4;
     if ((data as AppData).wuxiSeedVersion !== WUXI_SEED_VERSION) {
       const wuxiCity = data.cities.find((c) => c.id === 'wuxi');
       if (wuxiCity) {
-        for (const dist of wuxiCity.districts) {
-          const seedSchools = WUXI_SEED_SCHOOLS[dist.id];
-          if (seedSchools && seedSchools.length > 0) {
-            dist.schools = seedSchools.map((s) => ({ ...s }));
+        const seedWuxi = seedCities.find((c) => c.id === 'wuxi');
+        if (seedWuxi) {
+          // 仅删除种子数据中已不存在的区县（如经开区），保留用户在其他区县的编辑
+          const validIds = new Set(seedWuxi.districts.map((d) => d.id));
+          const removedDistricts = wuxiCity.districts.filter((d) => !validIds.has(d.id));
+          if (removedDistricts.length > 0) {
+            // 将删除区县的学校迁移到新吴区（xinwu）
+            const xinwu = wuxiCity.districts.find((d) => d.id === 'xinwu');
+            if (xinwu) {
+              for (const rd of removedDistricts) {
+                xinwu.schools = [...xinwu.schools, ...rd.schools];
+              }
+            }
+            wuxiCity.districts = wuxiCity.districts.filter((d) => validIds.has(d.id));
+            modified = true;
           }
         }
         (data as AppData).wuxiSeedVersion = WUXI_SEED_VERSION;
-        modified = true;
       }
     }
 
     // 确保 13 市都存在，各区县 projects/schools 不为空
-    const seedCities = getSeedData().cities;
-
     for (const sc of seedCities) {
       let existing = data.cities.find((c) => c.id === sc.id);
       if (!existing) {
@@ -90,6 +98,14 @@ export function loadAppData(): AppData {
         if (existing.cityLeaders.length > 0) modified = true;
       } else if (!existing.cityLeaders) {
         existing.cityLeaders = [];
+        modified = true;
+      }
+
+      // 删除种子数据中已不存在的区县（如行政区划调整）
+      const validDistrictIds = new Set(sc.districts.map((d) => d.id));
+      const beforeLength = existing.districts.length;
+      existing.districts = existing.districts.filter((d) => validDistrictIds.has(d.id));
+      if (existing.districts.length !== beforeLength) {
         modified = true;
       }
 
