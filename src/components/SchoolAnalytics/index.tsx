@@ -85,8 +85,10 @@ function buildFunnelOption(total: number, statusCounts: Record<string, number>) 
 function buildEssayFunnelOption(allTotal: number, essaySchools: AnalyticsSchool[]) {
   // 已合作作文 = status已合作 + 合作产品含「作文」
   const essayCooperating = essaySchools.filter((s) => s.status === '已合作' && s.cooperationProducts && s.cooperationProducts.includes('作文')).length;
-  // 试用作文 = 产品含「作文」或合作产品含「作文」且非已合作（即还在推进中的）
-  const essayTrialing = essaySchools.filter((s) => s.status !== '已合作').length;
+  // 纯试用中（作文）= 产品中有「作文」且状态是「试用中」
+  const essayPureTrial = essaySchools.filter((s) => s.status === '试用中' && s.products && s.products.includes('作文')).length;
+  // 试用作文 = 纯试用中（作文）+ 已合作作文（已合作必定经历过试用）
+  const essayTrialing = essayPureTrial + essayCooperating;
   // 汇报过作文 = 作文专项纳入的全部学校（产品或合作产品含作文）
   const essayReported = essaySchools.length;
   const data = [
