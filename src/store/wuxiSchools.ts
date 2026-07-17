@@ -3819,11 +3819,7 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
     "cooperationProducts": [],
       "remark": ""
     },
-  ],
-
-  "jingkai": [
-  
-{
+    {
       "id": "wx_jingkai_3000",
       "name": "无锡市东绛第二实验学校",
       "status": "试用中",
@@ -3834,10 +3830,10 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 5,
       "street": "瑞星家园",
       "products": ["作文"],
-    "cooperationProducts": [],
+      "cooperationProducts": [],
       "remark": ""
     },
-{
+    {
       "id": "wx_jingkai_3001",
       "name": "无锡市华庄中学",
       "status": "已汇报",
@@ -3848,10 +3844,10 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 9,
       "street": "清源路",
       "products": ["学习空间"],
-    "cooperationProducts": [],
+      "cooperationProducts": [],
       "remark": ""
     },
-{
+    {
       "id": "wx_jingkai_3002",
       "name": "无锡金桥双语实验学校",
       "status": "待开发",
@@ -3862,9 +3858,10 @@ export const WUXI_SEED_SCHOOLS: Record<string, School[]> = {
       "order": 7,
       "street": "观顺道",
       "products": [],
-    "cooperationProducts": [],
+      "cooperationProducts": [],
       "remark": ""
-    },],
+    },
+  ],
 
   "jiangyin": [
     {

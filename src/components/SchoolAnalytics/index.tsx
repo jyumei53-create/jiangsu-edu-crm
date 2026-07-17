@@ -23,6 +23,10 @@ interface SchoolAnalyticsProps {
   schools: AnalyticsSchool[];
   groupBy: 'city' | 'district';
   groupLabel?: string;
+  /** 'full' = 完整分析看板，'essay' = 作文专项（仅漏斗+堆叠分布，漏斗按合作产品维度） */
+  mode?: 'full' | 'essay';
+  /** 作文专项漏斗需要知道所有学校的总数 */
+  allSchoolsTotal?: number;
 }
 
 function buildStatusOption(total: number, statusCounts: Record<string, number>) {
@@ -70,6 +74,27 @@ function buildFunnelOption(total: number, statusCounts: Record<string, number>) 
     { name: '试用中', value: statusCounts['试用中'] || 0, itemStyle: { color: '#f59e0b' } },
     { name: '已合作', value: statusCounts['已合作'] || 0, itemStyle: { color: '#10b981' } },
   ];
+  return buildFunnelFromData(data);
+}
+
+/** 作文专项漏斗：总数为全区学校总数，下钻按合作产品维度 */
+function buildEssayFunnelOption(allTotal: number, essaySchools: AnalyticsSchool[]) {
+  // 已合作作文 = status已合作 + 合作产品含「作文」
+  const essayCooperating = essaySchools.filter((s) => s.status === '已合作' && s.cooperationProducts && s.cooperationProducts.includes('作文')).length;
+  // 试用作文 = 产品含「作文」或合作产品含「作文」且非已合作（即还在推进中的）
+  const essayTrialing = essaySchools.filter((s) => s.status !== '已合作').length;
+  // 汇报过作文 = 作文专项纳入的全部学校（产品或合作产品含作文）
+  const essayReported = essaySchools.length;
+  const data = [
+    { name: '学校总数', value: allTotal, itemStyle: { color: '#475569' } },
+    { name: '汇报作文', value: essayReported, itemStyle: { color: '#8b5cf6' } },
+    { name: '试用作文', value: essayTrialing, itemStyle: { color: '#f59e0b' } },
+    { name: '合作作文', value: essayCooperating, itemStyle: { color: '#10b981' } },
+  ];
+  return buildFunnelFromData(data);
+}
+
+function buildFunnelFromData(data: { name: string; value: number; itemStyle: { color: string } }[]) {
   return {
     tooltip: { trigger: 'item', formatter: '{b}：{c} 所' },
     series: [
@@ -227,7 +252,7 @@ function cardTitle(icon: React.ReactNode, label: string) {
   );
 }
 
-export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县' }: SchoolAnalyticsProps) {
+export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县', mode = 'full', allSchoolsTotal }: SchoolAnalyticsProps) {
   const model = useMemo(() => {
     const real = schools.filter((s) => !s.seed);
     const statusCounts: Record<string, number> = { 已合作: 0, 试用中: 0, 已汇报: 0, 待开发: 0 };
@@ -304,6 +329,40 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
     border: '1px solid #f1f5f9',
     boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
   } as const;
+
+  // 作文专项模式：仅漏斗 + 堆叠分布
+  if (mode === 'essay') {
+    return (
+      <div>
+        <Row gutter={[14, 14]} style={{ marginBottom: 14 }}>
+          <Col xs={24} sm={12}>
+            <Card
+              styles={{ body: { padding: '14px 16px 8px' } }}
+              style={cardStyle}
+              title={(
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  {cardTitle('▼', '作文合作转化漏斗')}
+                </span>
+              )}
+            >
+              <ReactECharts option={buildEssayFunnelOption(allSchoolsTotal || model.total, schools)} style={{ height: 280 }} />
+            </Card>
+          </Col>
+        </Row>
+        <Row gutter={[14, 14]}>
+          <Col xs={24}>
+            <Card styles={{ body: { padding: '14px 16px' } }} style={cardStyle} title={cardTitle('▤', `按${groupLabel}分布（堆叠合作状态）`)}>
+              {model.groupNames.length > 0 ? (
+                <ReactECharts option={buildGroupOption(model.groupNames, model.counts)} style={{ height: 360 }} />
+              ) : (
+                <div style={{ textAlign: 'center', padding: 40, color: '#94a3b8' }}>暂无数据</div>
+              )}
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
 
   return (
     <div>

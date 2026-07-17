@@ -175,7 +175,8 @@ export default function ProvinceEssayProjectDashboard() {
         ))}
       </Row>
 
-      <SchoolAnalytics schools={essayData.schools} groupBy="city" groupLabel="城市" />
+      <SchoolAnalytics schools={essayData.schools} groupBy="city" groupLabel="城市" mode="essay"
+        allSchoolsTotal={data.cities.reduce((sum, c) => sum + c.districts.reduce((s2, d) => s2 + d.schools.filter((s) => !s.seed).length, 0), 0)} />
 
       <Card
         title={

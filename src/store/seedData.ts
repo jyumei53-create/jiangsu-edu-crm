@@ -46,7 +46,6 @@ const JIANGSU_CITIES: CityDef[] = [
       { id: 'binhu', name: '滨湖区', isKey: true, projects: [{ category: '市场现状', content: '' }, { category: '人工智能通识', content: '' }, { category: '心理通识', content: '未续费' }] },
       { id: 'liangxi', name: '梁溪区', isKey: true, projects: [{ category: '市场现状', content: '飞象统筹' }, { category: '人工智能通识', content: '飞象统筹' }, { category: '心理通识', content: '' }] },
       { id: 'xinwu', name: '新吴区' },
-      { id: 'jingkai', name: '经开区' },
       { id: 'jiangyin', name: '江阴市' },
       { id: 'yixing', name: '宜兴市' },
     ],
