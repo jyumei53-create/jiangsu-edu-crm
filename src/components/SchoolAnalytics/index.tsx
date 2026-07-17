@@ -62,9 +62,11 @@ function buildStatusOption(total: number, statusCounts: Record<string, number>) 
 }
 
 function buildFunnelOption(total: number, statusCounts: Record<string, number>) {
+  // 已汇报 = 已汇报 + 试用中 + 已合作（每推进到下一个状态都建立在已汇报的基础上）
+  const reported = (statusCounts['已汇报'] || 0) + (statusCounts['试用中'] || 0) + (statusCounts['已合作'] || 0);
   const data = [
     { name: '学校总数', value: total, itemStyle: { color: '#475569' } },
-    { name: '已汇报', value: statusCounts['已汇报'] || 0, itemStyle: { color: '#8b5cf6' } },
+    { name: '已汇报', value: reported, itemStyle: { color: '#8b5cf6' } },
     { name: '试用中', value: statusCounts['试用中'] || 0, itemStyle: { color: '#f59e0b' } },
     { name: '已合作', value: statusCounts['已合作'] || 0, itemStyle: { color: '#10b981' } },
   ];
