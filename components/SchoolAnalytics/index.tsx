@@ -153,11 +153,12 @@ function buildStageOption(stageNames: string[], stageValues: number[]) {
   };
 }
 
-/** 作文专项横向进度条：各区县学校总数（灰色底条）+ 作文试用中橙色占比 */
+/** 作文专项横向进度条：各区县学校总数（灰色底条）+ 作文试用中（橙色）+ 作文已合作（绿色） */
 function buildEssayGroupOption(
   groupNames: string[],
   districtTotals: number[],
   essayTrialCounts: number[],
+  essayCoopCounts: number[],
 ) {
   const max = Math.max(...districtTotals, 1);
   return {
@@ -170,8 +171,9 @@ function buildEssayGroupOption(
         const name = items[0]?.axisValue || '';
         const total = items.find((p: any) => p.seriesName === '学校总数')?.value || 0;
         const trial = items.find((p: any) => p.seriesName === '作文试用中')?.value || 0;
-        const pct = total > 0 ? Math.round((trial / total) * 100) : 0;
-        return `<b>${name}</b><br/>学校总数：${total} 所<br/>作文试用中：${trial} 所（${pct}%）`;
+        const coop = items.find((p: any) => p.seriesName === '作文已合作')?.value || 0;
+        const pct = total > 0 ? Math.round(((trial + coop) / total) * 100) : 0;
+        return `<b>${name}</b><br/>学校总数：${total} 所<br/>作文试用中：${trial} 所<br/>作文已合作：${coop} 所（合计 ${pct}%）`;
       },
     },
     legend: {
@@ -180,7 +182,7 @@ function buildEssayGroupOption(
       itemWidth: 8,
       itemHeight: 8,
       textStyle: { fontSize: 11, color: '#64748b' },
-      data: ['学校总数', '作文试用中'],
+      data: ['学校总数', '作文试用中', '作文已合作'],
     },
     xAxis: {
       type: 'value',
@@ -216,26 +218,41 @@ function buildEssayGroupOption(
         type: 'bar',
         data: essayTrialCounts,
         barWidth: 24,
+        stack: 'essay',
         itemStyle: {
           color: '#f59e0b',
-          borderRadius: [6, 6, 6, 6],
         },
         emphasis: { itemStyle: { color: '#fbbf24' } },
+        z: 2,
+      },
+      {
+        name: '作文已合作',
+        type: 'bar',
+        data: essayCoopCounts,
+        barWidth: 24,
+        stack: 'essay',
+        itemStyle: {
+          color: '#10b981',
+          borderRadius: [6, 6, 6, 6],
+        },
+        emphasis: { itemStyle: { color: '#34d399' } },
         label: {
           show: true,
           position: 'right',
           formatter: (p: any) => {
             const idx = p.dataIndex;
             const total = districtTotals[idx] || 1;
-            const pct = Math.round((p.value / total) * 100);
+            const trial = essayTrialCounts[idx] || 0;
+            const coop = essayCoopCounts[idx] || 0;
+            const pct = Math.round(((trial + coop) / total) * 100);
             return `${pct}%`;
           },
-          color: '#f59e0b',
+          color: '#10b981',
           fontSize: 12,
           fontWeight: 600,
           distance: 4,
         },
-        z: 2,
+        z: 3,
       },
     ],
   };
@@ -424,17 +441,20 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
     boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
   } as const;
 
-  // 作文专项模式：仅漏斗 + 堆叠分布（各区县学校总数 vs 作文试用中）
+  // 作文专项模式：仅漏斗 + 堆叠分布（各区县学校总数 vs 作文试用中+已合作）
   if (mode === 'essay') {
-    // 按区县聚合：作文试用中 = 产品含「作文」且非已合作
-    const essayGroupMap: Record<string, { essayTrial: number }> = {};
+    // 按区县聚合：
+    // 作文试用中 = trialProducts 含「作文」且状态为「试用中」
+    // 作文已合作 = cooperationProducts 含「作文」且状态为「已合作」
+    const essayGroupMap: Record<string, { essayTrial: number; essayCoop: number }> = {};
     for (const s of schools) {
       const g = groupBy === 'city' ? s.cityName || '未知' : s.districtName || '未知';
-      if (!essayGroupMap[g]) essayGroupMap[g] = { essayTrial: 0 };
-      // 作文试用中 = 产品或合作产品含「作文」且状态不是「已合作」
-      const hasEssay = (s.products && s.products.includes('作文')) || (s.cooperationProducts && s.cooperationProducts.includes('作文'));
-      if (hasEssay && s.status !== '已合作') {
+      if (!essayGroupMap[g]) essayGroupMap[g] = { essayTrial: 0, essayCoop: 0 };
+      if (s.trialProducts && s.trialProducts.includes('作文') && s.status === '试用中') {
         essayGroupMap[g].essayTrial += 1;
+      }
+      if (s.cooperationProducts && s.cooperationProducts.includes('作文') && s.status === '已合作') {
+        essayGroupMap[g].essayCoop += 1;
       }
     }
 
@@ -446,6 +466,7 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
     });
     const essayDistrictTotals = essayGroupNames.map((g) => districtSchoolTotals?.[g] || 0);
     const essayTrialCounts = essayGroupNames.map((g) => essayGroupMap[g]?.essayTrial || 0);
+    const essayCoopCounts = essayGroupNames.map((g) => essayGroupMap[g]?.essayCoop || 0);
 
     return (
       <div>
@@ -558,9 +579,9 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
         </Row>
         <Row gutter={[14, 14]}>
           <Col xs={24}>
-            <Card styles={{ body: { padding: '14px 16px' } }} style={cardStyle} title={cardTitle('▤', `按${groupLabel}分布（学校总数 vs 作文试用中）`)}>
+            <Card styles={{ body: { padding: '14px 16px' } }} style={cardStyle} title={cardTitle('▤', `按${groupLabel}分布（学校总数 vs 作文试用中+已合作）`)}>
               {essayGroupNames.length > 0 ? (
-                <ReactECharts option={buildEssayGroupOption(essayGroupNames, essayDistrictTotals, essayTrialCounts)} style={{ height: 360 }} />
+                <ReactECharts option={buildEssayGroupOption(essayGroupNames, essayDistrictTotals, essayTrialCounts, essayCoopCounts)} style={{ height: 360 }} />
               ) : (
                 <div style={{ textAlign: 'center', padding: 40, color: '#94a3b8' }}>暂无数据</div>
               )}
