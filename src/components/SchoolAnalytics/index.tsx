@@ -465,58 +465,93 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
               style={cardStyle}
               title={cardTitle('📅', '重要节点提醒')}
             >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                {/* 节点1：2025年10月15日 */}
-                {(() => {
-                  const today = new Date();
-                  const target = new Date('2025-10-15');
-                  const diffMs = target.getTime() - today.getTime();
-                  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-                  const isOverdue = diffDays < 0;
+              {(() => {
+                const today = new Date();
+                const trialDeadline = new Date('2026-10-15');
+                const payDeadline = new Date('2026-12-31');
+                const trialDiff = Math.ceil((trialDeadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                const payDiff = Math.ceil((payDeadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+                // 通用月历渲染函数
+                const renderCalendar = (year: number, month: number, highlightDay: number, color: string, bgColor: string, label: string, diffDays: number) => {
+                  const firstDay = new Date(year, month, 1).getDay(); // 0=周日
+                  const daysInMonth = new Date(year, month + 1, 0).getDate();
+                  const weekHeaders = ['日', '一', '二', '三', '四', '五', '六'];
+                  const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+                  const cells: React.ReactNode[] = [];
+                  // 空白填充
+                  for (let i = 0; i < firstDay; i++) {
+                    cells.push(<td key={`e${i}`} style={{ width: '14.28%', padding: '2px 0', textAlign: 'center' }} />);
+                  }
+                  for (let d = 1; d <= daysInMonth; d++) {
+                    const isTarget = d === highlightDay;
+                    const isPast = new Date(year, month, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                    cells.push(
+                      <td key={d} style={{ width: '14.28%', padding: '2px 0', textAlign: 'center' }}>
+                        <span style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: 26,
+                          height: 26,
+                          borderRadius: '50%',
+                          fontSize: 12,
+                          fontWeight: isTarget ? 700 : 400,
+                          color: isTarget ? '#fff' : isPast ? '#cbd5e1' : '#475569',
+                          background: isTarget ? color : 'transparent',
+                          boxShadow: isTarget ? `0 0 0 3px ${bgColor}` : undefined,
+                        }}>{d}</span>
+                      </td>
+                    );
+                  }
+                  // 补足行
+                  while (cells.length < 42) {
+                    cells.push(<td key={`p${cells.length}`} style={{ width: '14.28%', padding: '2px 0' }} />);
+                  }
+                  const rows: React.ReactNode[] = [];
+                  for (let r = 0; r < 6; r++) {
+                    rows.push(<tr key={r}>{cells.slice(r * 7, r * 7 + 7)}</tr>);
+                  }
                   return (
                     <div style={{
-                      background: isOverdue ? 'linear-gradient(135deg, #fef2f2, #fee2e2)' : 'linear-gradient(135deg, #fffbeb, #fef3c7)',
+                      background: bgColor,
                       borderRadius: 10,
-                      padding: '14px 16px',
-                      border: isOverdue ? '1px solid #fecaca' : '1px solid #fde68a',
-                      position: 'relative',
-                      overflow: 'hidden',
+                      padding: '10px 12px',
+                      border: `1px solid ${color}20`,
                     }}>
-                      <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: isOverdue ? '#ef4444' : '#f59e0b', borderRadius: '4px 0 0 4px' }} />
-                      <div style={{ fontSize: 13, fontWeight: 600, color: isOverdue ? '#991b1b' : '#92400e', marginBottom: 6 }}>🎯 作文试用校截止</div>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: isOverdue ? '#dc2626' : '#d97706', marginBottom: 4 }}>2025年10月15日</div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: isOverdue ? '#dc2626' : '#d97706' }}>
-                        {isOverdue ? `已超期 ${Math.abs(diffDays)} 天` : `剩余 ${diffDays} 天`}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                        <span style={{ fontSize: 14, fontWeight: 700, color }}>{monthNames[month]} {year}</span>
+                        <span style={{
+                          fontSize: 11, fontWeight: 600, color,
+                          background: `${color}15`, borderRadius: 6, padding: '2px 8px',
+                        }}>
+                          {label}
+                        </span>
+                      </div>
+                      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                          <tr>
+                            {weekHeaders.map((w) => (
+                              <th key={w} style={{ width: '14.28%', padding: '2px 0', textAlign: 'center', fontSize: 10, fontWeight: 500, color: '#94a3b8' }}>{w}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>{rows}</tbody>
+                      </table>
+                      <div style={{ textAlign: 'center', marginTop: 8, fontSize: 13, fontWeight: 600, color }}>
+                        {diffDays > 0 ? `⏳ 剩余 ${diffDays} 天` : diffDays === 0 ? '🎯 就是今天！' : `⚠️ 已超期 ${Math.abs(diffDays)} 天`}
                       </div>
                     </div>
                   );
-                })()}
-                {/* 节点2：2026年12月31日 */}
-                {(() => {
-                  const today = new Date();
-                  const target = new Date('2026-12-31');
-                  const diffMs = target.getTime() - today.getTime();
-                  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-                  const isOverdue = diffDays < 0;
-                  return (
-                    <div style={{
-                      background: isOverdue ? 'linear-gradient(135deg, #fef2f2, #fee2e2)' : 'linear-gradient(135deg, #ecfdf5, #d1fae5)',
-                      borderRadius: 10,
-                      padding: '14px 16px',
-                      border: isOverdue ? '1px solid #fecaca' : '1px solid #a7f3d0',
-                      position: 'relative',
-                      overflow: 'hidden',
-                    }}>
-                      <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: isOverdue ? '#ef4444' : '#10b981', borderRadius: '4px 0 0 4px' }} />
-                      <div style={{ fontSize: 13, fontWeight: 600, color: isOverdue ? '#991b1b' : '#065f46', marginBottom: 6 }}>🏆 作文付费校截止</div>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: isOverdue ? '#dc2626' : '#059669', marginBottom: 4 }}>2026年12月31日</div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: isOverdue ? '#dc2626' : '#059669' }}>
-                        {isOverdue ? `已超期 ${Math.abs(diffDays)} 天` : `剩余 ${diffDays} 天`}
-                      </div>
-                    </div>
-                  );
-                })()}
-              </div>
+                };
+
+                return (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {renderCalendar(2026, 9, 15, '#d97706', '#fffbeb', '🎯 试用截止', trialDiff)}
+                    {renderCalendar(2026, 11, 31, '#059669', '#ecfdf5', '🏆 付费截止', payDiff)}
+                  </div>
+                );
+              })()}
             </Card>
           </Col>
         </Row>
