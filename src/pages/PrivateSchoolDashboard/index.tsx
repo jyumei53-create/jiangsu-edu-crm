@@ -88,6 +88,30 @@ export default function PrivateSchoolDashboard() {
     '已合作': 'green', '试用中': 'orange', '已汇报': 'purple', '待开发': 'default',
   };
 
+  const handleExportCSV = () => {
+    const headers = ['学校名称', '学段', '状态', '产品', '合作产品', '关键人', '所属街道', '区县', '民办校', '市直属', '备注'];
+    const rows = privateData.schools.map((s) => [
+      s.name, s.stage || '', s.status,
+      (s.products || []).join('、'),
+      (s.cooperationProducts || []).join('、'),
+      s.keyPerson || '', s.street || '',
+      (s as any).districtName || '',
+      s.isPrivate ? '是' : '否',
+      s.isMunicipal ? '是' : '否',
+      s.remark || '',
+    ]);
+    const csvContent = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${city?.name || '城市'}_民办校名单_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const productColorMap: Record<string, string> = {
     '作文': '#1677ff', '作业': '#52c41a', '通识课': '#722ed1',
     '飞象老师': '#fa8c16', '学习空间': '#13c2c2', '墨水屏': '#eb2f96',
@@ -280,6 +304,7 @@ export default function PrivateSchoolDashboard() {
       <SchoolAnalytics schools={privateData.schools} groupBy="district" groupLabel="区县" />
 
       <Card title={<Space><BankOutlined style={{ color: '#1677ff' }} /><span style={{ fontWeight: 600, color: '#1e293b' }}>民办学校明细</span></Space>}
+        extra={<Button type="text" size="small" onClick={handleExportCSV} style={{ color: '#8b9cb0', fontSize: 12 }}>导出</Button>}
         style={{ borderRadius: 14, border: '1px solid #f1f5f9', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
         <Table rowKey="id" columns={columns} dataSource={privateData.schools} size="middle" scroll={{ x: 1000 }}
           pagination={{ pageSize: 20, showSizeChanger: true, showTotal: (t) => `共 ${t} 所学校` }}

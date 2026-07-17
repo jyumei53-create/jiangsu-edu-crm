@@ -608,6 +608,29 @@ function SchoolPanel({
 
   const sortedSchools = [...district.schools].sort((a, b) => a.order - b.order);
 
+  const handleExportCSV = () => {
+    const headers = ['学校名称', '学段', '状态', '产品', '合作产品', '关键人', '所属街道', '民办校', '市直属', '备注'];
+    const rows = sortedSchools.map((s) => [
+      s.name, s.stage || '', s.status,
+      (s.products || []).join('、'),
+      (s.cooperationProducts || []).join('、'),
+      s.keyPerson || '', s.street || '',
+      s.isPrivate ? '是' : '否',
+      s.isMunicipal ? '是' : '否',
+      s.remark || '',
+    ]);
+    const csvContent = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${district.name}_学校名单_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleOrderChange = (schoolId: string, value: number | null) => {
     if (value !== null && value !== undefined) {
       setOrderCache((prev) => ({ ...prev, [schoolId]: value }));
@@ -975,6 +998,14 @@ function SchoolPanel({
             style={{ borderRadius: 8, fontWeight: 500 }}
           >
             批量导入
+          </Button>
+          <Button
+            type="text"
+            size="small"
+            onClick={handleExportCSV}
+            style={{ color: '#8b9cb0', fontSize: 12 }}
+          >
+            导出
           </Button>
         </Space>
 
