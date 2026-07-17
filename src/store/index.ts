@@ -57,10 +57,17 @@ export function loadAppData(): AppData {
     // 精准迁移：以《副本2025年小学初中高中xls.xls》最终名单为准，替换无锡市学校
     // 仅在 wuxiSeedVersion 不匹配时执行，避免覆盖用户在其他城市/项目的编辑
     let modified = false;
-    const WUXI_SEED_VERSION = 3;
+    const seedCities = getSeedData().cities;
+    const WUXI_SEED_VERSION = 4;
     if ((data as AppData).wuxiSeedVersion !== WUXI_SEED_VERSION) {
       const wuxiCity = data.cities.find((c) => c.id === 'wuxi');
       if (wuxiCity) {
+        // 直接以种子数据替换无锡市完整 districts 列表，清理已删除的区县（如经开区）
+        const seedWuxi = seedCities.find((c) => c.id === 'wuxi');
+        if (seedWuxi) {
+          wuxiCity.districts = seedWuxi.districts.map((d) => ({ ...d }));
+        }
+        // 重新填充各学校
         for (const dist of wuxiCity.districts) {
           const seedSchools = WUXI_SEED_SCHOOLS[dist.id];
           if (seedSchools && seedSchools.length > 0) {
@@ -73,8 +80,6 @@ export function loadAppData(): AppData {
     }
 
     // 确保 13 市都存在，各区县 projects/schools 不为空
-    const seedCities = getSeedData().cities;
-
     for (const sc of seedCities) {
       let existing = data.cities.find((c) => c.id === sc.id);
       if (!existing) {
@@ -90,6 +95,14 @@ export function loadAppData(): AppData {
         if (existing.cityLeaders.length > 0) modified = true;
       } else if (!existing.cityLeaders) {
         existing.cityLeaders = [];
+        modified = true;
+      }
+
+      // 删除种子数据中已不存在的区县（如行政区划调整）
+      const validDistrictIds = new Set(sc.districts.map((d) => d.id));
+      const beforeLength = existing.districts.length;
+      existing.districts = existing.districts.filter((d) => validDistrictIds.has(d.id));
+      if (existing.districts.length !== beforeLength) {
         modified = true;
       }
 
