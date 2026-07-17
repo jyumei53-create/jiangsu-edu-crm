@@ -23,7 +23,7 @@ function AppRoutes() {
 
   return (
     <AppContext.Provider value={{ data, setData, loading }}>
-      <BrowserRouter basename="/jiangsu-edu-crm">
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           {/* 登录页（公开） */}
           <Route path="/login" element={<LoginPage />} />
