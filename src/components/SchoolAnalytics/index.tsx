@@ -459,6 +459,48 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
               <ReactECharts option={buildEssayFunnelOption(allSchoolsTotal || model.total, schools)} style={{ height: 280 }} />
             </Card>
           </Col>
+          <Col xs={24} sm={12}>
+            <Card
+              styles={{ body: { padding: '14px 16px' } }}
+              style={cardStyle}
+              title={cardTitle('📅', '重要节点提醒')}
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {/* 节点1：2025年10月15日 */}
+                <div style={{
+                  background: 'linear-gradient(135deg, #fffbeb, #fef3c7)',
+                  borderRadius: 10,
+                  padding: '14px 16px',
+                  border: '1px solid #fde68a',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}>
+                  <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: '#f59e0b', borderRadius: '4px 0 0 4px' }} />
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#92400e', marginBottom: 6 }}>🎯 试用目标节点</div>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: '#d97706', marginBottom: 4 }}>2025年10月15日</div>
+                  <div style={{ fontSize: 12, color: '#a16207', lineHeight: 1.6 }}>
+                    完成 <b style={{ color: '#d97706' }}>35所</b> 作文试用校
+                  </div>
+                </div>
+                {/* 节点2：2026年12月31日 */}
+                <div style={{
+                  background: 'linear-gradient(135deg, #ecfdf5, #d1fae5)',
+                  borderRadius: 10,
+                  padding: '14px 16px',
+                  border: '1px solid #a7f3d0',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}>
+                  <div style={{ position: 'absolute', top: 0, left: 0, width: 4, height: '100%', background: '#10b981', borderRadius: '4px 0 0 4px' }} />
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#065f46', marginBottom: 6 }}>🏆 付费目标节点</div>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: '#059669', marginBottom: 4 }}>2026年12月31日</div>
+                  <div style={{ fontSize: 12, color: '#047857', lineHeight: 1.6 }}>
+                    每人最低完成 <b style={{ color: '#059669' }}>20所</b> 作文付费校
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </Col>
         </Row>
         <Row gutter={[14, 14]}>
           <Col xs={24}>
