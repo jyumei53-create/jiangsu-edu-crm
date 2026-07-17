@@ -3,8 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Card, Button, Typography, Space, Table, Tag, Input, Select } from 'antd';
 import {
   ArrowLeftOutlined, CheckCircleOutlined, ExperimentOutlined,
-  FileTextOutlined, ClockCircleOutlined, EditOutlined,
-  SearchOutlined, FilterOutlined,
+  EditOutlined, SearchOutlined, FilterOutlined,
 } from '@ant-design/icons';
 import { useAppContext } from '../../store/AppContext';
 import { useAuth } from '../../store/AuthContext';
@@ -38,11 +37,15 @@ export default function EssayProjectDashboard() {
     let schools: Array<School & { districtName: string; districtId: string }> = [];
     for (const d of city.districts) {
       for (const s of d.schools) {
-        if (s.products && s.products.includes('作文') && !s.seed) {
+        // 纳入范围：产品或合作产品中包含「作文」且非种子数据
+        const hasEssay = (s.products && s.products.includes('作文')) || (s.cooperationProducts && s.cooperationProducts.includes('作文'));
+        if (hasEssay && !s.seed) {
           schools.push({ ...s, districtName: d.name, districtId: d.id });
         }
       }
     }
+
+    // 筛选逻辑不变...
 
     if (nameFilter.trim()) {
       const kw = nameFilter.trim().toLowerCase();
@@ -75,10 +78,12 @@ export default function EssayProjectDashboard() {
     return {
       schools,
       total: schools.length,
-      cooperating: schools.filter((s) => s.status === '已合作').length,
-      trialing: schools.filter((s) => s.status === '试用中').length,
-      reported: schools.filter((s) => s.status === '已汇报').length,
-      pending: schools.filter((s) => s.status === '待开发').length,
+      // 作文专项统计：合作产品含「作文」= 已合作
+      cooperating: schools.filter((s) => s.cooperationProducts && s.cooperationProducts.includes('作文')).length,
+      // 产品含作文但合作产品不含作文 = 试用/推进中
+      trialing: schools.filter((s) => (!s.cooperationProducts || !s.cooperationProducts.includes('作文'))).length,
+      reported: 0,
+      pending: 0,
     };
   }, [city, nameFilter, districtFilter, stageFilter, statusFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter]);
 
@@ -129,10 +134,8 @@ export default function EssayProjectDashboard() {
 
   const statCards = [
     { title: '作文专项学校', value: essayData.total, icon: <EditOutlined />, color: '#1677ff' },
-    { title: '已合作', value: essayData.cooperating, icon: <CheckCircleOutlined />, color: '#10b981' },
-    { title: '试用中', value: essayData.trialing, icon: <ExperimentOutlined />, color: '#f59e0b' },
-    { title: '已汇报', value: essayData.reported, icon: <FileTextOutlined />, color: '#8b5cf6' },
-    { title: '待开发', value: essayData.pending, icon: <ClockCircleOutlined />, color: '#94a3b8' },
+    { title: '已合作（作文）', value: essayData.cooperating, icon: <CheckCircleOutlined />, color: '#10b981' },
+    { title: '推进中', value: essayData.trialing, icon: <ExperimentOutlined />, color: '#f59e0b' },
   ];
 
   const columns = [
