@@ -620,6 +620,7 @@ function SchoolPanel({
   const [nameFilter, setNameFilter] = useState('');
   const [stageFilter, setStageFilter] = useState<string[]>([]);
   const [statusFilter, setStatusFilter] = useState<string[]>([]);
+  const [trialProductFilter, setTrialProductFilter] = useState<string[]>([]);
   const [productFilter, setProductFilter] = useState<string[]>([]);
   const [cooperationProductFilter, setCooperationProductFilter] = useState<string[]>([]);
   const [keyPersonFilter, setKeyPersonFilter] = useState('');
@@ -642,6 +643,12 @@ function SchoolPanel({
     // 状态多选筛选
     if (statusFilter.length > 0) {
       result = result.filter((s) => statusFilter.includes(s.status));
+    }
+    // 试用产品多选筛选（拥有任一选中试用产品即匹配）
+    if (trialProductFilter.length > 0) {
+      result = result.filter(
+        (s) => s.trialProducts && s.trialProducts.some((p) => trialProductFilter.includes(p))
+      );
     }
     // 产品多选筛选（拥有任一选中产品即匹配）
     if (productFilter.length > 0) {
@@ -677,15 +684,16 @@ function SchoolPanel({
     }
 
     return result;
-  }, [district.schools, nameFilter, stageFilter, statusFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter, privateFilter, municipalFilter]);
+  }, [district.schools, nameFilter, stageFilter, statusFilter, trialProductFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter, privateFilter, municipalFilter]);
 
   // 导出学校名单为 CSV
   const handleExportCSV = () => {
-    const headers = ['学校名称', '学段', '状态', '产品', '合作产品', '关键人', '所属街道', '民办校', '市直属', '备注'];
+    const headers = ['学校名称', '学段', '状态', '试用产品', '产品', '合作产品', '关键人', '所属街道', '民办校', '市直属', '备注'];
     const rows = sortedSchools.map((s) => [
       s.name,
       s.stage || '',
       s.status,
+      (s.trialProducts || []).join('、'),
       (s.products || []).join('、'),
       (s.cooperationProducts || []).join('、'),
       s.keyPerson || '',
@@ -867,7 +875,8 @@ function SchoolPanel({
 
     const newSchools: School[] = lines.map((line, i) => {
       const parts = line.split(/[\t,，\s]+/).filter(Boolean);
-      const [name, stage, status, productStr, street, keyPerson, remark] = parts;
+      const [name, stage, status, trialProductStr, productStr, street, keyPerson, remark] = parts;
+      const trialProducts = trialProductStr ? trialProductStr.split(/[、/]/).filter(Boolean) : [];
       const products = productStr ? productStr.split(/[、/]/).filter(Boolean) : [];
 
       return {
@@ -875,6 +884,7 @@ function SchoolPanel({
         name: name || `未命名学校 ${i + 1}`,
         status: (ALL_STATUSES.includes(status as SchoolStatus) ? status : '待开发') as SchoolStatus,
         stage: stage || '',
+        trialProducts,
         products,
         street: street || '',
         keyPerson: keyPerson || '',
@@ -998,6 +1008,48 @@ function SchoolPanel({
         <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
       ),
       render: (status: SchoolStatus) => <StatusTag status={status} />,
+    },
+    {
+      title: '试用产品',
+      dataIndex: 'trialProducts',
+      key: 'trialProducts',
+      width: 150,
+      filtered: trialProductFilter.length > 0,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 200 }}>
+          <Select
+            mode="multiple"
+            placeholder="筛选试用产品"
+            value={trialProductFilter}
+            onChange={(v) => setTrialProductFilter(v)}
+            style={{ width: '100%' }}
+            options={ALL_PRODUCTS.map((p) => ({ label: p, value: p }))}
+            allowClear
+            maxTagCount={2}
+            onBlur={() => close()}
+            autoFocus
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
+      render: (products: string[] | undefined) => {
+        if (!products || products.length === 0) return <Text type="secondary">-</Text>;
+        const colorMap: Record<string, string> = {
+          '作文': '#1677ff', '作业': '#52c41a', '双师课': '#722ed1',
+          '飞象老师': '#fa8c16', '学习空间': '#13c2c2', '墨水屏': '#eb2f96',
+        };
+        return (
+          <Space size={2} wrap>
+            {products.map((p) => (
+              <Tag key={p} color={colorMap[p] || 'default'} style={{ margin: 0, fontSize: 11 }}>
+                {p}
+              </Tag>
+            ))}
+          </Space>
+        );
+      },
     },
     {
       title: '合作产品',
@@ -1406,6 +1458,20 @@ function SchoolPanel({
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item label="试用产品">
+            <Select
+              mode="multiple"
+              value={editingSchool?.trialProducts || []}
+              onChange={(v) =>
+                setEditingSchool((prev) =>
+                  prev ? { ...prev, trialProducts: v } : null
+                )
+              }
+              allowClear
+              placeholder="可选择多个试用产品"
+              options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
+            />
+          </Form.Item>
           <Form.Item label="产品">
             <Select
               mode="multiple"
@@ -1504,14 +1570,14 @@ function SchoolPanel({
         <div style={{ marginBottom: 8 }}>
           <Text type="secondary">
             每行一所学校，用 Tab/逗号/空格 分隔：<br />
-            格式：学校名称 学段 状态 产品(多个用/分隔) 街道 关键人 备注
+            格式：学校名称 学段 状态 试用产品(多个用/分隔) 产品(多个用/分隔) 街道 关键人 备注
           </Text>
         </div>
         <TextArea
           rows={8}
           value={importText}
           onChange={(e) => setImportText(e.target.value)}
-          placeholder={`示例：\n${district.name}第一小学 小学 已合作 双师课/作文 新街口街道 张主任\n${district.name}第二中学 初中 试用中 作业 湖南路街道`}
+          placeholder={`示例：\n${district.name}第一小学 小学 已合作 作文 双师课/作文 新街口街道 张主任\n${district.name}第二中学 初中 试用中 作文 作业 湖南路街道`}
         />
       </Modal>
     </div>

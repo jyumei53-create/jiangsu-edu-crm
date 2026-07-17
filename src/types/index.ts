@@ -9,6 +9,7 @@ export interface School {
   name: string;
   status: SchoolStatus;
   stage?: string;
+  trialProducts?: string[];
   products?: string[];
   cooperationProducts?: string[];
   street?: string;
