@@ -142,7 +142,7 @@ export default function ProvinceDashboard() {
         </Button>
         <Title level={4} style={{ margin: 0, fontWeight: 600, color: '#1e293b' }}>
           <BarChartOutlined style={{ marginRight: 6, color: '#1677ff' }} />
-          江苏省全市数据看板
+          江苏省全省数据看板
         </Title>
       </div>
 

@@ -316,7 +316,7 @@ export default function ProvinceMap() {
     },
     {
       key: 'all',
-      title: '江苏省全市数据看板',
+      title: '江苏省全省数据看板',
       desc: '全省学校全景与区县明细',
       metric: stats.totalSchools,
       metricLabel: `所学校 · ${stats.totalDistricts} 区县`,
