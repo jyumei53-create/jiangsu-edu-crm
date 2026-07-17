@@ -472,41 +472,39 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
                 const trialDiff = Math.ceil((trialDeadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
                 const payDiff = Math.ceil((payDeadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
-                // 通用月历渲染函数
+                const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+                const weekHeaders = ['日','一','二','三','四','五','六'];
+
                 const renderCalendar = (year: number, month: number, highlightDay: number, color: string, bgColor: string, label: string, diffDays: number) => {
-                  const firstDay = new Date(year, month, 1).getDay(); // 0=周日
+                  const firstDay = new Date(year, month, 1).getDay();
                   const daysInMonth = new Date(year, month + 1, 0).getDate();
-                  const weekHeaders = ['日', '一', '二', '三', '四', '五', '六'];
-                  const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
                   const cells: React.ReactNode[] = [];
-                  // 空白填充
                   for (let i = 0; i < firstDay; i++) {
-                    cells.push(<td key={`e${i}`} style={{ width: '14.28%', padding: '2px 0', textAlign: 'center' }} />);
+                    cells.push(<td key={`e${i}`} style={{ width: '14.28%', padding: 0, textAlign: 'center' }} />);
                   }
                   for (let d = 1; d <= daysInMonth; d++) {
                     const isTarget = d === highlightDay;
                     const isPast = new Date(year, month, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
                     cells.push(
-                      <td key={d} style={{ width: '14.28%', padding: '2px 0', textAlign: 'center' }}>
+                      <td key={d} style={{ width: '14.28%', padding: 0, textAlign: 'center' }}>
                         <span style={{
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: 26,
-                          height: 26,
+                          width: 22,
+                          height: 22,
                           borderRadius: '50%',
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: isTarget ? 700 : 400,
                           color: isTarget ? '#fff' : isPast ? '#cbd5e1' : '#475569',
                           background: isTarget ? color : 'transparent',
-                          boxShadow: isTarget ? `0 0 0 3px ${bgColor}` : undefined,
+                          boxShadow: isTarget ? `0 0 0 2px ${bgColor}` : undefined,
                         }}>{d}</span>
                       </td>
                     );
                   }
-                  // 补足行
                   while (cells.length < 42) {
-                    cells.push(<td key={`p${cells.length}`} style={{ width: '14.28%', padding: '2px 0' }} />);
+                    cells.push(<td key={`p${cells.length}`} style={{ width: '14.28%', padding: 0 }} />);
                   }
                   const rows: React.ReactNode[] = [];
                   for (let r = 0; r < 6; r++) {
@@ -515,18 +513,14 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
                   return (
                     <div style={{
                       background: bgColor,
-                      borderRadius: 10,
-                      padding: '10px 12px',
+                      borderRadius: 8,
+                      padding: '8px 10px',
                       border: `1px solid ${color}20`,
+                      flex: 1,
                     }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                        <span style={{ fontSize: 14, fontWeight: 700, color }}>{monthNames[month]} {year}</span>
-                        <span style={{
-                          fontSize: 11, fontWeight: 600, color,
-                          background: `${color}15`, borderRadius: 6, padding: '2px 8px',
-                        }}>
-                          {label}
-                        </span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color }}>{monthNames[month]} {year}</span>
+                        <span style={{ fontSize: 10, fontWeight: 600, color, background: `${color}15`, borderRadius: 4, padding: '1px 6px' }}>{label}</span>
                       </div>
                       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                         <thead>
@@ -538,17 +532,19 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
                         </thead>
                         <tbody>{rows}</tbody>
                       </table>
-                      <div style={{ textAlign: 'center', marginTop: 8, fontSize: 13, fontWeight: 600, color }}>
-                        {diffDays > 0 ? `⏳ 剩余 ${diffDays} 天` : diffDays === 0 ? '🎯 就是今天！' : `⚠️ 已超期 ${Math.abs(diffDays)} 天`}
+                      <div style={{ textAlign: 'center', marginTop: 4, fontSize: 12, fontWeight: 600, color }}>
+                        {diffDays > 0 ? `⏳ 剩余 ${diffDays} 天` : diffDays === 0 ? '🎯 今天' : `⚠️ 已超期 ${Math.abs(diffDays)} 天`}
                       </div>
                     </div>
                   );
                 };
 
                 return (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    {renderCalendar(2026, 9, 15, '#d97706', '#fffbeb', '🎯 试用截止', trialDiff)}
-                    {renderCalendar(2026, 11, 31, '#059669', '#ecfdf5', '🏆 付费截止', payDiff)}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, height: '100%' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
+                      {renderCalendar(2026, 9, 15, '#d97706', '#fffbeb', '🎯 试用', trialDiff)}
+                      {renderCalendar(2026, 11, 31, '#059669', '#ecfdf5', '🏆 付费', payDiff)}
+                    </div>
                   </div>
                 );
               })()}
