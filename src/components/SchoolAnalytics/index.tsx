@@ -149,15 +149,27 @@ function buildStageOption(stageNames: string[], stageValues: number[]) {
   };
 }
 
-/** 作文专项堆叠柱状图：各区县学校总数 + 作文试用中 */
+/** 作文专项横向进度条：各区县学校总数（灰色底条）+ 作文试用中橙色占比 */
 function buildEssayGroupOption(
   groupNames: string[],
   districtTotals: number[],
   essayTrialCounts: number[],
 ) {
+  const max = Math.max(...districtTotals, 1);
   return {
-    grid: { left: 8, right: 24, top: 34, bottom: 6, containLabel: true },
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    grid: { left: 4, right: 70, top: 10, bottom: 6, containLabel: true },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: (params: any) => {
+        const items = Array.isArray(params) ? params : [params];
+        const name = items[0]?.axisValue || '';
+        const total = items.find((p: any) => p.seriesName === '学校总数')?.value || 0;
+        const trial = items.find((p: any) => p.seriesName === '作文试用中')?.value || 0;
+        const pct = total > 0 ? Math.round((trial / total) * 100) : 0;
+        return `<b>${name}</b><br/>学校总数：${total} 所<br/>作文试用中：${trial} 所（${pct}%）`;
+      },
+    },
     legend: {
       top: 0,
       icon: 'circle',
@@ -166,7 +178,14 @@ function buildEssayGroupOption(
       textStyle: { fontSize: 11, color: '#64748b' },
       data: ['学校总数', '作文试用中'],
     },
-    xAxis: { type: 'value', splitLine: { lineStyle: { color: '#f1f5f9' } }, axisLabel: { color: '#94a3b8' } },
+    xAxis: {
+      type: 'value',
+      max,
+      splitLine: { lineStyle: { color: '#f1f5f9' } },
+      axisLabel: { color: '#94a3b8', fontSize: 11 },
+      axisLine: { show: false },
+      axisTick: { show: false },
+    },
     yAxis: {
       type: 'category',
       data: groupNames,
@@ -176,8 +195,44 @@ function buildEssayGroupOption(
       axisLabel: { color: '#475569', fontSize: 12 },
     },
     series: [
-      { name: '学校总数', type: 'bar', data: districtTotals, itemStyle: { color: '#94a3b8' }, barWidth: '62%', barGap: '20%' },
-      { name: '作文试用中', type: 'bar', data: essayTrialCounts, itemStyle: { color: '#f59e0b', borderRadius: [0, 6, 6, 0] } },
+      {
+        name: '学校总数',
+        type: 'bar',
+        data: districtTotals,
+        barWidth: 24,
+        itemStyle: {
+          color: '#e2e8f0',
+          borderRadius: [6, 6, 6, 6],
+        },
+        emphasis: { itemStyle: { color: '#cbd5e1' } },
+        z: 1,
+      },
+      {
+        name: '作文试用中',
+        type: 'bar',
+        data: essayTrialCounts,
+        barWidth: 24,
+        itemStyle: {
+          color: '#f59e0b',
+          borderRadius: [6, 6, 6, 6],
+        },
+        emphasis: { itemStyle: { color: '#fbbf24' } },
+        label: {
+          show: true,
+          position: 'right',
+          formatter: (p: any) => {
+            const idx = p.dataIndex;
+            const total = districtTotals[idx] || 1;
+            const pct = Math.round((p.value / total) * 100);
+            return `${pct}%`;
+          },
+          color: '#f59e0b',
+          fontSize: 12,
+          fontWeight: 600,
+          distance: 4,
+        },
+        z: 2,
+      },
     ],
   };
 }
