@@ -1,18 +1,62 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Card, Form, Input, Button, Typography, message } from 'antd';
-import { UserOutlined, LockOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
+import { Card, Form, Input, Button, Typography, message, Modal } from 'antd';
+import { UserOutlined, LockOutlined, SafetyCertificateOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import { useAuth } from '../../store/AuthContext';
 
 const { Title, Text } = Typography;
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
+  const [migrating, setMigrating] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
+
+  // 从旧地址迁移数据
+  const handleMigrateData = async () => {
+    setMigrating(true);
+    try {
+      const existing = localStorage.getItem('jiangsu_crm_data_v3');
+      if (existing) {
+        Modal.confirm({
+          title: '本地已有数据',
+          content: '迁移操作会覆盖当前数据，是否继续？',
+          okText: '确认覆盖', cancelText: '取消',
+          onOk: () => doMigrate(), onCancel: () => setMigrating(false),
+        });
+      } else { await doMigrate(); }
+    } catch { message.error('迁移失败'); setMigrating(false); }
+  };
+
+  const doMigrate = async () => {
+    message.loading({ content: '正在从旧版系统拉取数据…', key: 'migrate', duration: 0 });
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = 'https://jyumei53-create.github.io/jiangsu-edu-crm/';
+    document.body.appendChild(iframe);
+    await new Promise<void>((resolve, reject) => {
+      const t = setTimeout(() => { document.body.removeChild(iframe); reject(new Error('连接超时')); }, 15000);
+      iframe.onload = () => {
+        clearTimeout(t);
+        setTimeout(() => {
+          try {
+            const s = (iframe.contentWindow as any)?.localStorage;
+            const d = s?.getItem('jiangsu_crm_data_v3');
+            if (d && JSON.parse(d)?.cities) {
+              localStorage.setItem('jiangsu_crm_data_v3', d);
+              message.success({ content: `迁移成功！`, key: 'migrate' });
+              document.body.removeChild(iframe); setMigrating(false); resolve(); return;
+            }
+            document.body.removeChild(iframe); reject(new Error('未读取到有效数据'));
+          } catch (e) { document.body.removeChild(iframe); reject(e); }
+        }, 2000);
+      };
+      iframe.onerror = () => { clearTimeout(t); document.body.removeChild(iframe); reject(new Error('无法连接')); };
+    });
+  };
 
   const handleSubmit = async (values: { username: string; password: string }) => {
     setLoading(true);
@@ -164,6 +208,13 @@ export default function LoginPage() {
             </Button>
           </Form.Item>
         </Form>
+
+        <div style={{ textAlign: 'center' }}>
+          <Button type="link" size="small" loading={migrating} onClick={handleMigrateData}
+            style={{ color: '#94a3b8', fontSize: 12 }} icon={<CloudDownloadOutlined />}>
+            从旧版系统迁移数据
+          </Button>
+        </div>
 
         <div
           style={{

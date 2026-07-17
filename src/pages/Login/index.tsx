@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Card, Form, Input, Button, Typography, message } from 'antd';
-import { UserOutlined, LockOutlined, AimOutlined } from '@ant-design/icons';
+import { Card, Form, Input, Button, Typography, message, Modal } from 'antd';
+import { UserOutlined, LockOutlined, AimOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import { useAuth } from '../../store/AuthContext';
 import loginBg from '/bg/login-bg.jpg';
 
@@ -9,6 +9,7 @@ const { Title, Text } = Typography;
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
+  const [migrating, setMigrating] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,6 +30,91 @@ export default function LoginPage() {
       message.error('登录失败，请重试');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // 从旧地址迁移数据
+  const handleMigrateData = async () => {
+    setMigrating(true);
+    try {
+      // 先检查本地是否已有数据
+      const existing = localStorage.getItem('jiangsu_crm_data_v3');
+      if (existing) {
+        Modal.confirm({
+          title: '本地已有数据',
+          content: '迁移操作会覆盖当前数据（包括用户账号、学校信息等），是否继续？',
+          okText: '确认覆盖',
+          cancelText: '取消',
+          onOk: () => doMigrate(),
+        });
+      } else {
+        await doMigrate();
+      }
+    } catch {
+      message.error('迁移失败');
+    } finally {
+      setMigrating(false);
+    }
+  };
+
+  const doMigrate = async () => {
+    const OLD_URL = 'https://jyumei53-create.github.io/jiangsu-edu-crm/';
+    message.loading({ content: '正在连接旧版系统…', key: 'migrate', duration: 0 });
+    
+    try {
+      // 尝试通过 fetch 获取旧版页面，利用旧版 localStorage 的数据
+      // 由于跨域限制，我们改用 iframe 方案
+      message.loading({ content: '正在从旧版系统拉取数据…', key: 'migrate', duration: 0 });
+      
+      // 方案：打开旧地址的一个隐藏 iframe，从中读取 localStorage
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = OLD_URL;
+      document.body.appendChild(iframe);
+      
+      await new Promise<void>((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          document.body.removeChild(iframe);
+          reject(new Error('连接超时，请确认旧版系统可以正常访问'));
+        }, 15000);
+        
+        iframe.onload = () => {
+          clearTimeout(timeout);
+          setTimeout(() => {
+            try {
+              // 尝试从 iframe 中读取数据
+              const iframeStorage = (iframe.contentWindow as any)?.localStorage;
+              if (iframeStorage) {
+                const data = iframeStorage.getItem('jiangsu_crm_data_v3');
+                if (data) {
+                  // 验证数据格式
+                  const parsed = JSON.parse(data);
+                  if (parsed && parsed.cities && parsed.version) {
+                    localStorage.setItem('jiangsu_crm_data_v3', data);
+                    message.success({ content: `数据迁移成功！已导入 ${parsed.cities.length} 个城市的数据`, key: 'migrate' });
+                    document.body.removeChild(iframe);
+                    resolve();
+                    return;
+                  }
+                }
+              }
+              document.body.removeChild(iframe);
+              reject(new Error('未能从旧版系统读取到有效数据'));
+            } catch (e) {
+              document.body.removeChild(iframe);
+              reject(e);
+            }
+          }, 2000);
+        };
+        
+        iframe.onerror = () => {
+          clearTimeout(timeout);
+          document.body.removeChild(iframe);
+          reject(new Error('无法连接旧版系统'));
+        };
+      });
+    } catch (e: any) {
+      message.error({ content: e?.message || '迁移失败，请尝试手动迁移', key: 'migrate', duration: 5 });
     }
   };
 
@@ -235,6 +321,20 @@ export default function LoginPage() {
             </Button>
           </Form.Item>
         </Form>
+
+        {/* 数据迁移入口 — 低调小字 */}
+        <div style={{ textAlign: 'center', marginTop: 16 }}>
+          <Button
+            type="link"
+            size="small"
+            loading={migrating}
+            onClick={handleMigrateData}
+            style={{ color: '#5a7a9a', fontSize: 12, opacity: 0.7 }}
+            icon={<CloudDownloadOutlined />}
+          >
+            从旧版系统迁移数据
+          </Button>
+        </div>
 
       </Card>
     </div>
