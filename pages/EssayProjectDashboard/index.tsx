@@ -27,6 +27,7 @@ export default function EssayProjectDashboard() {
   const [districtFilter, setDistrictFilter] = useState<string[]>([]);
   const [stageFilter, setStageFilter] = useState<string[]>([]);
   const [statusFilter, setStatusFilter] = useState<string[]>([]);
+  const [trialProductFilter, setTrialProductFilter] = useState<string[]>([]);
   const [productFilter, setProductFilter] = useState<string[]>([]);
   const [cooperationProductFilter, setCooperationProductFilter] = useState<string[]>([]);
   const [keyPersonFilter, setKeyPersonFilter] = useState('');
@@ -60,6 +61,9 @@ export default function EssayProjectDashboard() {
     if (statusFilter.length > 0) {
       schools = schools.filter((s) => statusFilter.includes(s.status));
     }
+    if (trialProductFilter.length > 0) {
+      schools = schools.filter((s) => s.trialProducts && s.trialProducts.some((p) => trialProductFilter.includes(p)));
+    }
     if (productFilter.length > 0) {
       schools = schools.filter((s) => s.products && s.products.some((p) => productFilter.includes(p)));
     }
@@ -92,9 +96,10 @@ export default function EssayProjectDashboard() {
   };
 
   const handleExportCSV = () => {
-    const headers = ['学校名称', '学段', '状态', '产品', '合作产品', '关键人', '所属街道', '区县', '民办校', '市直属', '备注'];
+    const headers = ['学校名称', '学段', '状态', '试用产品', '产品', '合作产品', '关键人', '所属街道', '区县', '民办校', '市直属', '备注'];
     const rows = essayData.schools.map((s) => [
       s.name, s.stage || '', s.status,
+      (s.trialProducts || []).join('、'),
       (s.products || []).join('、'),
       (s.cooperationProducts || []).join('、'),
       s.keyPerson || '', s.street || '',
@@ -193,6 +198,27 @@ export default function EssayProjectDashboard() {
       ),
       filterIcon: (f: boolean) => <FilterOutlined style={{ color: f ? '#1677ff' : undefined }} />,
       render: (s: SchoolStatus) => <Tag color={statusColor[s]}>{s}</Tag>,
+    },
+    {
+      title: '试用产品', dataIndex: 'trialProducts', key: 'trialProducts', width: 160,
+      filtered: trialProductFilter.length > 0,
+      filterDropdown: ({ close }: { close: () => void }) => (
+        <div style={{ padding: 8, width: 200 }}>
+          <Select mode="multiple" placeholder="筛选试用产品" value={trialProductFilter}
+            onChange={(v) => setTrialProductFilter(v)} style={{ width: '100%' }}
+            options={ALL_PRODUCTS.map((p) => ({ label: p, value: p }))}
+            allowClear maxTagCount={2} onBlur={() => close()} autoFocus />
+        </div>
+      ),
+      filterIcon: (f: boolean) => <FilterOutlined style={{ color: f ? '#1677ff' : undefined }} />,
+      render: (products: string[] | undefined) => {
+        if (!products || products.length === 0) return <Text type="secondary">-</Text>;
+        return (
+          <Space size={2} wrap>
+            {products.map((p) => <Tag key={p} color={productColorMap[p] || 'default'} style={{ margin: 0, fontSize: 11 }}>{p}</Tag>)}
+          </Space>
+        );
+      },
     },
     {
       title: '合作产品', dataIndex: 'cooperationProducts', key: 'cooperationProducts', width: 160,
