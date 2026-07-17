@@ -115,7 +115,7 @@ export default function ProvinceEssayProjectDashboard() {
   };
 
   const productColorMap: Record<string, string> = {
-    作文: '#1677ff', 作业: '#52c41a', 通识课: '#722ed1',
+    作文: '#1677ff', 作业: '#52c41a', 双师课: '#722ed1',
     飞象老师: '#fa8c16', 学习空间: '#13c2c2', 墨水屏: '#eb2f96',
   };
 

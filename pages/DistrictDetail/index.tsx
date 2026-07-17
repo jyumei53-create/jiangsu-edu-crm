@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useMemo, type ReactNode } from 'react';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -36,12 +36,16 @@ import {
   WechatOutlined,
   MailOutlined,
   CalendarOutlined,
+  SearchOutlined,
+  FilterOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import type { School, SchoolStatus, AppData, EducationLeader } from '../../types';
 import { ALL_STATUSES, ALL_PRODUCTS } from '../../types';
 import { useAppContext } from '../../store/AppContext';
+import { useAuth } from '../../store/AuthContext';
 import { updateDistrict } from '../../store';
+import { canAccessDistrict } from '../../store/permissions';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -114,9 +118,15 @@ export default function DistrictDetail() {
   const { cityId, districtId } = useParams<{ cityId: string; districtId: string }>();
   const navigate = useNavigate();
   const { data, setData } = useAppContext();
+  const { user } = useAuth();
 
   const city = data.cities.find((c) => c.id === cityId);
   const district = city?.districts.find((d) => d.id === districtId);
+
+  // 区县权限硬校验：区域经理无权访问该区县时，重定向回所属城市
+  if (user && user.role === 'manager' && !canAccessDistrict(user, cityId || '', districtId || '')) {
+    return <Navigate to={`/city/${cityId}`} replace />;
+  }
 
   if (!city || !district) {
     return (
@@ -606,15 +616,80 @@ function SchoolPanel({
   const [importText, setImportText] = useState('');
   const [orderCache, setOrderCache] = useState<Record<string, number>>({});
 
-  const sortedSchools = [...district.schools].sort((a, b) => a.order - b.order);
+  // 筛选状态
+  const [nameFilter, setNameFilter] = useState('');
+  const [stageFilter, setStageFilter] = useState<string[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string[]>([]);
+  const [productFilter, setProductFilter] = useState<string[]>([]);
+  const [cooperationProductFilter, setCooperationProductFilter] = useState<string[]>([]);
+  const [keyPersonFilter, setKeyPersonFilter] = useState('');
+  const [streetFilter, setStreetFilter] = useState('');
+  const [privateFilter, setPrivateFilter] = useState<string[]>([]);
+  const [municipalFilter, setMunicipalFilter] = useState<string[]>([]);
 
+  const sortedSchools = useMemo(() => {
+    let result = [...district.schools].sort((a, b) => a.order - b.order);
+
+    // 学校名称模糊搜索
+    if (nameFilter.trim()) {
+      const kw = nameFilter.trim().toLowerCase();
+      result = result.filter((s) => s.name.toLowerCase().includes(kw));
+    }
+    // 学段多选筛选
+    if (stageFilter.length > 0) {
+      result = result.filter((s) => s.stage && stageFilter.includes(s.stage));
+    }
+    // 状态多选筛选
+    if (statusFilter.length > 0) {
+      result = result.filter((s) => statusFilter.includes(s.status));
+    }
+    // 产品多选筛选（拥有任一选中产品即匹配）
+    if (productFilter.length > 0) {
+      result = result.filter(
+        (s) => s.products && s.products.some((p) => productFilter.includes(p))
+      );
+    }
+    // 合作产品多选筛选（拥有任一选中合作产品即匹配）
+    if (cooperationProductFilter.length > 0) {
+      result = result.filter(
+        (s) => s.cooperationProducts && s.cooperationProducts.some((p) => cooperationProductFilter.includes(p))
+      );
+    }
+    // 关键人模糊搜索
+    if (keyPersonFilter.trim()) {
+      const kw = keyPersonFilter.trim().toLowerCase();
+      result = result.filter((s) => (s.keyPerson || '').toLowerCase().includes(kw));
+    }
+    // 所属街道模糊搜索
+    if (streetFilter.trim()) {
+      const kw = streetFilter.trim().toLowerCase();
+      result = result.filter((s) => (s.street || '').toLowerCase().includes(kw));
+    }
+    // 民办校筛选
+    if (privateFilter.length === 1) {
+      const wantPrivate = privateFilter[0] === 'true';
+      result = result.filter((s) => !!s.isPrivate === wantPrivate);
+    }
+    // 市直属筛选
+    if (municipalFilter.length === 1) {
+      const wantMunicipal = municipalFilter[0] === 'true';
+      result = result.filter((s) => !!s.isMunicipal === wantMunicipal);
+    }
+
+    return result;
+  }, [district.schools, nameFilter, stageFilter, statusFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter, privateFilter, municipalFilter]);
+
+  // 导出学校名单为 CSV
   const handleExportCSV = () => {
     const headers = ['学校名称', '学段', '状态', '产品', '合作产品', '关键人', '所属街道', '民办校', '市直属', '备注'];
     const rows = sortedSchools.map((s) => [
-      s.name, s.stage || '', s.status,
+      s.name,
+      s.stage || '',
+      s.status,
       (s.products || []).join('、'),
       (s.cooperationProducts || []).join('、'),
-      s.keyPerson || '', s.street || '',
+      s.keyPerson || '',
+      s.street || '',
       s.isPrivate ? '是' : '否',
       s.isMunicipal ? '是' : '否',
       s.remark || '',
@@ -622,7 +697,8 @@ function SchoolPanel({
     const csvContent = [headers, ...rows]
       .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
       .join('\n');
-    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const BOM = '\uFEFF';
+    const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -848,6 +924,22 @@ function SchoolPanel({
       key: 'name',
       width: 190,
       ellipsis: true,
+      filtered: !!nameFilter,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 220 }}>
+          <Input
+            placeholder="搜索学校名称"
+            value={nameFilter}
+            onChange={(e) => setNameFilter(e.target.value)}
+            prefix={<SearchOutlined />}
+            allowClear
+            onPressEnter={() => close()}
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
       render: (text: string) => <Text strong>{text}</Text>,
     },
     {
@@ -855,6 +947,29 @@ function SchoolPanel({
       dataIndex: 'stage',
       key: 'stage',
       width: 90,
+      filtered: stageFilter.length > 0,
+      filterDropdown: ({ close }) => {
+        const stages = [...new Set(district.schools.map((s) => s.stage).filter(Boolean))] as string[];
+        return (
+          <div style={{ padding: 8, width: 180 }}>
+            <Select
+              mode="multiple"
+              placeholder="筛选学段"
+              value={stageFilter}
+              onChange={(v) => setStageFilter(v)}
+              style={{ width: '100%' }}
+              options={stages.map((s) => ({ label: s, value: s }))}
+              allowClear
+              maxTagCount={2}
+              onBlur={() => close()}
+              autoFocus
+            />
+          </div>
+        );
+      },
+      filterIcon: (filtered: boolean) => (
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
       render: (text: string) => text || '-',
     },
     {
@@ -862,6 +977,26 @@ function SchoolPanel({
       dataIndex: 'status',
       key: 'status',
       width: 85,
+      filtered: statusFilter.length > 0,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 180 }}>
+          <Select
+            mode="multiple"
+            placeholder="筛选状态"
+            value={statusFilter}
+            onChange={(v) => setStatusFilter(v)}
+            style={{ width: '100%' }}
+            options={ALL_STATUSES.map((s) => ({ label: s, value: s }))}
+            allowClear
+            maxTagCount={2}
+            onBlur={() => close()}
+            autoFocus
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
       render: (status: SchoolStatus) => <StatusTag status={status} />,
     },
     {
@@ -869,10 +1004,30 @@ function SchoolPanel({
       dataIndex: 'cooperationProducts',
       key: 'cooperationProducts',
       width: 150,
+      filtered: cooperationProductFilter.length > 0,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 200 }}>
+          <Select
+            mode="multiple"
+            placeholder="筛选合作产品"
+            value={cooperationProductFilter}
+            onChange={(v) => setCooperationProductFilter(v)}
+            style={{ width: '100%' }}
+            options={ALL_PRODUCTS.map((p) => ({ label: p, value: p }))}
+            allowClear
+            maxTagCount={2}
+            onBlur={() => close()}
+            autoFocus
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
       render: (products: string[] | undefined) => {
         if (!products || products.length === 0) return <Text type="secondary">-</Text>;
         const colorMap: Record<string, string> = {
-          '作文': '#1677ff', '作业': '#52c41a', '通识课': '#722ed1',
+          '作文': '#1677ff', '作业': '#52c41a', '双师课': '#722ed1',
           '飞象老师': '#fa8c16', '学习空间': '#13c2c2', '墨水屏': '#eb2f96',
         };
         return (
@@ -891,10 +1046,30 @@ function SchoolPanel({
       dataIndex: 'products',
       key: 'products',
       width: 150,
+      filtered: productFilter.length > 0,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 200 }}>
+          <Select
+            mode="multiple"
+            placeholder="筛选产品"
+            value={productFilter}
+            onChange={(v) => setProductFilter(v)}
+            style={{ width: '100%' }}
+            options={ALL_PRODUCTS.map((p) => ({ label: p, value: p }))}
+            allowClear
+            maxTagCount={2}
+            onBlur={() => close()}
+            autoFocus
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
       render: (products: string[] | undefined) => {
         if (!products || products.length === 0) return <Text type="secondary">-</Text>;
         const colorMap: Record<string, string> = {
-          '作文': '#1677ff', '作业': '#52c41a', '通识课': '#722ed1',
+          '作文': '#1677ff', '作业': '#52c41a', '双师课': '#722ed1',
           '飞象老师': '#fa8c16', '学习空间': '#13c2c2', '墨水屏': '#eb2f96',
         };
         return (
@@ -913,6 +1088,22 @@ function SchoolPanel({
       dataIndex: 'keyPerson',
       key: 'keyPerson',
       width: 90,
+      filtered: !!keyPersonFilter,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 200 }}>
+          <Input
+            placeholder="搜索关键人"
+            value={keyPersonFilter}
+            onChange={(e) => setKeyPersonFilter(e.target.value)}
+            prefix={<SearchOutlined />}
+            allowClear
+            onPressEnter={() => close()}
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
       render: (text: string) => text || '-',
     },
     {
@@ -921,6 +1112,22 @@ function SchoolPanel({
       key: 'street',
       width: 120,
       ellipsis: true,
+      filtered: !!streetFilter,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 200 }}>
+          <Input
+            placeholder="搜索街道"
+            value={streetFilter}
+            onChange={(e) => setStreetFilter(e.target.value)}
+            prefix={<SearchOutlined />}
+            allowClear
+            onPressEnter={() => close()}
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
       render: (text: string) => text || '-',
     },
     {
@@ -928,6 +1135,26 @@ function SchoolPanel({
       dataIndex: 'isPrivate',
       key: 'isPrivate',
       width: 75,
+      filtered: privateFilter.length > 0,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 140 }}>
+          <Select
+            placeholder="筛选"
+            value={privateFilter.length > 0 ? privateFilter[0] : undefined}
+            onChange={(v) => { setPrivateFilter(v ? [v] : []); close(); }}
+            style={{ width: '100%' }}
+            options={[
+              { label: '是', value: 'true' },
+              { label: '否', value: 'false' },
+            ]}
+            allowClear
+            autoFocus
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
       render: (v: boolean | undefined) =>
         v ? <Tag color="volcano" style={{ margin: 0, fontSize: 11, borderRadius: 6 }}>民办</Tag> : null,
     },
@@ -936,6 +1163,26 @@ function SchoolPanel({
       dataIndex: 'isMunicipal',
       key: 'isMunicipal',
       width: 75,
+      filtered: municipalFilter.length > 0,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 140 }}>
+          <Select
+            placeholder="筛选"
+            value={municipalFilter.length > 0 ? municipalFilter[0] : undefined}
+            onChange={(v) => { setMunicipalFilter(v ? [v] : []); close(); }}
+            style={{ width: '100%' }}
+            options={[
+              { text: '是', value: 'true' },
+              { text: '否', value: 'false' },
+            ]}
+            allowClear
+            autoFocus
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
       render: (v: boolean | undefined) =>
         v ? <Tag color="geekblue" style={{ margin: 0, fontSize: 11, borderRadius: 6 }}>市直属</Tag> : null,
     },
@@ -1264,7 +1511,7 @@ function SchoolPanel({
           rows={8}
           value={importText}
           onChange={(e) => setImportText(e.target.value)}
-          placeholder={`示例：\n${district.name}第一小学 小学 已合作 通识课/作文 新街口街道 张主任\n${district.name}第二中学 初中 试用中 作业 湖南路街道`}
+          placeholder={`示例：\n${district.name}第一小学 小学 已合作 双师课/作文 新街口街道 张主任\n${district.name}第二中学 初中 试用中 作业 湖南路街道`}
         />
       </Modal>
     </div>

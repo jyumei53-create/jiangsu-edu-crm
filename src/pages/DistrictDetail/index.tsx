@@ -1027,7 +1027,7 @@ function SchoolPanel({
       render: (products: string[] | undefined) => {
         if (!products || products.length === 0) return <Text type="secondary">-</Text>;
         const colorMap: Record<string, string> = {
-          '作文': '#1677ff', '作业': '#52c41a', '通识课': '#722ed1',
+          '作文': '#1677ff', '作业': '#52c41a', '双师课': '#722ed1',
           '飞象老师': '#fa8c16', '学习空间': '#13c2c2', '墨水屏': '#eb2f96',
         };
         return (
@@ -1069,7 +1069,7 @@ function SchoolPanel({
       render: (products: string[] | undefined) => {
         if (!products || products.length === 0) return <Text type="secondary">-</Text>;
         const colorMap: Record<string, string> = {
-          '作文': '#1677ff', '作业': '#52c41a', '通识课': '#722ed1',
+          '作文': '#1677ff', '作业': '#52c41a', '双师课': '#722ed1',
           '飞象老师': '#fa8c16', '学习空间': '#13c2c2', '墨水屏': '#eb2f96',
         };
         return (
@@ -1511,7 +1511,7 @@ function SchoolPanel({
           rows={8}
           value={importText}
           onChange={(e) => setImportText(e.target.value)}
-          placeholder={`示例：\n${district.name}第一小学 小学 已合作 通识课/作文 新街口街道 张主任\n${district.name}第二中学 初中 试用中 作业 湖南路街道`}
+          placeholder={`示例：\n${district.name}第一小学 小学 已合作 双师课/作文 新街口街道 张主任\n${district.name}第二中学 初中 试用中 作业 湖南路街道`}
         />
       </Modal>
     </div>
