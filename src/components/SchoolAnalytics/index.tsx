@@ -445,24 +445,24 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
 
     return (
       <div>
-        <Row gutter={[14, 14]} style={{ marginBottom: 14 }}>
-          <Col xs={24} sm={12}>
+        <Row gutter={[14, 14]} style={{ marginBottom: 14, alignItems: 'stretch' }}>
+          <Col xs={24} sm={12} style={{ display: 'flex' }}>
             <Card
-              styles={{ body: { padding: '14px 16px 8px' } }}
-              style={cardStyle}
+              styles={{ body: { padding: '14px 16px 8px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' } }}
+              style={{ ...cardStyle, height: '100%', width: '100%' }}
               title={(
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                   {cardTitle('▼', '作文合作转化漏斗')}
                 </span>
               )}
             >
-              <ReactECharts option={buildEssayFunnelOption(allSchoolsTotal || model.total, schools)} style={{ height: 280 }} />
+              <ReactECharts option={buildEssayFunnelOption(allSchoolsTotal || model.total, schools)} style={{ height: 320 }} />
             </Card>
           </Col>
-          <Col xs={24} sm={12}>
+          <Col xs={24} sm={12} style={{ display: 'flex' }}>
             <Card
-              styles={{ body: { padding: '14px 16px' } }}
-              style={cardStyle}
+              styles={{ body: { padding: '14px 16px', flex: 1 } }}
+              style={{ ...cardStyle, height: '100%', width: '100%' }}
               title={cardTitle('📅', '重要节点提醒')}
             >
               {(() => {
@@ -491,10 +491,10 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: 22,
-                          height: 22,
+                          width: 20,
+                          height: 20,
                           borderRadius: '50%',
-                          fontSize: 11,
+                          fontSize: 10,
                           fontWeight: isTarget ? 700 : 400,
                           color: isTarget ? '#fff' : isPast ? '#cbd5e1' : '#475569',
                           background: isTarget ? color : 'transparent',
@@ -514,26 +514,27 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
                     <div style={{
                       background: bgColor,
                       borderRadius: 8,
-                      padding: '8px 10px',
+                      padding: '6px 8px',
                       border: `1px solid ${color}20`,
                       flex: 1,
+                      minWidth: 0,
                     }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                        <span style={{ fontSize: 13, fontWeight: 700, color }}>{monthNames[month]} {year}</span>
-                        <span style={{ fontSize: 10, fontWeight: 600, color, background: `${color}15`, borderRadius: 4, padding: '1px 6px' }}>{label}</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color }}>{monthNames[month]} {year}</span>
+                        <span style={{ fontSize: 10, fontWeight: 600, color, background: `${color}15`, borderRadius: 4, padding: '1px 5px' }}>{label}</span>
                       </div>
                       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                         <thead>
                           <tr>
                             {weekHeaders.map((w) => (
-                              <th key={w} style={{ width: '14.28%', padding: '2px 0', textAlign: 'center', fontSize: 10, fontWeight: 500, color: '#94a3b8' }}>{w}</th>
+                              <th key={w} style={{ width: '14.28%', padding: '1px 0', textAlign: 'center', fontSize: 9, fontWeight: 500, color: '#94a3b8' }}>{w}</th>
                             ))}
                           </tr>
                         </thead>
                         <tbody>{rows}</tbody>
                       </table>
-                      <div style={{ textAlign: 'center', marginTop: 4, fontSize: 12, fontWeight: 600, color }}>
-                        {diffDays > 0 ? `⏳ 剩余 ${diffDays} 天` : diffDays === 0 ? '🎯 今天' : `⚠️ 已超期 ${Math.abs(diffDays)} 天`}
+                      <div style={{ textAlign: 'center', marginTop: 2, fontSize: 11, fontWeight: 600, color }}>
+                        {diffDays > 0 ? `剩余 ${diffDays} 天` : diffDays === 0 ? '今天' : `已超期 ${Math.abs(diffDays)} 天`}
                       </div>
                     </div>
                   );
@@ -541,7 +542,7 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
 
                 return (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10, height: '100%' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: 10, flexWrap: 'nowrap', height: '100%' }}>
                       {renderCalendar(2026, 9, 15, '#d97706', '#fffbeb', '🎯 试用', trialDiff)}
                       {renderCalendar(2026, 11, 31, '#059669', '#ecfdf5', '🏆 付费', payDiff)}
                     </div>
