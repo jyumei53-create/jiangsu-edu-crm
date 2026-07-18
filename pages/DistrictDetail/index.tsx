@@ -623,7 +623,7 @@ function SchoolPanel({
   const [trialProductFilter, setTrialProductFilter] = useState<string[]>([]);
   const [productFilter, setProductFilter] = useState<string[]>([]);
   const [cooperationProductFilter, setCooperationProductFilter] = useState<string[]>([]);
-  const [keyPersonFilter, setKeyPersonFilter] = useState('');
+  const [keyPersonFilter, setKeyPersonFilter] = useState<string>(''); // '' | '是' | '否'
   const [streetFilter, setStreetFilter] = useState('');
   const [privateFilter, setPrivateFilter] = useState<string[]>([]);
   const [municipalFilter, setMunicipalFilter] = useState<string[]>([]);
@@ -662,10 +662,11 @@ function SchoolPanel({
         (s) => s.cooperationProducts && s.cooperationProducts.some((p) => cooperationProductFilter.includes(p))
       );
     }
-    // 关键人模糊搜索
-    if (keyPersonFilter.trim()) {
-      const kw = keyPersonFilter.trim().toLowerCase();
-      result = result.filter((s) => (s.keyPerson || '').toLowerCase().includes(kw));
+    // 关键人一把手筛选
+    if (keyPersonFilter === '是') {
+      result = result.filter((s) => s.isKeyPersonLeader === true);
+    } else if (keyPersonFilter === '否') {
+      result = result.filter((s) => !s.isKeyPersonLeader);
     }
     // 所属街道模糊搜索
     if (streetFilter.trim()) {
@@ -688,7 +689,7 @@ function SchoolPanel({
 
   // 导出学校名单为 CSV
   const handleExportCSV = () => {
-    const headers = ['学校名称', '学段', '状态', '试用产品', '汇报产品', '合作产品', '关键人', '所属街道', '民办校', '市直属', '备注'];
+    const headers = ['学校名称', '学段', '状态', '试用产品', '汇报产品', '合作产品', '一把手', '关键人', '所属街道', '民办校', '市直属', '备注'];
     const rows = sortedSchools.map((s) => [
       s.name,
       s.stage || '',
@@ -696,6 +697,7 @@ function SchoolPanel({
       (s.trialProducts || []).join('、'),
       (s.products || []).join('、'),
       (s.cooperationProducts || []).join('、'),
+      s.isKeyPersonLeader ? '是' : '否',
       s.keyPerson || '',
       s.street || '',
       s.isPrivate ? '是' : '否',
@@ -767,6 +769,7 @@ function SchoolPanel({
       products: [],
       cooperationProducts: [],
       street: '',
+      isKeyPersonLeader: false,
       keyPerson: '',
       remark: '',
       order: district.schools.length + 1,
@@ -875,7 +878,7 @@ function SchoolPanel({
 
     const newSchools: School[] = lines.map((line, i) => {
       const parts = line.split(/[\t,，\s]+/).filter(Boolean);
-      const [name, stage, status, trialProductStr, productStr, street, keyPerson, remark] = parts;
+      const [name, stage, status, trialProductStr, productStr, isLeaderStr, keyPerson, street, remark] = parts;
       const trialProducts = trialProductStr ? trialProductStr.split(/[、/]/).filter(Boolean) : [];
       const products = productStr ? productStr.split(/[、/]/).filter(Boolean) : [];
 
@@ -886,8 +889,9 @@ function SchoolPanel({
         stage: stage || '',
         trialProducts,
         products,
-        street: street || '',
+        isKeyPersonLeader: isLeaderStr === '是',
         keyPerson: keyPerson || '',
+        street: street || '',
         remark: remark || '',
         order: district.schools.length + i + 1,
       };
@@ -1139,24 +1143,37 @@ function SchoolPanel({
       title: '关键人',
       dataIndex: 'keyPerson',
       key: 'keyPerson',
-      width: 90,
+      width: 110,
       filtered: !!keyPersonFilter,
       filterDropdown: ({ close }) => (
-        <div style={{ padding: 8, width: 200 }}>
-          <Input
-            placeholder="搜索关键人"
-            value={keyPersonFilter}
-            onChange={(e) => setKeyPersonFilter(e.target.value)}
-            prefix={<SearchOutlined />}
+        <div style={{ padding: 8, width: 160 }}>
+          <Select
+            placeholder="是否一把手"
+            value={keyPersonFilter || undefined}
+            onChange={(v) => { setKeyPersonFilter(v || ''); close(); }}
+            style={{ width: '100%' }}
             allowClear
-            onPressEnter={() => close()}
+            options={[
+              { label: '是', value: '是' },
+              { label: '否', value: '否' },
+            ]}
           />
         </div>
       ),
       filterIcon: (filtered: boolean) => (
-        <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
       ),
-      render: (text: string) => text || '-',
+      render: (_text: string, record: School) => {
+        if (!record.keyPerson) return <Text type="secondary">-</Text>;
+        return (
+          <Space size={4}>
+            {record.isKeyPersonLeader && (
+              <Tag color="red" style={{ margin: 0, fontSize: 10, lineHeight: '16px' }}>一把手</Tag>
+            )}
+            <span>{record.keyPerson}</span>
+          </Space>
+        );
+      },
     },
     {
       title: '所属街道',
@@ -1446,15 +1463,34 @@ function SchoolPanel({
             </Col>
             <Col span={8}>
               <Form.Item label="关键人">
-                <Input
-                  value={editingSchool?.keyPerson || ''}
-                  onChange={(e) =>
-                    setEditingSchool((prev) =>
-                      prev ? { ...prev, keyPerson: e.target.value } : null
-                    )
-                  }
-                  placeholder="关键人姓名"
-                />
+                <Row gutter={8}>
+                  <Col span={8}>
+                    <Select
+                      value={editingSchool?.isKeyPersonLeader === true ? '是' : '否'}
+                      onChange={(v) =>
+                        setEditingSchool((prev) =>
+                          prev ? { ...prev, isKeyPersonLeader: v === '是' } : null
+                        )
+                      }
+                      options={[
+                        { label: '是', value: '是' },
+                        { label: '否', value: '否' },
+                      ]}
+                      placeholder="一把手"
+                    />
+                  </Col>
+                  <Col span={16}>
+                    <Input
+                      value={editingSchool?.keyPerson || ''}
+                      onChange={(e) =>
+                        setEditingSchool((prev) =>
+                          prev ? { ...prev, keyPerson: e.target.value } : null
+                        )
+                      }
+                      placeholder="关键人姓名"
+                    />
+                  </Col>
+                </Row>
               </Form.Item>
             </Col>
           </Row>
@@ -1570,7 +1606,7 @@ function SchoolPanel({
         <div style={{ marginBottom: 8 }}>
           <Text type="secondary">
             每行一所学校，用 Tab/逗号/空格 分隔：<br />
-            格式：学校名称 学段 状态 试用产品(多个用/分隔) 汇报产品(多个用/分隔) 街道 关键人 备注
+            格式：学校名称 学段 状态 试用产品(多个用/分隔) 汇报产品(多个用/分隔) 一把手(是/否) 关键人 街道 备注
           </Text>
         </div>
         <TextArea

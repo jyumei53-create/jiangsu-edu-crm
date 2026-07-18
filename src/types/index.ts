@@ -13,6 +13,7 @@ export interface School {
   products?: string[];
   cooperationProducts?: string[];
   street?: string;
+  isKeyPersonLeader?: boolean;
   keyPerson?: string;
   remark?: string;
   order: number;
