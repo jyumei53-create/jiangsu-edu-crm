@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, Form, Input, Button, Typography, message, Modal } from 'antd';
-import { UserOutlined, LockOutlined, AimOutlined, CloudDownloadOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, AimOutlined, CloudDownloadOutlined, ExportOutlined } from '@ant-design/icons';
 import { useAuth } from '../../store/AuthContext';
 import loginBg from '/bg/login-bg.jpg';
 
@@ -322,8 +322,32 @@ export default function LoginPage() {
           </Form.Item>
         </Form>
 
-        {/* 数据迁移入口 — 低调小字 */}
+        {/* 数据导出入口 */}
         <div style={{ textAlign: 'center', marginTop: 16 }}>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              try {
+                const payload = JSON.stringify({
+                  data: localStorage.getItem('jiangsu_crm_data_v3'),
+                  users: localStorage.getItem('jiangsu_crm_users'),
+                  session: localStorage.getItem('jiangsu_crm_session'),
+                });
+                navigator.clipboard.writeText(payload).then(() => {
+                  message.success('✅ 数据已复制到剪贴板！请到迁移工具页面导入');
+                }).catch(() => {
+                  message.warning('复制失败，请手动选择下方文本');
+                });
+              } catch {
+                message.error('导出失败');
+              }
+            }}
+            style={{ color: '#4dabf7', fontSize: 12, opacity: 0.8 }}
+            icon={<ExportOutlined />}
+          >
+            一键导出数据
+          </Button>
           <Button
             type="link"
             size="small"
