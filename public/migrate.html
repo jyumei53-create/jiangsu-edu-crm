@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>数据迁移工具 - 江苏教育CRM</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    h1 { font-size: 22px; margin-bottom: 8px; color: #1f2937; }
+    .sub { color: #6b7280; font-size: 14px; margin-bottom: 28px; }
+    .step { margin-bottom: 24px; }
+    .step-title { font-weight: 600; font-size: 15px; margin-bottom: 8px; color: #374151; }
+    .step-desc { font-size: 13px; color: #6b7280; margin-bottom: 12px; }
+    textarea {
+      width: 100%; height: 120px; border: 1px solid #e5e7eb; border-radius: 10px;
+      padding: 12px; font-size: 13px; resize: vertical; font-family: monospace;
+    }
+    textarea:focus { outline: none; border-color: #1677ff; box-shadow: 0 0 0 3px rgba(22,119,255,0.1); }
+    button {
+      padding: 10px 24px; border: none; border-radius: 8px; font-size: 14px;
+      font-weight: 500; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-primary { background: #1677ff; color: #fff; }
+    .btn-primary:hover { background: #0958d9; }
+    .btn-success { background: #10b981; color: #fff; }
+    .btn-success:hover { background: #059669; }
+    .btn-outline { background: #fff; color: #374151; border: 1px solid #d1d5db; }
+    .btn-outline:hover { background: #f9fafb; }
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    .status { padding: 10px 16px; border-radius: 8px; font-size: 13px; margin-top: 12px; display: none; }
+    .status.success { background: #ecfdf5; color: #065f46; display: block; }
+    .status.error { background: #fef2f2; color: #991b1b; display: block; }
+    .status.info { background: #eff6ff; color: #1e40af; display: block; }
+    .divider { border-top: 1px solid #e5e7eb; margin: 24px 0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>📦 数据迁移工具</h1>
+    <p class="sub">将 Vercel 版数据迁移到 GitHub Pages 版</p>
+
+    <!-- 步骤1：导出 -->
+    <div class="step">
+      <div class="step-title">步骤 1：导出 Vercel 版数据</div>
+      <div class="step-desc">
+        请先在浏览器新标签页中打开并登录 
+        <a href="https://jiangsu-edu-crm.vercel.app" target="_blank" rel="noopener">Vercel 版</a>，
+        然后在该页面按 F12 → Console，粘贴以下代码并回车，复制输出的 JSON 数据：
+      </div>
+      <textarea readonly id="exportCode" style="height:80px">copy(JSON.stringify({
+  data: localStorage.getItem('jiangsu_crm_data_v3'),
+  users: localStorage.getItem('jiangsu_crm_users'),
+  session: localStorage.getItem('jiangsu_crm_session')
+}))
+console.log('✅ 数据已复制到剪贴板！')</textarea>
+      <div class="btn-group" style="margin-top:8px">
+        <button class="btn-outline" onclick="copyExportCode()">📋 复制这段代码</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 步骤2：导入 -->
+    <div class="step">
+      <div class="step-title">步骤 2：导入到 GitHub Pages 版</div>
+      <div class="step-desc">
+        将从 Vercel 版复制的 JSON 数据粘贴到下方，点击导入。
+      </div>
+      <textarea id="importData" placeholder="将步骤1复制的 JSON 数据粘贴到这里..."></textarea>
+      <div class="btn-group" style="margin-top:8px">
+        <button class="btn-primary" onclick="doImport()">📥 导入数据</button>
+      </div>
+      <div id="status" class="status"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 步骤3 -->
+    <div class="step">
+      <div class="step-title">步骤 3：打开 GitHub Pages 版</div>
+      <div class="step-desc">导入完成后，打开以下链接即可看到你的数据：</div>
+      <div class="btn-group">
+        <button class="btn-success" onclick="window.open('https://jyumei53-create.github.io/jiangsu-edu-crm/','_blank')">
+          🚀 打开 GitHub Pages 版
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function copyExportCode() {
+      const text = document.getElementById('exportCode').value;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('✅ 代码已复制！请到 Vercel 版页面的 Console 中粘贴并回车。');
+      });
+    }
+
+    function doImport() {
+      const status = document.getElementById('status');
+      const raw = document.getElementById('importData').value.trim();
+      
+      if (!raw) {
+        status.className = 'status error';
+        status.textContent = '❌ 请先粘贴 JSON 数据';
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(raw);
+        
+        if (!parsed.data) {
+          status.className = 'status error';
+          status.textContent = '❌ JSON 格式不正确，缺少 data 字段';
+          return;
+        }
+
+        // 验证 data 是有效的 JSON
+        const dataObj = JSON.parse(parsed.data);
+        if (!dataObj.cities || !dataObj.version) {
+          status.className = 'status error';
+          status.textContent = '❌ 数据格式不正确，缺少 cities 或 version 字段';
+          return;
+        }
+
+        // 导入数据
+        localStorage.setItem('jiangsu_crm_data_v3', parsed.data);
+        if (parsed.users) localStorage.setItem('jiangsu_crm_users', parsed.users);
+        if (parsed.session) localStorage.setItem('jiangsu_crm_session', parsed.session);
+
+        status.className = 'status success';
+        const cityCount = dataObj.cities.length;
+        let schoolCount = 0;
+        dataObj.cities.forEach(c => c.districts.forEach(d => schoolCount += d.schools.length));
+        status.innerHTML = `✅ 导入成功！<br>📊 ${cityCount} 个城市，${schoolCount} 所学校<br>👤 用户和登录状态也已同步<br><br>请点击下方「打开 GitHub Pages 版」查看。`;
+      } catch (e) {
+        status.className = 'status error';
+        status.textContent = '❌ JSON 解析失败：' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
