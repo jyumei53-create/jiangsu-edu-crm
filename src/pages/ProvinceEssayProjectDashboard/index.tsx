@@ -89,6 +89,22 @@ export default function ProvinceEssayProjectDashboard() {
     };
   }, [data, nameFilter, cityFilter, districtFilter, stageFilter, statusFilter, trialProductFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter]);
 
+  // 漏斗使用全量作文专项学校（不受明细筛选影响）
+  const essayFunnelSchools = useMemo(() => {
+    const schools: Array<School & { cityName: string; cityId: string; districtName: string; districtId: string }> = [];
+    for (const city of data.cities) {
+      for (const d of city.districts) {
+        for (const s of d.schools) {
+          const hasEssay = (s.products && s.products.includes('作文')) || (s.cooperationProducts && s.cooperationProducts.includes('作文'));
+          if (hasEssay && !s.seed) {
+            schools.push({ ...s, cityName: city.name, cityId: city.id, districtName: d.name, districtId: d.id });
+          }
+        }
+      }
+    }
+    return schools;
+  }, [data]);
+
   const statusColor: Record<SchoolStatus, string> = {
     '已合作': 'green', '试用中': 'orange', '已汇报': 'purple', '待开发': 'default',
   };
@@ -328,6 +344,7 @@ export default function ProvinceEssayProjectDashboard() {
       </Row>
 
       <SchoolAnalytics schools={privateData.schools} groupBy="city" groupLabel="城市" mode="essay"
+        essayFunnelSchools={essayFunnelSchools}
         allSchoolsTotal={data.cities.reduce((sum, c) => sum + c.districts.reduce((s2, d) => s2 + d.schools.filter((s) => !s.seed).length, 0), 0)}
         districtSchoolTotals={(() => {
           const map: Record<string, number> = {};

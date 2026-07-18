@@ -91,6 +91,21 @@ export default function EssayProjectDashboard() {
     };
   }, [city, nameFilter, districtFilter, stageFilter, statusFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter]);
 
+  // 漏斗使用全量作文专项学校（不受明细筛选影响）
+  const essayFunnelSchools = useMemo(() => {
+    if (!city) return [] as Array<School & { districtName: string; districtId: string }>;
+    const schools: Array<School & { districtName: string; districtId: string }> = [];
+    for (const d of city.districts) {
+      for (const s of d.schools) {
+        const hasEssay = (s.products && s.products.includes('作文')) || (s.cooperationProducts && s.cooperationProducts.includes('作文'));
+        if (hasEssay && !s.seed) {
+          schools.push({ ...s, districtName: d.name, districtId: d.id });
+        }
+      }
+    }
+    return schools;
+  }, [city]);
+
   const statusColor: Record<SchoolStatus, string> = {
     '已合作': 'green', '试用中': 'orange', '已汇报': 'purple', '待开发': 'default',
   };
@@ -323,6 +338,7 @@ export default function EssayProjectDashboard() {
       </Row>
 
       <SchoolAnalytics schools={essayData.schools} groupBy="district" groupLabel="区县" mode="essay"
+        essayFunnelSchools={essayFunnelSchools}
         allSchoolsTotal={city ? city.districts.reduce((sum, d) => sum + d.schools.filter((s) => !s.seed).length, 0) : 0}
         districtSchoolTotals={(() => {
           const map: Record<string, number> = {};

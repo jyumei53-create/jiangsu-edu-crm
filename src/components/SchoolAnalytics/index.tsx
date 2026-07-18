@@ -28,6 +28,8 @@ interface SchoolAnalyticsProps {
   allSchoolsTotal?: number;
   /** 作文专项堆叠图：各区县总学校数 */
   districtSchoolTotals?: Record<string, number>;
+  /** 作文专项漏斗的原始数据（不受筛选影响），不传则使用 schools */
+  essayFunnelSchools?: AnalyticsSchool[];
 }
 
 function buildFunnelOption(total: number, statusCounts: Record<string, number>) {
@@ -48,10 +50,8 @@ function buildFunnelOption(total: number, statusCounts: Record<string, number>) 
 function buildEssayFunnelOption(allTotal: number, essaySchools: AnalyticsSchool[]) {
   // 已合作作文 = status已合作 + 合作产品含「作文」
   const essayCooperating = essaySchools.filter((s) => s.status === '已合作' && s.cooperationProducts && s.cooperationProducts.includes('作文')).length;
-  // 纯试用中（作文）= trialProducts 中有「作文」且状态是「试用中」
-  const essayPureTrial = essaySchools.filter((s) => s.status === '试用中' && s.trialProducts && s.trialProducts.includes('作文')).length;
-  // 试用作文 = 纯试用中（作文）+ 已合作作文（已合作必定经历过试用）
-  const essayTrialing = essayPureTrial + essayCooperating;
+  // 试用作文 = 状态是「试用中」且 trialProducts 中有「作文」
+  const essayTrialing = essaySchools.filter((s) => s.status === '试用中' && s.trialProducts && s.trialProducts.includes('作文')).length;
   // 汇报过作文 = 作文专项纳入的全部学校（产品或合作产品含作文）
   const essayReported = essaySchools.length;
   const data = [
@@ -383,7 +383,7 @@ function cardTitle(icon: React.ReactNode, label: string) {
   );
 }
 
-export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县', mode = 'full', allSchoolsTotal, districtSchoolTotals }: SchoolAnalyticsProps) {
+export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县', mode = 'full', allSchoolsTotal, districtSchoolTotals, essayFunnelSchools }: SchoolAnalyticsProps) {
   const model = useMemo(() => {
     const real = schools.filter((s) => !s.seed);
     const statusCounts: Record<string, number> = { 已合作: 0, 试用中: 0, 已汇报: 0, 待开发: 0 };
@@ -514,7 +514,7 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
                 </span>
               )}
             >
-              <ReactECharts option={buildEssayFunnelOption(allSchoolsTotal || model.total, schools)} style={{ height: 320 }} />
+              <ReactECharts option={buildEssayFunnelOption(allSchoolsTotal || model.total, essayFunnelSchools || schools)} style={{ height: 320 }} />
             </Card>
           </Col>
           <Col xs={24} sm={12} style={{ display: 'flex' }}>
