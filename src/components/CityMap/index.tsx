@@ -561,7 +561,7 @@ export default function CityMap({ city }: CityMapProps) {
           </Card>
         </Col>
 
-        {/* 右侧：区域合作状态 */}
+        {/* 右侧：区域统筹推进状态 */}
         <Col xs={24} lg={8}>
           <Card
             title={
@@ -579,7 +579,7 @@ export default function CityMap({ city }: CityMapProps) {
                 >
                   <ProjectOutlined style={{ color: '#f59e0b', fontSize: 16 }} />
                 </div>
-                <span style={{ fontWeight: 600, color: '#1e293b' }}>区域合作状态</span>
+                <span style={{ fontWeight: 600, color: '#1e293b' }}>区域统筹推进状态</span>
               </Space>
             }
             styles={{ body: { padding: '12px 16px', maxHeight: 628, overflowY: 'auto' } }}

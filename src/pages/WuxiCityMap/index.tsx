@@ -423,13 +423,13 @@ export default function WuxiCityMap({ city }: Props) {
           </Card>
         </Col>
 
-        {/* 右侧：区域合作状态面板 */}
+        {/* 右侧：区域统筹推进状态面板 */}
         <Col xs={24} lg={8}>
           <Card
             title={
               <Space>
                 <ProjectOutlined />
-                <span>区域合作状态</span>
+                <span>区域统筹推进状态</span>
               </Space>
             }
             styles={{ body: { padding: '12px 16px', maxHeight: 560, overflowY: 'auto' } }}
