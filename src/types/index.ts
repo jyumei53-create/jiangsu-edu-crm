@@ -46,7 +46,7 @@ export interface District {
   id: string;
   name: string;
   isKey: boolean;
-  /** 区域合作状态面板中的展示排序（仅在同一 isKey 组内生效，数字越小越靠前） */
+  /** 区域统筹推进状态面板中的展示排序（仅在同一 isKey 组内生效，数字越小越靠前） */
   order?: number;
   projects: DistrictProject[];
   schools: School[];
