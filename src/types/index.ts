@@ -15,6 +15,7 @@ export interface School {
   street?: string;
   isKeyPersonLeader?: boolean;
   keyPerson?: string;
+  isAiLabelSchool?: boolean;
   remark?: string;
   order: number;
   isPrivate?: boolean;

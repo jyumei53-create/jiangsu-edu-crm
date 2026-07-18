@@ -627,6 +627,7 @@ function SchoolPanel({
   const [streetFilter, setStreetFilter] = useState('');
   const [privateFilter, setPrivateFilter] = useState<string[]>([]);
   const [municipalFilter, setMunicipalFilter] = useState<string[]>([]);
+  const [aiLabelFilter, setAiLabelFilter] = useState<string[]>([]);
 
   const sortedSchools = useMemo(() => {
     let result = [...district.schools].sort((a, b) => a.order - b.order);
@@ -683,13 +684,18 @@ function SchoolPanel({
       const wantMunicipal = municipalFilter[0] === 'true';
       result = result.filter((s) => !!s.isMunicipal === wantMunicipal);
     }
+    // AI标签校筛选
+    if (aiLabelFilter.length === 1) {
+      const wantAiLabel = aiLabelFilter[0] === 'true';
+      result = result.filter((s) => !!s.isAiLabelSchool === wantAiLabel);
+    }
 
     return result;
-  }, [district.schools, nameFilter, stageFilter, statusFilter, trialProductFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter, privateFilter, municipalFilter]);
+  }, [district.schools, nameFilter, stageFilter, statusFilter, trialProductFilter, productFilter, cooperationProductFilter, keyPersonFilter, streetFilter, privateFilter, municipalFilter, aiLabelFilter]);
 
   // 导出学校名单为 CSV
   const handleExportCSV = () => {
-    const headers = ['学校名称', '学段', '状态', '试用产品', '汇报产品', '合作产品', '一把手', '关键人', '所属街道', '民办校', '市直属', '备注'];
+    const headers = ['学校名称', '学段', '状态', '试用产品', '汇报产品', '合作产品', '一把手', '关键人', '所属街道', '民办校', '市直属', 'AI标签校', '备注'];
     const rows = sortedSchools.map((s) => [
       s.name,
       s.stage || '',
@@ -702,6 +708,7 @@ function SchoolPanel({
       s.street || '',
       s.isPrivate ? '是' : '否',
       s.isMunicipal ? '是' : '否',
+      s.isAiLabelSchool ? '是' : '否',
       s.remark || '',
     ]);
     const csvContent = [headers, ...rows]
@@ -771,6 +778,7 @@ function SchoolPanel({
       street: '',
       isKeyPersonLeader: false,
       keyPerson: '',
+      isAiLabelSchool: false,
       remark: '',
       order: district.schools.length + 1,
       isPrivate: false,
@@ -878,7 +886,7 @@ function SchoolPanel({
 
     const newSchools: School[] = lines.map((line, i) => {
       const parts = line.split(/[\t,，\s]+/).filter(Boolean);
-      const [name, stage, status, trialProductStr, productStr, isLeaderStr, keyPerson, street, remark] = parts;
+      const [name, stage, status, trialProductStr, productStr, isLeaderStr, keyPerson, street, isAiLabelStr, remark] = parts;
       const trialProducts = trialProductStr ? trialProductStr.split(/[、/]/).filter(Boolean) : [];
       const products = productStr ? productStr.split(/[、/]/).filter(Boolean) : [];
 
@@ -892,6 +900,7 @@ function SchoolPanel({
         isKeyPersonLeader: isLeaderStr === '是',
         keyPerson: keyPerson || '',
         street: street || '',
+        isAiLabelSchool: isAiLabelStr === '是',
         remark: remark || '',
         order: district.schools.length + i + 1,
       };
@@ -1256,6 +1265,34 @@ function SchoolPanel({
         v ? <Tag color="geekblue" style={{ margin: 0, fontSize: 11, borderRadius: 6 }}>市直属</Tag> : null,
     },
     {
+      title: 'AI标签校',
+      dataIndex: 'isAiLabelSchool',
+      key: 'isAiLabelSchool',
+      width: 85,
+      filtered: aiLabelFilter.length > 0,
+      filterDropdown: ({ close }) => (
+        <div style={{ padding: 8, width: 140 }}>
+          <Select
+            placeholder="筛选"
+            value={aiLabelFilter.length > 0 ? aiLabelFilter[0] : undefined}
+            onChange={(v) => { setAiLabelFilter(v ? [v] : []); close(); }}
+            style={{ width: '100%' }}
+            options={[
+              { label: '是', value: 'true' },
+              { label: '否', value: 'false' },
+            ]}
+            allowClear
+            autoFocus
+          />
+        </div>
+      ),
+      filterIcon: (filtered: boolean) => (
+        <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      ),
+      render: (v: boolean | undefined) =>
+        v ? <Tag color="cyan" style={{ margin: 0, fontSize: 11, borderRadius: 6 }}>AI标签</Tag> : null,
+    },
+    {
       title: '备注',
       dataIndex: 'remark',
       key: 'remark',
@@ -1590,6 +1627,19 @@ function SchoolPanel({
               标记为市教育局直属学校（列表中显示「市直属」标签）
             </Text>
           </Form.Item>
+          <Form.Item label="人工智能标签校">
+            <Switch
+              checked={editingSchool?.isAiLabelSchool || false}
+              onChange={(v) =>
+                setEditingSchool((prev) =>
+                  prev ? { ...prev, isAiLabelSchool: v } : null
+                )
+              }
+            />
+            <Text type="secondary" style={{ marginLeft: 10, fontSize: 12 }}>
+              标记为人工智能标签校（将出现在AI标签校数据看板中）
+            </Text>
+          </Form.Item>
         </Form>
       </Modal>
 
@@ -1606,7 +1656,7 @@ function SchoolPanel({
         <div style={{ marginBottom: 8 }}>
           <Text type="secondary">
             每行一所学校，用 Tab/逗号/空格 分隔：<br />
-            格式：学校名称 学段 状态 试用产品(多个用/分隔) 汇报产品(多个用/分隔) 一把手(是/否) 关键人 街道 备注
+            格式：学校名称 学段 状态 试用产品(多个用/分隔) 汇报产品(多个用/分隔) 一把手(是/否) 关键人 街道 AI标签校(是/否) 备注
           </Text>
         </div>
         <TextArea

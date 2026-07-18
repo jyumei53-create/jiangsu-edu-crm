@@ -16,6 +16,8 @@ import EssayProjectDashboard from './pages/EssayProjectDashboard';
 import ProvinceDashboard from './pages/ProvinceDashboard';
 import ProvincePrivateSchoolDashboard from './pages/ProvincePrivateSchoolDashboard';
 import ProvinceEssayProjectDashboard from './pages/ProvinceEssayProjectDashboard';
+import ProvinceAiLabelSchoolDashboard from './pages/ProvinceAiLabelSchoolDashboard';
+import AiLabelSchoolDashboard from './pages/AiLabelSchoolDashboard';
 import UserManagement from './pages/UserManagement';
 
 function AppRoutes() {
@@ -40,10 +42,12 @@ function AppRoutes() {
             <Route path="/province/dashboard" element={<ProvinceDashboard />} />
             <Route path="/province/private-schools" element={<ProvincePrivateSchoolDashboard />} />
             <Route path="/province/essay-project" element={<ProvinceEssayProjectDashboard />} />
+            <Route path="/province/ai-label-schools" element={<ProvinceAiLabelSchoolDashboard />} />
             <Route path="/city/:cityId" element={<CityDetail />} />
             <Route path="/city/:cityId/dashboard" element={<CityDashboard />} />
             <Route path="/city/:cityId/private-schools" element={<PrivateSchoolDashboard />} />
             <Route path="/city/:cityId/essay-project" element={<EssayProjectDashboard />} />
+            <Route path="/city/:cityId/ai-label-schools" element={<AiLabelSchoolDashboard />} />
             <Route path="/city/:cityId/:districtId" element={<DistrictDetail />} />
             <Route
               path="/admin/users"

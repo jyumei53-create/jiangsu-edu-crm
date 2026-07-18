@@ -21,6 +21,7 @@ import {
   ProjectOutlined,
   BarChartOutlined,
   BankOutlined,
+  RobotOutlined,
   UserOutlined,
   PhoneOutlined,
   WechatOutlined,
@@ -397,6 +398,21 @@ export default function CityMap({ city }: CityMapProps) {
               }}
             >
               作文专项数据看板
+            </Button>
+            <Button
+              onClick={() => navigate(`/city/${city.id}/ai-label-schools`)}
+              size="middle"
+              icon={<RobotOutlined />}
+              style={{
+                borderRadius: 8,
+                fontWeight: 600,
+                color: '#fff',
+                border: 'none',
+                background: 'linear-gradient(135deg, #1677ff 0%, #13c2c2 100%)',
+                boxShadow: '0 4px 14px rgba(22,119,255,0.35)',
+              }}
+            >
+              AI标签校数据看板
             </Button>
             <Button
               type="primary"

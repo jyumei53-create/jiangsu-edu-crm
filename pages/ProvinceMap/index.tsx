@@ -14,6 +14,7 @@ import {
   BarChartOutlined,
   DashboardOutlined,
   ArrowRightOutlined,
+  RobotOutlined,
 } from '@ant-design/icons';
 import ReactECharts from 'echarts-for-react';
 import * as echarts from 'echarts';
@@ -291,6 +292,15 @@ export default function ProvinceMap() {
     return n;
   }, [data]);
 
+  const aiLabelTotal = useMemo(() => {
+    let n = 0;
+    for (const c of data.cities)
+      for (const d of c.districts)
+        for (const s of d.schools)
+          if (s.isAiLabelSchool && !s.seed) n++;
+    return n;
+  }, [data]);
+
   const dashEntries: DashEntryType[] = [
     {
       key: 'private',
@@ -312,6 +322,17 @@ export default function ProvinceMap() {
       icon: <EditOutlined />,
       to: '/province/essay-project',
       gradient: 'linear-gradient(135deg, #13c2c2 0%, #36cfc9 100%)',
+      accent: '#13c2c2',
+    },
+    {
+      key: 'ailabel',
+      title: '江苏省人工智能标签校数据看板',
+      desc: '全省AI标签校布局与推进',
+      metric: aiLabelTotal,
+      metricLabel: '所AI标签学校',
+      icon: <RobotOutlined />,
+      to: '/province/ai-label-schools',
+      gradient: 'linear-gradient(135deg, #1677ff 0%, #13c2c2 100%)',
       accent: '#13c2c2',
     },
     {
