@@ -6,7 +6,6 @@ import { ALL_PRODUCTS } from '../../types';
 
 const { Text } = Typography;
 
-const STATUS_ORDER = ['已合作', '试用中', '已汇报', '待开发'] as const;
 const STATUS_COLORS: Record<string, string> = {
   已合作: '#10b981',
   试用中: '#f59e0b',
@@ -29,42 +28,6 @@ interface SchoolAnalyticsProps {
   allSchoolsTotal?: number;
   /** 作文专项堆叠图：各区县总学校数 */
   districtSchoolTotals?: Record<string, number>;
-}
-
-function buildStatusOption(total: number, statusCounts: Record<string, number>) {
-  return {
-    tooltip: { trigger: 'item', formatter: '{b}：{c} 所（{d}%）' },
-    title: {
-      text: String(total),
-      subtext: '学校总数',
-      left: 'center',
-      top: '36%',
-      textStyle: { fontSize: 28, fontWeight: 700, color: '#1e293b' },
-      subtextStyle: { fontSize: 12, color: '#94a3b8' },
-    },
-    legend: {
-      bottom: 0,
-      icon: 'circle',
-      itemWidth: 8,
-      itemHeight: 8,
-      textStyle: { color: '#64748b', fontSize: 12 },
-    },
-    series: [
-      {
-        type: 'pie',
-        radius: ['52%', '74%'],
-        center: ['50%', '44%'],
-        avoidLabelOverlap: true,
-        itemStyle: { borderColor: '#fff', borderWidth: 2, borderRadius: 4 },
-        label: { show: false },
-        data: STATUS_ORDER.map((s) => ({
-          name: s,
-          value: statusCounts[s] || 0,
-          itemStyle: { color: STATUS_COLORS[s] },
-        })),
-      },
-    ],
-  };
 }
 
 function buildFunnelOption(total: number, statusCounts: Record<string, number>) {
@@ -340,6 +303,63 @@ function buildConversionRateOption(groupNames: string[], rates: number[]) {
   };
 }
 
+/** 已汇报一把手占比分析：横向条形图，展示各区县/城市的一把手数量及占比 */
+function buildKeyLeaderOption(
+  groupNames: string[],
+  counts: number[],
+  rates: number[],
+) {
+  const maxCount = Math.max(...counts, 1);
+  return {
+    grid: { left: 4, right: 60, top: 10, bottom: 6, containLabel: true },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: (params: any) => {
+        const item = Array.isArray(params) ? params[0] : params;
+        const idx = item.dataIndex;
+        return `<b>${item.name}</b><br/>已汇报一把手：${counts[idx]} 人<br/>占比：${rates[idx]}%`;
+      },
+    },
+    xAxis: {
+      type: 'value',
+      max: maxCount,
+      splitLine: { lineStyle: { color: '#f1f5f9' } },
+      axisLabel: { color: '#94a3b8', fontSize: 11 },
+      axisLine: { show: false },
+      axisTick: { show: false },
+    },
+    yAxis: {
+      type: 'category',
+      data: groupNames,
+      inverse: true,
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: '#475569', fontSize: 12 },
+    },
+    series: [
+      {
+        type: 'bar',
+        data: counts,
+        barWidth: '56%',
+        itemStyle: {
+          color: '#f97316',
+          borderRadius: [0, 6, 6, 0],
+        },
+        label: {
+          show: true,
+          position: 'right',
+          formatter: (p: any) => `${rates[p.dataIndex]}%`,
+          color: '#f97316',
+          fontSize: 12,
+          fontWeight: 600,
+          distance: 4,
+        },
+      },
+    ],
+  };
+}
+
 function cardTitle(icon: React.ReactNode, label: string) {
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
@@ -368,7 +388,7 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
     const real = schools.filter((s) => !s.seed);
     const statusCounts: Record<string, number> = { 已合作: 0, 试用中: 0, 已汇报: 0, 待开发: 0 };
     const stageMap: Record<string, number> = {};
-    const groupMap: Record<string, { coop: number; trial: number; report: number; pending: number; total: number }> = {};
+    const groupMap: Record<string, { coop: number; trial: number; report: number; pending: number; total: number; keyLeaderReported: number }> = {};
 
     for (const s of real) {
       statusCounts[s.status] = (statusCounts[s.status] || 0) + 1;
@@ -376,12 +396,14 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
       stageMap[stage] = (stageMap[stage] || 0) + 1;
 
       const g = groupBy === 'city' ? s.cityName || '未知' : s.districtName || '未知';
-      if (!groupMap[g]) groupMap[g] = { coop: 0, trial: 0, report: 0, pending: 0, total: 0 };
+      if (!groupMap[g]) groupMap[g] = { coop: 0, trial: 0, report: 0, pending: 0, total: 0, keyLeaderReported: 0 };
       groupMap[g].total += 1;
       if (s.status === '已合作') groupMap[g].coop += 1;
       else if (s.status === '试用中') groupMap[g].trial += 1;
       else if (s.status === '已汇报') groupMap[g].report += 1;
       else groupMap[g].pending += 1;
+      // 已汇报一把手
+      if (s.isKeyPersonLeader && s.status === '已汇报') groupMap[g].keyLeaderReported += 1;
     }
 
     const total = real.length;
@@ -420,6 +442,14 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
     const rateNames = rateEntries.map((r) => r.name);
     const rateValues = rateEntries.map((r) => r.rate);
 
+    // 已汇报一把手占比：每个 group 的 keyLeaderReported / total
+    const keyLeaderGroupNames = groupNames;
+    const keyLeaderGroupRates = groupNames.map((g) => {
+      const grp = groupMap[g];
+      return grp.total > 0 ? Math.round((grp.keyLeaderReported / grp.total) * 100) : 0;
+    });
+    const keyLeaderGroupCounts = groupNames.map((g) => groupMap[g]?.keyLeaderReported || 0);
+
     return {
       total,
       statusCounts,
@@ -432,6 +462,9 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
       productValues,
       rateNames,
       rateValues,
+      keyLeaderGroupNames,
+      keyLeaderGroupRates,
+      keyLeaderGroupCounts,
     };
   }, [schools, groupBy]);
 
@@ -596,11 +629,18 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
     <div>
       <Row gutter={[14, 14]} style={{ marginBottom: 14 }}>
         <Col xs={24} sm={12} lg={8}>
-          <Card styles={{ body: { padding: '14px 16px 8px' } }} style={cardStyle} title={cardTitle('◔', '合作状态分布')}>
-            <ReactECharts option={buildStatusOption(model.total, model.statusCounts)} style={{ height: 250 }} />
+          <Card styles={{ body: { padding: '14px 16px 8px' } }} style={cardStyle} title={cardTitle('◔', '已汇报一把手占比分析')}>
+            {model.keyLeaderGroupNames.length > 0 ? (
+              <ReactECharts option={buildKeyLeaderOption(model.keyLeaderGroupNames, model.keyLeaderGroupCounts, model.keyLeaderGroupRates)} style={{ height: 250 }} />
+            ) : (
+              <div style={{ textAlign: 'center', padding: 40, color: '#94a3b8' }}>暂无数据</div>
+            )}
             <div style={{ textAlign: 'center', marginBottom: 6 }}>
               <Text style={{ fontSize: 12, color: '#64748b' }}>
-                已合作转化率 <Text strong style={{ color: '#10b981', fontSize: 14 }}>{model.cooperatingRate}%</Text>
+                全校已汇报一把手率{' '}
+                <Text strong style={{ color: '#f97316', fontSize: 14 }}>
+                  {model.total > 0 ? Math.round((model.keyLeaderGroupCounts.reduce((a, b) => a + b, 0) / model.total) * 100) : 0}%
+                </Text>
               </Text>
             </div>
           </Card>

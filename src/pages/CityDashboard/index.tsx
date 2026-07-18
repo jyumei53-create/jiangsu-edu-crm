@@ -17,6 +17,7 @@ import {
   ExperimentOutlined,
   FileTextOutlined,
   ClockCircleOutlined,
+  UserOutlined,
   BarChartOutlined,
   EnvironmentOutlined,
   BankOutlined,
@@ -49,6 +50,17 @@ export default function CityDashboard() {
 
   const stats = computeCityStats(city);
 
+  // 已汇报一把手：isKeyPersonLeader === true 且 status === '已汇报'
+  const keyLeaderReported = useMemo(() => {
+    let n = 0;
+    for (const d of city.districts) {
+      for (const s of d.schools) {
+        if (s.isKeyPersonLeader && s.status === '已汇报' && !s.seed) n++;
+      }
+    }
+    return n;
+  }, [city]);
+
   const allSchools = useMemo(
     () =>
       city.districts.flatMap((d) =>
@@ -65,6 +77,7 @@ export default function CityDashboard() {
     { title: '试用中', value: stats.trialing, icon: <ExperimentOutlined />, color: '#faad14' },
     { title: '仅汇报', value: stats.reported, icon: <FileTextOutlined />, color: '#722ed1' },
     { title: '待开发', value: stats.pending, icon: <ClockCircleOutlined />, color: '#bfbfbf' },
+    { title: '已汇报一把手', value: keyLeaderReported, icon: <UserOutlined />, color: '#f97316' },
   ];
 
   const districtTable = city.districts.map((d) => {
