@@ -8,7 +8,6 @@ import {
   ExperimentOutlined,
   FileTextOutlined,
   ClockCircleOutlined,
-  ProjectOutlined,
   BarChartOutlined,
   EnvironmentOutlined,
   BankOutlined,
@@ -31,7 +30,6 @@ export default function ProvinceDashboard() {
     { title: '试用中', value: stats.trialing, icon: <ExperimentOutlined />, color: '#faad14' },
     { title: '仅汇报', value: stats.reported, icon: <FileTextOutlined />, color: '#722ed1' },
     { title: '待开发', value: stats.pending, icon: <ClockCircleOutlined />, color: '#bfbfbf' },
-    { title: '区域合作项目', value: stats.totalProjects, icon: <ProjectOutlined />, color: '#ff7a45' },
   ];
 
   const cityTable = data.cities.map((city) => {
@@ -45,7 +43,6 @@ export default function ProvinceDashboard() {
       trialing: s.trialing,
       reported: s.reported,
       pending: s.pending,
-      projects: s.totalProjects,
     };
   });
 
@@ -63,7 +60,6 @@ export default function ProvinceDashboard() {
         trialing: s.trialing,
         reported: s.reported,
         pending: s.pending,
-        projects: d.projects.length,
         isKey: d.isKey,
       };
     })
@@ -87,7 +83,6 @@ export default function ProvinceDashboard() {
     { title: '试用中', dataIndex: 'trialing', key: 'trialing', align: 'center' as const },
     { title: '仅汇报', dataIndex: 'reported', key: 'reported', align: 'center' as const },
     { title: '待开发', dataIndex: 'pending', key: 'pending', align: 'center' as const },
-    { title: '区域项目', dataIndex: 'projects', key: 'projects', align: 'center' as const },
   ];
 
   const districtColumns = [
@@ -114,7 +109,6 @@ export default function ProvinceDashboard() {
     { title: '试用中', dataIndex: 'trialing', key: 'trialing', align: 'center' as const },
     { title: '仅汇报', dataIndex: 'reported', key: 'reported', align: 'center' as const },
     { title: '待开发', dataIndex: 'pending', key: 'pending', align: 'center' as const },
-    { title: '区域项目', dataIndex: 'projects', key: 'projects', align: 'center' as const },
   ];
 
   const allSchools = useMemo(
