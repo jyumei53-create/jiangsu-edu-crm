@@ -57,27 +57,73 @@ export function loadAppData(): AppData {
     // 精准迁移：仅清理已不存在的区县（如经开区），不动其他数据
     let modified = false;
     const seedCities = getSeedData().cities;
-    const WUXI_SEED_VERSION = 4;
+    const WUXI_SEED_VERSION = 5;
     if ((data as AppData).wuxiSeedVersion !== WUXI_SEED_VERSION) {
       const wuxiCity = data.cities.find((c) => c.id === 'wuxi');
       if (wuxiCity) {
-        const seedWuxi = seedCities.find((c) => c.id === 'wuxi');
-        if (seedWuxi) {
-          // 仅删除种子数据中已不存在的区县（如经开区），保留用户在其他区县的编辑
-          const validIds = new Set(seedWuxi.districts.map((d) => d.id));
-          const removedDistricts = wuxiCity.districts.filter((d) => !validIds.has(d.id));
-          if (removedDistricts.length > 0) {
-            // 将删除区县的学校迁移到新吴区（xinwu）
-            const xinwu = wuxiCity.districts.find((d) => d.id === 'xinwu');
-            if (xinwu) {
-              for (const rd of removedDistricts) {
-                xinwu.schools = [...xinwu.schools, ...rd.schools];
+        // V4 迁移：仅删除种子数据中已不存在的区县（如经开区）
+        if ((data as AppData).wuxiSeedVersion !== undefined && (data as AppData).wuxiSeedVersion! < 4) {
+          const seedWuxi = seedCities.find((c) => c.id === 'wuxi');
+          if (seedWuxi) {
+            const validIds = new Set(seedWuxi.districts.map((d) => d.id));
+            const removedDistricts = wuxiCity.districts.filter((d) => !validIds.has(d.id));
+            if (removedDistricts.length > 0) {
+              const xinwu = wuxiCity.districts.find((d) => d.id === 'xinwu');
+              if (xinwu) {
+                for (const rd of removedDistricts) {
+                  xinwu.schools = [...xinwu.schools, ...rd.schools];
+                }
               }
+              wuxiCity.districts = wuxiCity.districts.filter((d) => validIds.has(d.id));
+              modified = true;
             }
-            wuxiCity.districts = wuxiCity.districts.filter((d) => validIds.has(d.id));
-            modified = true;
           }
         }
+
+        // V5 迁移：为 31 所人工智能重点校打上 AI 标签
+        const AI_LABEL_SCHOOL_NAMES = [
+          "南京师范大学滨湖实验学校九龙湾分校",
+          "无锡市河埒中学",
+          "江苏省锡山高级中学",
+          "江苏省锡山高级中学实验学校第三小学",
+          "无锡市梁溪区扬名实验学校",
+          "无锡市积余实验学校",
+          "无锡市连元街小学",
+          "江苏省无锡师范学校附属小学",
+          "无锡市江南中学",
+          "无锡市第一中学",
+          "无锡市第三高级中学",
+          "无锡市辅仁高级中学",
+          "无锡市安镇实验小学",
+          "无锡市天一实验学校",
+          "无锡金桥双语实验学校",
+          "无锡市东绛第二实验学校",
+          "无锡市新吴区鸿山实验小学",
+          "无锡市春城实验小学",
+          "无锡高新区(新吴区)太科城实验学校",
+          "无锡市硕放中学",
+          "江苏省江阴高级中学",
+          "江苏省南菁高级中学",
+          "江阴市青阳中学",
+          "江阴市城中实验小学",
+          "江阴市要塞实验小学",
+          "江阴市毗陵路小学",
+          "宜兴市城北小学",
+          "宜兴市湖滨实验学校",
+          "宜兴市丁山实验小学",
+          "宜兴市和桥实验小学",
+          "宜兴市东氿中学",
+        ];
+        const nameSet = new Set(AI_LABEL_SCHOOL_NAMES);
+        for (const d of wuxiCity.districts) {
+          for (const s of d.schools) {
+            if (nameSet.has(s.name) && !s.isAiLabelSchool) {
+              s.isAiLabelSchool = true;
+              modified = true;
+            }
+          }
+        }
+
         (data as AppData).wuxiSeedVersion = WUXI_SEED_VERSION;
       }
     }
