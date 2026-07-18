@@ -25,13 +25,13 @@ export default function ProvinceDashboard() {
 
   const stats = computeStats(data);
 
-  // 已汇报一把手：isKeyPersonLeader === true 且 status === '已汇报'
+  // 已汇报一把手：isKeyPersonLeader === true
   const keyLeaderReported = useMemo(() => {
     let n = 0;
     for (const c of data.cities)
       for (const d of c.districts)
         for (const s of d.schools)
-          if (s.isKeyPersonLeader && s.status === '已汇报' && !s.seed) n++;
+          if (s.isKeyPersonLeader && !s.seed) n++;
     return n;
   }, [data]);
 

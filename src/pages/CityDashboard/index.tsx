@@ -50,12 +50,12 @@ export default function CityDashboard() {
 
   const stats = computeCityStats(city);
 
-  // 已汇报一把手：isKeyPersonLeader === true 且 status === '已汇报'
+  // 已汇报一把手：isKeyPersonLeader === true
   const keyLeaderReported = useMemo(() => {
     let n = 0;
     for (const d of city.districts) {
       for (const s of d.schools) {
-        if (s.isKeyPersonLeader && s.status === '已汇报' && !s.seed) n++;
+        if (s.isKeyPersonLeader && !s.seed) n++;
       }
     }
     return n;

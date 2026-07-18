@@ -402,8 +402,8 @@ export default function SchoolAnalytics({ schools, groupBy, groupLabel = '区县
       else if (s.status === '试用中') groupMap[g].trial += 1;
       else if (s.status === '已汇报') groupMap[g].report += 1;
       else groupMap[g].pending += 1;
-      // 已汇报一把手
-      if (s.isKeyPersonLeader && s.status === '已汇报') groupMap[g].keyLeaderReported += 1;
+      // 一把手
+      if (s.isKeyPersonLeader) groupMap[g].keyLeaderReported += 1;
     }
 
     const total = real.length;
