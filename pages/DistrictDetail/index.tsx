@@ -1173,13 +1173,13 @@ function SchoolPanel({
         <FilterOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
       ),
       render: (_text: string, record: School) => {
-        if (!record.keyPerson) return <Text type="secondary">-</Text>;
+        if (!record.isKeyPersonLeader && !record.keyPerson) return <Text type="secondary">-</Text>;
         return (
           <Space size={4}>
             {record.isKeyPersonLeader && (
               <Tag color="red" style={{ margin: 0, fontSize: 10, lineHeight: '16px' }}>一把手</Tag>
             )}
-            <span>{record.keyPerson}</span>
+            {record.keyPerson && <span>{record.keyPerson}</span>}
           </Space>
         );
       },
