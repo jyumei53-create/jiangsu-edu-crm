@@ -192,7 +192,7 @@ export default function ProvinceMap() {
                 学校总数：<b>${s.totalSchools}</b> 所<br/>
                 已合作：<span style="color:#52c41a">${s.cooperating}</span> |
                 试用中：<span style="color:#faad14">${s.trialing}</span><br/>
-                已汇报：<span style="color:#722ed1">${s.reported}</span> |
+                仅汇报：<span style="color:#722ed1">${s.reported}</span> |
                 待开发：${s.pending}<br/>
                 下辖区县：${city.districts.length} 个<br/>
                 合作项目：${s.totalProjects}
@@ -269,7 +269,7 @@ export default function ProvinceMap() {
     { title: 'CRM学校总数', value: stats.totalSchools, icon: <TeamOutlined />, color: '#1677ff' },
     { title: '已合作', value: stats.cooperating, icon: <CheckCircleOutlined />, color: '#52c41a' },
     { title: '试用中', value: stats.trialing, icon: <ExperimentOutlined />, color: '#faad14' },
-    { title: '已汇报', value: stats.reported, icon: <FileTextOutlined />, color: '#722ed1' },
+    { title: '仅汇报', value: stats.reported, icon: <FileTextOutlined />, color: '#722ed1' },
     { title: '待开发', value: stats.pending, icon: <ClockCircleOutlined />, color: '#bfbfbf' },
   ];
 
