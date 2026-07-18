@@ -23,8 +23,10 @@ import {
   BankOutlined,
 } from '@ant-design/icons';
 import { useAppContext } from '../../store/AppContext';
+import { useAuth } from '../../store/AuthContext';
 import SchoolAnalytics from '../../components/SchoolAnalytics';
 import { computeCityStats, computeDistrictStats } from '../../store';
+import { getScopedCity } from '../../store/permissions';
 
 const { Title, Text } = Typography;
 
@@ -32,8 +34,10 @@ export default function CityDashboard() {
   const { cityId } = useParams<{ cityId: string }>();
   const navigate = useNavigate();
   const { data } = useAppContext();
+  const { user } = useAuth();
 
-  const city = data.cities.find((c) => c.id === cityId);
+  // 按区县权限过滤后的城市（区域经理仅见被分配的区县）
+  const city = getScopedCity(user, cityId || '', data);
 
   if (!city) {
     return (
@@ -60,7 +64,7 @@ export default function CityDashboard() {
     { title: 'CRM学校总数', value: stats.totalSchools, icon: <TeamOutlined />, color: '#1677ff' },
     { title: '已合作', value: stats.cooperating, icon: <CheckCircleOutlined />, color: '#52c41a' },
     { title: '试用中', value: stats.trialing, icon: <ExperimentOutlined />, color: '#faad14' },
-    { title: '已汇报', value: stats.reported, icon: <FileTextOutlined />, color: '#722ed1' },
+    { title: '仅汇报', value: stats.reported, icon: <FileTextOutlined />, color: '#722ed1' },
     { title: '待开发', value: stats.pending, icon: <ClockCircleOutlined />, color: '#bfbfbf' },
     { title: '区域合作项目', value: stats.totalProjects, icon: <ProjectOutlined />, color: '#ff7a45' },
   ];
@@ -95,7 +99,7 @@ export default function CityDashboard() {
     { title: '学校总数', dataIndex: 'total', key: 'total', align: 'center' as const },
     { title: '已合作', dataIndex: 'cooperating', key: 'cooperating', align: 'center' as const },
     { title: '试用中', dataIndex: 'trialing', key: 'trialing', align: 'center' as const },
-    { title: '已汇报', dataIndex: 'reported', key: 'reported', align: 'center' as const },
+    { title: '仅汇报', dataIndex: 'reported', key: 'reported', align: 'center' as const },
     { title: '待开发', dataIndex: 'pending', key: 'pending', align: 'center' as const },
     { title: '区域项目', dataIndex: 'projects', key: 'projects', align: 'center' as const },
   ];
