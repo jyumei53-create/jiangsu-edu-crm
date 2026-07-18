@@ -688,7 +688,7 @@ function SchoolPanel({
 
   // 导出学校名单为 CSV
   const handleExportCSV = () => {
-    const headers = ['学校名称', '学段', '状态', '试用产品', '产品', '合作产品', '关键人', '所属街道', '民办校', '市直属', '备注'];
+    const headers = ['学校名称', '学段', '状态', '试用产品', '汇报产品', '合作产品', '关键人', '所属街道', '民办校', '市直属', '备注'];
     const rows = sortedSchools.map((s) => [
       s.name,
       s.stage || '',
@@ -1094,7 +1094,7 @@ function SchoolPanel({
       },
     },
     {
-      title: '产品',
+      title: '汇报产品',
       dataIndex: 'products',
       key: 'products',
       width: 150,
@@ -1103,7 +1103,7 @@ function SchoolPanel({
         <div style={{ padding: 8, width: 200 }}>
           <Select
             mode="multiple"
-            placeholder="筛选产品"
+            placeholder="筛选汇报产品"
             value={productFilter}
             onChange={(v) => setProductFilter(v)}
             style={{ width: '100%' }}
@@ -1472,7 +1472,7 @@ function SchoolPanel({
               options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
             />
           </Form.Item>
-          <Form.Item label="产品">
+          <Form.Item label="汇报产品">
             <Select
               mode="multiple"
               value={editingSchool?.products || []}
@@ -1482,7 +1482,7 @@ function SchoolPanel({
                 )
               }
               allowClear
-              placeholder="可选择多个产品"
+              placeholder="可选择多个汇报产品"
               options={ALL_PRODUCTS.map((p) => ({ value: p, label: p }))}
             />
           </Form.Item>
@@ -1570,7 +1570,7 @@ function SchoolPanel({
         <div style={{ marginBottom: 8 }}>
           <Text type="secondary">
             每行一所学校，用 Tab/逗号/空格 分隔：<br />
-            格式：学校名称 学段 状态 试用产品(多个用/分隔) 产品(多个用/分隔) 街道 关键人 备注
+            格式：学校名称 学段 状态 试用产品(多个用/分隔) 汇报产品(多个用/分隔) 街道 关键人 备注
           </Text>
         </div>
         <TextArea
