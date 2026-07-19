@@ -1,10 +1,27 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN" translate="no" class="notranslate">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>wuxi-edu-battle-map</title>
+    <meta name="google" content="notranslate" />
+    <title>江苏省教育市场CRM</title>
+    <script>
+      // 修复 GitHub Pages 单页应用（SPA）直接刷新子路由 404 问题
+      // 当 404.html 重定向到 index.html?redirect=/city/wuxi 时，
+      // 这里读取 redirect 参数并恢复正确的浏览器路径
+      (function() {
+        var pathPrefix = '/jiangsu-edu-crm';
+        var url = new URL(window.location.href);
+        var redirect = url.searchParams.get('redirect');
+        if (redirect) {
+          url.searchParams.delete('redirect');
+          var newPath = pathPrefix + redirect;
+          var newUrl = url.protocol + '//' + url.host + newPath + url.hash;
+          window.history.replaceState(null, '', newUrl);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
