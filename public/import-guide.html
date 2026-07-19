@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据导入工具 - 江苏省教育市场CRM</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; background: #f0f2f5; color: #333; line-height: 1.6; }
+    .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    .card { background: #fff; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    h1 { font-size: 24px; color: #1a1a2e; margin-bottom: 8px; }
+    h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 16px; border-bottom: 2px solid #4f46e5; padding-bottom: 8px; }
+    .subtitle { color: #666; margin-bottom: 24px; font-size: 14px; }
+    .btn { display: inline-block; padding: 12px 28px; border-radius: 8px; border: none; cursor: pointer; font-size: 15px; font-weight: 500; transition: all 0.2s; }
+    .btn-primary { background: #4f46e5; color: #fff; }
+    .btn-primary:hover { background: #4338ca; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
+    .btn-success { background: #10b981; color: #fff; }
+    .btn-success:hover { background: #059669; }
+    .btn-outline { background: #fff; color: #4f46e5; border: 1.5px solid #4f46e5; }
+    .btn-outline:hover { background: #f5f3ff; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
+    .log { background: #1a1a2e; color: #a5f3fc; border-radius: 8px; padding: 16px; font-family: "Fira Code", "Consolas", monospace; font-size: 13px; max-height: 300px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
+    .log .info { color: #67e8f9; }
+    .log .success { color: #6ee7b7; }
+    .log .error { color: #fca5a5; }
+    .log .warn { color: #fde68a; }
+    .steps { padding-left: 20px; margin: 12px 0; }
+    .steps li { margin-bottom: 8px; color: #555; }
+    .steps li strong { color: #1a1a2e; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 16px 0; }
+    .stat-item { background: #f8fafc; border-radius: 8px; padding: 14px; text-align: center; }
+    .stat-item .num { font-size: 28px; font-weight: 700; color: #4f46e5; }
+    .stat-item .label { font-size: 12px; color: #888; margin-top: 4px; }
+    .note { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: 14px; color: #92400e; }
+    .warning { background: #fef2f2; border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: 14px; color: #991b1b; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    th { background: #f8fafc; color: #64748b; font-weight: 500; }
+    tr:hover { background: #f8fafc; }
+    .status-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+    .status-coop { background: #d1fae5; color: #065f46; }
+    .status-trial { background: #dbeafe; color: #1e40af; }
+    .status-reported { background: #fef3c7; color: #92400e; }
+    .status-pending { background: #f3f4f6; color: #6b7280; }
+    .hidden { display: none; }
+    .copy-btn { cursor: pointer; color: #4f46e5; font-size: 13px; border: none; background: none; text-decoration: underline; }
+    .copy-btn:hover { color: #4338ca; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <h1>📦 江苏省教育市场CRM — 数据导入工具</h1>
+    <p class="subtitle">将云端同步版本的完整业务数据一键恢复到当前系统中</p>
+
+    <div class="stats-grid" id="statsGrid"></div>
+  </div>
+
+  <div class="card">
+    <h2>🚀 方法一：一键导入（推荐）</h2>
+    <ol class="steps">
+      <li>打开 CRM 系统：<strong><a href="https://jyumei53-create.github.io/jiangsu-edu-crm/" target="_blank">https://jyumei53-create.github.io/jiangsu-edu-crm/</a></strong></li>
+      <li>按 <strong>F12</strong> 打开开发者工具，切换到 <strong>Console（控制台）</strong> 标签</li>
+      <li>将下面的脚本代码<strong>全部复制</strong>，粘贴到 Console 中，按回车</li>
+      <li>看到 "✅ 导入成功" 后，<strong>刷新页面</strong>即可</li>
+    </ol>
+
+    <div class="note">⚠️ 此操作会<strong>覆盖</strong>当前系统中已有的数据。如系统中有新录入的数据，请先通过登录页的导出按钮备份。</div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="copyScript()" id="copyBtn">📋 复制导入脚本</button>
+      <button class="btn btn-outline" onclick="testInPlace()">🧪 在此页面测试数据</button>
+    </div>
+
+    <div class="log hidden" id="testLog"></div>
+  </div>
+
+  <div class="card">
+    <h2>📋 方法二：逐区县批量导入</h2>
+    <p>进入系统 → 点击无锡市 → 进入某个区县 → 点击「批量导入」→ 粘贴对应区县的文本</p>
+    <table>
+      <thead><tr><th>区县</th><th>学校数</th><th>操作</th></tr></thead>
+      <tbody id="districtTable"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>📊 数据预览</h2>
+    <div id="dataPreview"></div>
+  </div>
+</div>
+
+<script>
+// Load and display data
+let appData = null;
+
+async function loadData() {
+  try {
+    const resp = await fetch('data/app-data.json');
+    appData = await resp.json();
+    renderStats();
+    renderDistrictTable();
+    renderPreview();
+  } catch(e) {
+    document.getElementById('statsGrid').innerHTML = '<p style="color:red">数据加载失败，请确认 data/app-data.json 存在</p>';
+  }
+}
+
+function renderStats() {
+  let totalSchools = 0;
+  let statusCount = { '已合作': 0, '试用中': 0, '已汇报': 0, '待开发': 0 };
+  appData.cities.forEach(c => c.districts.forEach(d => {
+    totalSchools += d.schools?.length || 0;
+    d.schools?.forEach(s => {
+      if (statusCount.hasOwnProperty(s.status)) statusCount[s.status]++;
+    });
+  }));
+
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-item"><div class="num">${totalSchools}</div><div class="label">学校总数</div></div>
+    <div class="stat-item"><div class="num">${appData.cities.length}</div><div class="label">覆盖城市</div></div>
+    <div class="stat-item"><div class="num" style="color:#10b981">${statusCount['已合作']}</div><div class="label">已合作</div></div>
+    <div class="stat-item"><div class="num" style="color:#3b82f6">${statusCount['试用中']}</div><div class="label">试用中</div></div>
+    <div class="stat-item"><div class="num" style="color:#f59e0b">${statusCount['已汇报']}</div><div class="label">已汇报</div></div>
+    <div class="stat-item"><div class="num" style="color:#9ca3af">${statusCount['待开发']}</div><div class="label">待开发</div></div>
+  `;
+}
+
+function renderDistrictTable() {
+  const wuxi = appData.cities.find(c => c.id === 'wuxi');
+  if (!wuxi) return;
+  let html = '';
+  wuxi.districts.forEach(d => {
+    const count = d.schools?.length || 0;
+    html += `<tr>
+      <td>${d.name}</td>
+      <td>${count} 所</td>
+      <td><button class="copy-btn" onclick="copyDistrictData('${d.id}', '${d.name}')">复制导入文本</button></td>
+    </tr>`;
+  });
+  document.getElementById('districtTable').innerHTML = html;
+}
+
+function renderPreview() {
+  const wuxi = appData.cities.find(c => c.id === 'wuxi');
+  if (!wuxi) return;
+  let html = '<table><thead><tr><th>区县</th><th>状态</th><th>学校数</th><th>重点学校示例</th></tr></thead><tbody>';
+  wuxi.districts.forEach(d => {
+    const schools = d.schools || [];
+    const coop = schools.filter(s => s.status === '已合作').length;
+    const trial = schools.filter(s => s.status === '试用中').length;
+    const examples = schools.filter(s => s.status === '试用中' || s.status === '已合作').slice(0, 2).map(s => s.name).join('、') || '—';
+    html += `<tr>
+      <td><strong>${d.name}</strong></td>
+      <td>
+        ${coop > 0 ? `<span class="status-badge status-coop">已合作 ${coop}</span> ` : ''}
+        ${trial > 0 ? `<span class="status-badge status-trial">试用中 ${trial}</span>` : ''}
+        ${coop === 0 && trial === 0 ? `<span class="status-badge status-pending">待推进</span>` : ''}
+      </td>
+      <td>${schools.length}</td>
+      <td style="font-size:13px">${examples}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('dataPreview').innerHTML = html;
+}
+
+function copyScript() {
+  const script = `(function(){
+  const appData = ${JSON.stringify(appData)};
+  if (!appData.cities || !appData.version) { console.error("数据格式错误"); return; }
+  let totalSchools = 0;
+  appData.cities.forEach(c => c.districts.forEach(d => totalSchools += d.schools?.length || 0));
+  console.log("准备导入: " + appData.cities.length + "个城市, " + totalSchools + "所学校");
+  localStorage.setItem("jiangsu_crm_data_v3", JSON.stringify(appData));
+  const verify = localStorage.getItem("jiangsu_crm_data_v3");
+  if (verify) {
+    const v = JSON.parse(verify);
+    let vc = 0;
+    v.cities.forEach(c => c.districts.forEach(d => vc += d.schools?.length || 0));
+    console.log("✅ 导入成功！已写入 " + vc + " 所学校数据");
+    console.log("请刷新页面查看数据");
+  } else { console.error("❌ 写入失败"); }
+})();`;
+
+  navigator.clipboard.writeText(script).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ 已复制！';
+    btn.classList.add('btn-success');
+    setTimeout(() => { btn.textContent = '📋 复制导入脚本'; btn.classList.remove('btn-success'); }, 2000);
+  }).catch(() => {
+    // Fallback: show in a textarea
+    const ta = document.createElement('textarea');
+    ta.value = script;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ 已复制！';
+    btn.classList.add('btn-success');
+    setTimeout(() => { btn.textContent = '📋 复制导入脚本'; btn.classList.remove('btn-success'); }, 2000);
+  });
+}
+
+function copyDistrictData(distId, distName) {
+  const wuxi = appData.cities.find(c => c.id === 'wuxi');
+  const district = wuxi.districts.find(d => d.id === distId);
+  if (!district || !district.schools) return;
+
+  const lines = district.schools.sort((a,b) => (a.order||0) - (b.order||0)).map(s => {
+    return [
+      s.name || '',
+      s.stage || '',
+      s.status || '待开发',
+      (s.trialProducts || []).join('、'),
+      (s.products || []).join('、'),
+      s.isKeyPersonLeader ? '是' : '',
+      s.keyPerson || '',
+      s.street || '',
+      s.isAiLabelSchool ? '是' : '',
+      s.remark || ''
+    ].join('\t');
+  }).join('\n');
+
+  navigator.clipboard.writeText(lines).then(() => {
+    alert(`✅ ${distName}的 ${district.schools.length} 所学校数据已复制到剪贴板！\n\n进入系统 → 无锡市 → ${distName} → 批量导入 → 粘贴`);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = lines;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert(`✅ ${distName}的 ${district.schools.length} 所学校数据已复制到剪贴板！`);
+  });
+}
+
+function testInPlace() {
+  const logDiv = document.getElementById('testLog');
+  logDiv.classList.remove('hidden');
+  logDiv.innerHTML = '<span class="info">正在验证数据...</span>\n';
+  
+  if (!appData) {
+    logDiv.innerHTML += '<span class="error">❌ 数据未加载</span>';
+    return;
+  }
+  
+  let totalSchools = 0;
+  const statusCount = {};
+  appData.cities.forEach(c => c.districts.forEach(d => {
+    totalSchools += d.schools?.length || 0;
+    d.schools?.forEach(s => {
+      statusCount[s.status] = (statusCount[s.status] || 0) + 1;
+    });
+  }));
+  
+  logDiv.innerHTML += `<span class="success">✅ 数据有效</span>\n`;
+  logDiv.innerHTML += `<span class="info">   城市数: ${appData.cities.length}</span>\n`;
+  logDiv.innerHTML += `<span class="info">   学校数: ${totalSchools}</span>\n`;
+  for (const [k, v] of Object.entries(statusCount)) {
+    logDiv.innerHTML += `<span class="info">   ${k}: ${v}所</span>\n`;
+  }
+  logDiv.innerHTML += `\n<span class="success">数据完整，可以导入！请使用方法一或方法二。</span>`;
+}
+
+loadData();
+</script>
+</body>
+</html>
