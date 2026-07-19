@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>江苏省教育市场CRM</title>
+  <script>
+    // 单页应用（SPA）在 GitHub Pages 子路径下的路由修复
+    // 当用户直接访问 /jiangsu-edu-crm/city/wuxi 这类路由时，
+    // GitHub Pages 会返回 404，此页面将路径重定向到 index.html 并保留路由信息
+    (function() {
+      var pathPrefix = '/jiangsu-edu-crm';
+      var currentPath = window.location.pathname;
+      var search = window.location.search || '';
+      var hash = window.location.hash || '';
+      
+      // 如果当前路径已经包含前缀，去掉前缀得到 SPA 内部路由
+      var route = currentPath;
+      if (route.indexOf(pathPrefix) === 0) {
+        route = route.substring(pathPrefix.length);
+      }
+      if (!route || route === '/') {
+        route = '';
+      }
+      
+      // 构建重定向 URL：/jiangsu-edu-crm/?redirect=/city/wuxi
+      var redirectUrl = pathPrefix + '/' + search + (search ? '&' : '?') + 'redirect=' + encodeURIComponent(route) + hash;
+      
+      window.location.replace(redirectUrl);
+    })();
+  </script>
+</head>
+<body>
+  <p>正在跳转到首页...</p>
+</body>
+</html>
