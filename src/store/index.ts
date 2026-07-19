@@ -54,10 +54,10 @@ export function loadAppData(): AppData {
       return seed;
     }
 
-    // 精准迁移：仅清理已不存在的区县（如经开区），不动其他数据
+    // 精准迁移：版本号升级时触发数据同步
     let modified = false;
     const seedCities = getSeedData().cities;
-    const WUXI_SEED_VERSION = 5;
+    const WUXI_SEED_VERSION = 6;
     if ((data as AppData).wuxiSeedVersion !== WUXI_SEED_VERSION) {
       const wuxiCity = data.cities.find((c) => c.id === 'wuxi');
       if (wuxiCity) {
@@ -80,63 +80,87 @@ export function loadAppData(): AppData {
           }
         }
 
-        // V5 迁移：为 31 所人工智能重点校打上 AI 标签（名称+区县精确匹配）
-        const AI_LABEL_MAP: Record<string, string[]> = {
-          binhu: [
-            "南京师范大学滨湖实验学校九龙湾分校",
-            "无锡市河埒中学",
-            "无锡市辅仁高级中学",
-          ],
-          huishan: [
-            "江苏省锡山高级中学",
-            "江苏省锡山高级中学实验学校第三小学",
-          ],
-          liangxi: [
-            "无锡市梁溪区扬名实验学校",
-            "无锡市积余实验学校",
-            "无锡市连元街小学",
-            "江苏省无锡师范学校附属小学",
-            "无锡市江南中学",
-            "无锡市第一中学",
-          ],
-          xishan: [
-            "无锡市安镇实验小学",
-            "无锡市天一实验学校",
-          ],
-          xinwu: [
-            "无锡金桥双语实验学校",
-            "无锡市东绛第二实验学校",
-            "无锡市新吴区鸿山实验小学",
-            "无锡市春城实验小学",
-            "无锡高新区(新吴区)太科城实验学校",
-            "无锡市硕放中学",
-            "无锡市第三高级中学",
-          ],
-          jiangyin: [
-            "江苏省江阴高级中学",
-            "江苏省南菁高级中学",
-            "江阴市青阳中学",
-            "江阴市城中实验小学",
-            "江阴市要塞实验小学",
-            "江阴市毗陵路小学",
-          ],
-          yixing: [
-            "宜兴市城北小学",
-            "宜兴市湖滨实验学校",
-            "宜兴市丁山实验小学",
-            "宜兴市和桥实验小学",
-            "宜兴市东氿中学",
-          ],
-        };
-        for (const d of wuxiCity.districts) {
-          const names = AI_LABEL_MAP[d.id];
-          if (!names) continue;
-          const nameSet = new Set(names);
-          for (const s of d.schools) {
-            if (nameSet.has(s.name) && !s.isAiLabelSchool) {
-              s.isAiLabelSchool = true;
-              modified = true;
+        // V5 迁移：为 31 所人工智能重点校打上 AI 标签（已内置于 V6 种子数据，此处保留兼容）
+        if ((data as AppData).wuxiSeedVersion !== undefined && (data as AppData).wuxiSeedVersion! < 5) {
+          const AI_LABEL_MAP: Record<string, string[]> = {
+            binhu: [
+              "南京师范大学滨湖实验学校九龙湾分校",
+              "无锡市河埒中学",
+              "无锡市辅仁高级中学",
+            ],
+            huishan: [
+              "江苏省锡山高级中学",
+              "江苏省锡山高级中学实验学校第三小学",
+            ],
+            liangxi: [
+              "无锡市梁溪区扬名实验学校",
+              "无锡市积余实验学校",
+              "无锡市连元街小学",
+              "江苏省无锡师范学校附属小学",
+              "无锡市江南中学",
+              "无锡市第一中学",
+            ],
+            xishan: [
+              "无锡市安镇实验小学",
+              "无锡市天一实验学校",
+            ],
+            xinwu: [
+              "无锡金桥双语实验学校",
+              "无锡市东绛第二实验学校",
+              "无锡市新吴区鸿山实验小学",
+              "无锡市春城实验小学",
+              "无锡高新区(新吴区)太科城实验学校",
+              "无锡市硕放中学",
+              "无锡市第三高级中学",
+            ],
+            jiangyin: [
+              "江苏省江阴高级中学",
+              "江苏省南菁高级中学",
+              "江阴市青阳中学",
+              "江阴市城中实验小学",
+              "江阴市要塞实验小学",
+              "江阴市毗陵路小学",
+            ],
+            yixing: [
+              "宜兴市城北小学",
+              "宜兴市湖滨实验学校",
+              "宜兴市丁山实验小学",
+              "宜兴市和桥实验小学",
+              "宜兴市东氿中学",
+            ],
+          };
+          for (const d of wuxiCity.districts) {
+            const names = AI_LABEL_MAP[d.id];
+            if (!names) continue;
+            const nameSet = new Set(names);
+            for (const s of d.schools) {
+              if (nameSet.has(s.name) && !s.isAiLabelSchool) {
+                s.isAiLabelSchool = true;
+                modified = true;
+              }
             }
+          }
+        }
+
+        // V6 迁移：以 Excel「无锡市区县学校数据明细.xlsx」为准，完全替换所有区县种子学校数据
+        // 同时保留用户在种子数据基础上额外添加的学校
+        const seedWuxi = seedCities.find((c) => c.id === 'wuxi');
+        if (seedWuxi) {
+          for (const sd of seedWuxi.districts) {
+            const existingDist = wuxiCity.districts.find((d) => d.id === sd.id);
+            if (!existingDist) continue;
+            if (!sd.schools || sd.schools.length === 0) continue;
+
+            // 构建种子学校名称集合（用于判断用户额外添加的学校）
+            const seedNames = new Set(sd.schools.map((s: any) => s.name));
+            // 保留用户额外添加的学校（不在种子数据中的）
+            const userAddedSchools = (existingDist.schools || []).filter(
+              (s: any) => !seedNames.has(s.name)
+            );
+
+            // 用新种子数据替换，同时保留用户额外添加的学校
+            existingDist.schools = [...sd.schools, ...userAddedSchools];
+            modified = true;
           }
         }
 

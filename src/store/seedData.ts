@@ -249,7 +249,7 @@ export function getSeedData(): AppData {
     version: 3,
     cities: JIANGSU_CITIES.map(buildCity),
     updatedAt: new Date().toISOString(),
-    wuxiSeedVersion: 4, // 2026-07-19 基于用户Excel「无锡市区县学校数据明细.xlsx」完全重建，以Excel数据为准
+    wuxiSeedVersion: 6, // 2026-07-19 V6：基于用户Excel「无锡市区县学校数据明细.xlsx」完全重建，以Excel数据为准，首次加载强制同步
   };
 
   // 预填充无锡市各区县学校（小学/初中/高中/九年一贯/十二年一贯/完中）
