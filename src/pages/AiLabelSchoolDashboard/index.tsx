@@ -90,7 +90,7 @@ export default function AiLabelSchoolDashboard() {
   };
 
   const handleExportCSV = () => {
-    const headers = ['学校名称', '学段', '状态', '试用产品', '汇报产品', '合作产品', '关键人', '所属街道', '区县', 'AI标签校', '备注'];
+    const headers = ['学校名称', '学段', '状态', '试用产品', '汇报产品', '合作产品', '1把手', '所属街道', '区县', 'AI标签校', '备注'];
     const rows = aiLabelData.schools.map((s) => [
       s.name, s.stage || '', s.status,
       (s.trialProducts || []).join('、'),
@@ -264,11 +264,11 @@ export default function AiLabelSchoolDashboard() {
       },
     },
     {
-      title: '关键人', dataIndex: 'keyPerson', key: 'keyPerson', width: 80,
+      title: '1把手', dataIndex: 'keyPerson', key: 'keyPerson', width: 80,
       filtered: !!keyPersonFilter,
       filterDropdown: ({ close }: { close: () => void }) => (
         <div style={{ padding: 8, width: 200 }}>
-          <Input placeholder="搜索关键人" value={keyPersonFilter}
+          <Input placeholder="搜索1把手" value={keyPersonFilter}
             onChange={(e) => setKeyPersonFilter(e.target.value)}
             prefix={<SearchOutlined />} allowClear onPressEnter={() => close()} />
         </div>

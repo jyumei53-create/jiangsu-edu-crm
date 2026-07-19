@@ -663,7 +663,7 @@ function SchoolPanel({
         (s) => s.cooperationProducts && s.cooperationProducts.some((p) => cooperationProductFilter.includes(p))
       );
     }
-    // 关键人一把手筛选
+    // 一把手筛选
     if (keyPersonFilter === '是') {
       result = result.filter((s) => s.isKeyPersonLeader === true);
     } else if (keyPersonFilter === '否') {
@@ -695,7 +695,7 @@ function SchoolPanel({
 
   // 导出学校名单为 CSV
   const handleExportCSV = () => {
-    const headers = ['学校名称', '学段', '状态', '试用产品', '汇报产品', '合作产品', '一把手', '关键人', '所属街道', '民办校', '市直属', 'AI标签校', '备注'];
+    const headers = ['学校名称', '学段', '状态', '试用产品', '汇报产品', '合作产品', '一把手', '1把手', '所属街道', '民办校', '市直属', 'AI标签校', '备注'];
     const rows = sortedSchools.map((s) => [
       s.name,
       s.stage || '',
@@ -1149,7 +1149,7 @@ function SchoolPanel({
       },
     },
     {
-      title: '关键人',
+      title: '1把手',
       dataIndex: 'keyPerson',
       key: 'keyPerson',
       width: 110,
@@ -1499,7 +1499,7 @@ function SchoolPanel({
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item label="关键人">
+              <Form.Item label="1把手">
                 <Row gutter={8}>
                   <Col span={8}>
                     <Select
@@ -1524,7 +1524,7 @@ function SchoolPanel({
                           prev ? { ...prev, keyPerson: e.target.value } : null
                         )
                       }
-                      placeholder="关键人姓名"
+                      placeholder="1把手姓名"
                     />
                   </Col>
                 </Row>
@@ -1656,7 +1656,7 @@ function SchoolPanel({
         <div style={{ marginBottom: 8 }}>
           <Text type="secondary">
             每行一所学校，用 Tab/逗号/空格 分隔：<br />
-            格式：学校名称 学段 状态 试用产品(多个用/分隔) 汇报产品(多个用/分隔) 一把手(是/否) 关键人 街道 AI标签校(是/否) 备注
+            格式：学校名称 学段 状态 试用产品(多个用/分隔) 汇报产品(多个用/分隔) 一把手(是/否) 1把手 街道 AI标签校(是/否) 备注
           </Text>
         </div>
         <TextArea
