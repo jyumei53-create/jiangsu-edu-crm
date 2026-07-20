@@ -1,6 +1,7 @@
 import type { AppData, City, District } from '../types';
 import { getSeedData, DEFAULT_PROJECTS_TEMPLATE } from './seedData';
 import { WUXI_SEED_SCHOOLS } from './wuxiSchools';
+import { getCloudData, mergeCloudToLocal } from './cloudData';
 
 const STORAGE_KEY = 'jiangsu_crm_data_v3';
 const OLD_STORAGE_KEY = 'wuxi_crm_data_v2';
@@ -243,6 +244,23 @@ export function loadAppData(): AppData {
     if (modified) {
       data.updatedAt = new Date().toISOString();
       saveAppDataRaw(data);
+    }
+
+    // 云端数据合并：编译时打包进 bundle 的 cloud-data.json
+    // 如果云端数据版本比本地新，自动合并（同步操作，无网络请求）
+    try {
+      const cloudData = getCloudData();
+      if (cloudData && cloudData.cloudSyncVersion) {
+        const localVersion = (data as any).cloudSyncVersion || 0;
+        if (cloudData.cloudSyncVersion > localVersion) {
+          const merged = mergeCloudToLocal(data, cloudData);
+          (merged as any).cloudSyncVersion = cloudData.cloudSyncVersion;
+          saveAppDataRaw(merged);
+          return merged;
+        }
+      }
+    } catch {
+      // 云端数据合并失败，继续使用本地数据
     }
 
     return data;
