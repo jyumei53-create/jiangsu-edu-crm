@@ -1,7 +1,7 @@
 import type { AppData, City, District } from '../types';
 import { getSeedData, DEFAULT_PROJECTS_TEMPLATE } from './seedData';
 import { WUXI_SEED_SCHOOLS } from './wuxiSchools';
-import { getCloudData, mergeCloudToLocal } from './cloudData';
+import { pushToCloud } from './cloudData';
 
 const STORAGE_KEY = 'jiangsu_crm_data_v3';
 const OLD_STORAGE_KEY = 'wuxi_crm_data_v2';
@@ -246,23 +246,6 @@ export function loadAppData(): AppData {
       saveAppDataRaw(data);
     }
 
-    // 云端数据合并：编译时打包进 bundle 的 cloud-data.json
-    // 如果云端数据版本比本地新，自动合并（同步操作，无网络请求）
-    try {
-      const cloudData = getCloudData();
-      if (cloudData && cloudData.cloudSyncVersion) {
-        const localVersion = (data as any).cloudSyncVersion || 0;
-        if (cloudData.cloudSyncVersion > localVersion) {
-          const merged = mergeCloudToLocal(data, cloudData);
-          (merged as any).cloudSyncVersion = cloudData.cloudSyncVersion;
-          saveAppDataRaw(merged);
-          return merged;
-        }
-      }
-    } catch {
-      // 云端数据合并失败，继续使用本地数据
-    }
-
     return data;
   } catch {
     const seed = getSeedData();
@@ -271,11 +254,13 @@ export function loadAppData(): AppData {
   }
 }
 
-/** 保存数据 */
+/** 保存数据（同时自动推送云端） */
 export function saveAppData(data: AppData): boolean {
   try {
     data.updatedAt = new Date().toISOString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    // Fire-and-forget：异步推送到云端，不阻塞本地操作
+    pushToCloud(data);
     return true;
   } catch (e) {
     console.error('保存数据失败:', e);
