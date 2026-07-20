@@ -70,6 +70,8 @@ export interface AppData {
   updatedAt: string;
   /** 无锡市学校种子版本：用于精准迁移，避免覆盖用户在其他城市/项目的编辑 */
   wuxiSeedVersion?: number;
+  /** 云端数据同步版本：每次同步 +1，用于判断是否有新的云端数据 */
+  cloudSyncVersion?: number;
 }
 
 // ==================== 常量 ====================
