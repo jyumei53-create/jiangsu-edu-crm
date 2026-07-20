@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Card, Form, Input, Button, Typography, message, Modal } from 'antd';
-import { UserOutlined, LockOutlined, AimOutlined, CloudDownloadOutlined, ExportOutlined } from '@ant-design/icons';
+import { Card, Form, Input, Button, Typography, message, Modal, Input as AntInput } from 'antd';
+import { UserOutlined, LockOutlined, AimOutlined, CloudDownloadOutlined, ExportOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import { useAuth } from '../../store/AuthContext';
 import loginBg from '/bg/login-bg.jpg';
 
@@ -10,6 +10,7 @@ const { Title, Text } = Typography;
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [migrating, setMigrating] = useState(false);
+  const [syncing, setSyncing] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -115,6 +116,120 @@ export default function LoginPage() {
       });
     } catch (e: any) {
       message.error({ content: e?.message || '迁移失败，请尝试手动迁移', key: 'migrate', duration: 5 });
+    }
+  };
+
+  /** 同步数据到云端：将 localStorage 数据通过 GitHub API 写入仓库 */
+  const handleCloudSync = async () => {
+    // 获取或输入 GitHub Token
+    let token = sessionStorage.getItem('crm_github_token');
+    if (!token) {
+      // 弹窗让用户输入 Token
+      Modal.confirm({
+        title: '首次使用：输入 GitHub Token',
+        content: (
+          <div>
+            <p style={{ fontSize: 13, color: '#666', marginBottom: 8 }}>
+              需要 GitHub Personal Access Token 才能同步数据。
+              <br />
+              <a href="https://github.com/settings/tokens/new?scopes=repo&description=crm-sync" target="_blank" rel="noopener">
+                点击这里创建 Token（需勾选 repo 权限）
+              </a>
+            </p>
+            <AntInput.Password
+              id="githubTokenInput"
+              placeholder="粘贴 GitHub Token..."
+              style={{ marginTop: 8 }}
+            />
+          </div>
+        ),
+        okText: '确认并同步',
+        cancelText: '取消',
+        onOk: () => {
+          const input = document.getElementById('githubTokenInput') as HTMLInputElement;
+          if (input && input.value) {
+            token = input.value.trim();
+            sessionStorage.setItem('crm_github_token', token);
+            return true;
+          }
+          message.warning('请输入 Token');
+          return false;
+        },
+      });
+      return;
+    }
+
+    setSyncing(true);
+    try {
+      const rawData = localStorage.getItem('jiangsu_crm_data_v3');
+      if (!rawData) {
+        message.warning('没有可同步的数据');
+        setSyncing(false);
+        return;
+      }
+
+      // 解析数据并增加 cloudSyncVersion
+      const data = JSON.parse(rawData);
+      const currentVersion = data.cloudSyncVersion || 0;
+      data.cloudSyncVersion = currentVersion + 1;
+      data.updatedAt = new Date().toISOString();
+
+      const content = JSON.stringify(data, null, 2);
+      const base64 = btoa(unescape(encodeURIComponent(content)));
+
+      // 获取当前文件 SHA
+      let sha = '';
+      try {
+        const getResp = await fetch(
+          'https://api.github.com/repos/jyumei53-create/jiangsu-edu-crm/contents/src/store/cloud-data.json',
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (getResp.ok) {
+          const getData = await getResp.json();
+          sha = getData.sha || '';
+        }
+      } catch { /* 文件可能不存在 */ }
+
+      // 上传数据
+      const body: Record<string, string> = {
+        message: `data: 同步业务数据 v${data.cloudSyncVersion} - ${new Date().toLocaleString('zh-CN')}`,
+        content: base64,
+        branch: 'main',
+      };
+      if (sha) body.sha = sha;
+
+      const resp = await fetch(
+        'https://api.github.com/repos/jyumei53-create/jiangsu-edu-crm/contents/src/store/cloud-data.json',
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      if (resp.ok) {
+        // 更新本地 localStorage 中的 cloudSyncVersion
+        localStorage.setItem('jiangsu_crm_data_v3', JSON.stringify(data));
+        message.success({
+          content: `✅ 数据已同步到云端（v${data.cloudSyncVersion}）！约1-2分钟后团队成员刷新页面即可看到最新数据。`,
+          duration: 6,
+        });
+      } else {
+        const errText = await resp.text();
+        if (resp.status === 401) {
+          sessionStorage.removeItem('crm_github_token');
+          message.error('Token 无效或已过期，请重新同步');
+        } else {
+          message.error(`同步失败: ${resp.status} ${errText.substring(0, 100)}`);
+        }
+      }
+    } catch (e: any) {
+      message.error(`同步异常: ${e?.message || '网络错误'}`);
+    } finally {
+      setSyncing(false);
     }
   };
 
@@ -357,6 +472,20 @@ export default function LoginPage() {
             icon={<CloudDownloadOutlined />}
           >
             从旧版系统迁移数据
+          </Button>
+        </div>
+
+        {/* 云端同步入口（仅管理员可见，需登录后使用） */}
+        <div style={{ textAlign: 'center', marginTop: 12 }}>
+          <Button
+            type="link"
+            size="small"
+            loading={syncing}
+            onClick={handleCloudSync}
+            style={{ color: '#f59e0b', fontSize: 12, opacity: 0.8 }}
+            icon={<CloudUploadOutlined />}
+          >
+            同步数据到云端（团队成员可查看）
           </Button>
         </div>
 
